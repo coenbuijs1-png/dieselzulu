@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIESEL — Zoelloe Markets</title>
+<!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  DIESEL — Zoelloe Markets                           ║
+  ║  Setup instructies:                                 ║
+  ║                                                     ║
+  ║  1. Ga naar https://console.firebase.google.com     ║
+  ║  2. Maak een nieuw project aan (naam: diesel)       ║
+  ║  3. Ga naar Authentication → Sign-in method         ║
+  ║     → schakel "Email/Password" in                   ║
+  ║  4. Ga naar Firestore Database → Create database    ║
+  ║     → kies "Start in test mode"                     ║
+  ║  5. Ga naar Project Settings → General              ║
+  ║     → scroll naar "Your apps" → klik Web (</>)      ║
+  ║     → kopieer de firebaseConfig waardes             ║
+  ║  6. Plak ze hieronder in FIREBASE_CONFIG             ║
+  ║  7. Ga naar Firestore → Rules, plak:               ║
+  ║                                                     ║
+  ║  rules_version = '2';                               ║
+  ║  service cloud.firestore {                          ║
+  ║    match /databases/{database}/documents {           ║
+  ║      match /{document=**} {                         ║
+  ║        allow read: if true;                         ║
+  ║        allow write: if request.auth != null;        ║
+  ║      }                                              ║
+  ║    }                                                ║
+  ║  }                                                  ║
+  ║                                                     ║
+  ║  8. Deploy: push dit bestand naar GitHub             ║
+  ║     → Settings → Pages → main branch → Save        ║
+  ╚══════════════════════════════════════════════════════╝
+-->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',system-ui,sans-serif;
+  background-color:#F5F3EF;
+  color:#1a1a1a;min-height:100vh;
+  background-repeat:repeat;background-size:320px 320px;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+
+/* ===== GEO BAR ===== */
+.geo-bar{height:5px;display:flex}
+.geo-bar span{flex:1}
+
+/* ===== NAV ===== */
+.nav{background:#fff;border-bottom:1px solid #e8e6e1}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;gap:10px;height:54px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px}
+.brand-name{font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-size:20px;font-weight:600;letter-spacing:.22em;color:#BA7517}
+.brand-sub{font-size:10px;color:#888;letter-spacing:.06em;text-transform:uppercase}
+.spacer{flex:1}
+.tabs{display:flex;gap:0}
+.tab{padding:0 16px;height:54px;border:none;background:none;font-size:12px;color:#888;border-bottom:2px solid transparent;letter-spacing:.03em;transition:color .15s,border-color .15s}
+.tab:hover{color:#1a1a1a}
+.tab.on{color:#BA7517;border-bottom-color:#BA7517;font-weight:600}
+.user-badge{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;background:#fafafa;color:#1a1a1a}
+.user-badge .uname{font-weight:600;color:#BA7517}
+.logout-btn{background:none;border:none;color:#aaa;font-size:10px;padding:2px 4px;transition:color .15s}
+.logout-btn:hover{color:#A32D2D}
+
+/* ===== CONTENT ===== */
+.content{max-width:1080px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.section-title{font-size:16px;font-weight:600}
+.section-meta{font-size:12px;color:#888}
+
+/* ===== CHIPS ===== */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.chip{padding:4px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:11px;color:#888;transition:all .15s}
+.chip:hover{border-color:#BA7517;color:#633806}
+.chip.on{background:#FAEEDA;border-color:#BA7517;color:#633806;font-weight:500}
+
+/* ===== MARKET CARDS ===== */
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.market-card{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1rem 1.1rem;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.market-card:hover{border-color:#BA7517;box-shadow:0 2px 12px rgba(186,117,23,.08)}
+.mcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.badge{font-size:9px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:99px;text-transform:uppercase;white-space:nowrap}
+.b-utrecht{background:#E1F5EE;color:#085041}
+.b-nederland{background:#E6F1FB;color:#0C447C}
+.b-ons-leven{background:#FAEEDA;color:#633806}
+.b-de-wereld{background:#FAECE7;color:#712B13}
+.b-sport{background:#EAF3DE;color:#27500A}
+.b-overig{background:#F1EFE8;color:#444441}
+.b-resolved{background:#E8E8E8;color:#555}
+.mcard-closing{font-size:10px;color:#aaa}
+.mcard-title{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.45;margin-bottom:12px}
+.prob-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.prob-label{font-size:10px;font-weight:600;width:28px}
+.prob-label.yes{color:#3B6D11}.prob-label.no{color:#A32D2D}
+.prob-track{flex:1;height:5px;background:#f0eeea;border-radius:3px;overflow:hidden}
+.prob-fill{height:100%;border-radius:3px;transition:width .3s}
+.prob-fill.yes{background:#639922}.prob-fill.no{background:#E24B4A}
+.prob-pct{font-size:10px;width:30px;text-align:right;color:#888}
+.mcard-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid #f0eeea}
+.pot{font-size:11px;color:#888}.pot-val{font-weight:600;color:#BA7517}
+.bet-count{font-size:10px;color:#aaa}
+
+/* ===== DETAIL ===== */
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#888;margin-bottom:1rem;background:none;border:none;padding:0;transition:color .15s}
+.back-btn:hover{color:#1a1a1a}
+.detail-grid{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start}
+.detail-card{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1.25rem}
+.detail-title{font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.35;margin:10px 0 12px}
+.detail-desc{font-size:13px;color:#666;line-height:1.65;margin-bottom:1.25rem}
+.detail-creator{font-size:11px;color:#aaa;margin-bottom:8px}
+.big-prob-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.big-prob-label{font-size:13px;font-weight:600;width:34px}
+.big-prob-label.yes{color:#3B6D11}.big-prob-label.no{color:#A32D2D}
+.big-prob-track{flex:1;height:10px;background:#f0eeea;border-radius:5px;overflow:hidden}
+.big-prob-fill{height:100%;border-radius:5px;transition:width .3s}
+.big-prob-fill.yes{background:#639922}.big-prob-fill.no{background:#E24B4A}
+.big-prob-pct{font-size:14px;font-weight:600;width:40px;text-align:right}
+.big-prob-pct.yes{color:#3B6D11}.big-prob-pct.no{color:#A32D2D}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:1.25rem 0}
+.stat-item{background:#faf9f6;border-radius:8px;padding:12px;text-align:center}
+.stat-label{font-size:10px;color:#888;margin-bottom:4px}
+.stat-value{font-size:15px;font-weight:600}.stat-value.dd{color:#BA7517}
+.outcome-banner{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;font-weight:600;text-align:center}
+.outcome-banner.yes{background:#EAF3DE;color:#3B6D11;border:1px solid #c5dea6}
+.outcome-banner.no{background:#FCEBEB;color:#A32D2D;border:1px solid #f0b5b5}
+
+/* ===== BET FORM ===== */
+.bet-card{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1.25rem;position:sticky;top:1rem}
+.bet-title{font-size:13px;font-weight:600;margin-bottom:12px}
+.sides-row{display:flex;gap:8px;margin-bottom:14px}
+.side-btn{flex:1;padding:8px;border-radius:6px;border:1px solid #ddd;background:none;font-size:12px;font-weight:600;transition:all .15s}
+.side-btn.yes{border-color:#93bb6a;color:#3B6D11}
+.side-btn.yes.on{background:#EAF3DE;border-color:#3B6D11}
+.side-btn.no{border-color:#e89999;color:#A32D2D}
+.side-btn.no.on{background:#FCEBEB;border-color:#A32D2D}
+.input-label{font-size:11px;color:#888;margin-bottom:4px}
+.bet-input{width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;background:#fff;margin-bottom:12px}
+.bet-input:focus{outline:none;border-color:#BA7517}
+.bet-submit{width:100%;padding:10px;border:none;border-radius:6px;background:#BA7517;color:white;font-size:12px;font-weight:600;letter-spacing:.03em;transition:background .15s}
+.bet-submit:hover{background:#995f10}
+.bet-submit:disabled{background:#ccc;cursor:not-allowed}
+.balance-info{font-size:10px;color:#888;text-align:center;margin-top:8px}
+.balance-info b{color:#BA7517}
+.bet-message{font-size:11px;text-align:center;margin-top:8px;padding:6px;border-radius:4px}
+.bet-message.success{color:#3B6D11;background:#EAF3DE}
+.bet-message.error{color:#A32D2D;background:#FCEBEB}
+.admin-section{margin-top:14px;padding-top:14px;border-top:1px solid #f0eeea}
+.admin-title{font-size:10px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.admin-row{display:flex;gap:8px}
+.resolve-btn{flex:1;padding:8px;border-radius:6px;border:1px solid;background:none;font-size:11px;font-weight:600;transition:all .15s}
+.resolve-btn.yes{border-color:#3B6D11;color:#3B6D11}.resolve-btn.yes:hover{background:#EAF3DE}
+.resolve-btn.no{border-color:#A32D2D;color:#A32D2D}.resolve-btn.no:hover{background:#FCEBEB}
+
+/* ===== BETS LIST ===== */
+.bets-list{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1rem 1.1rem;margin-top:14px}
+.bets-list-header{font-size:12px;font-weight:600;margin-bottom:12px}
+.bet-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0eeea}
+.bet-row:last-child{border-bottom:none}
+.bet-left{display:flex;align-items:center;gap:8px}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+.bet-name{font-size:12px}
+.side-tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:99px}
+.side-tag.yes{background:#EAF3DE;color:#3B6D11}.side-tag.no{background:#FCEBEB;color:#A32D2D}
+.bet-amount{font-size:12px;font-weight:600;color:#BA7517}
+
+/* ===== LEADERBOARD ===== */
+.lb-card{background:#fff;border:1px solid #e8e6e1;border-radius:10px;overflow:hidden}
+.lb-row{display:flex;align-items:center;gap:12px;padding:.85rem 1.1rem;border-bottom:1px solid #f0eeea}
+.lb-row:last-child{border-bottom:none}
+.lb-row.first{background:#FFFCF5}
+.lb-rank{font-size:12px;font-weight:600;width:24px;text-align:center;color:#888}
+.lb-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.lb-name{flex:1;font-size:13px;font-weight:500}
+.lb-inactive{opacity:.45}
+.lb-right{text-align:right}
+.lb-balance{font-size:13px;font-weight:600;color:#BA7517}
+.lb-pnl{font-size:10px}
+.lb-pnl.pos{color:#3B6D11}.lb-pnl.neg{color:#A32D2D}.lb-pnl.zero{color:#888}
+.lb-status{font-size:9px;color:#bbb;font-style:italic}
+
+/* ===== CREATE FORM ===== */
+.create-form{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1.5rem;max-width:560px}
+.form-group{margin-bottom:14px}
+.form-group label{font-size:11px;color:#888;margin-bottom:4px;display:block}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;background:#fff}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#BA7517}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-buttons{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+.btn-cancel{padding:8px 18px;border:1px solid #ddd;border-radius:6px;background:none;font-size:12px;color:#888;transition:all .15s}
+.btn-cancel:hover{border-color:#999;color:#1a1a1a}
+.btn-submit{padding:8px 18px;border:none;border-radius:6px;background:#BA7517;color:white;font-size:12px;font-weight:600;transition:background .15s}
+.btn-submit:hover{background:#995f10}
+
+/* ===== AUTH SCREEN ===== */
+.auth-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.auth-card{background:#fff;border:1px solid #e8e6e1;border-radius:12px;padding:2rem 2.5rem;text-align:center;max-width:400px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.05)}
+.auth-brand{font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-size:32px;font-weight:700;letter-spacing:.25em;color:#BA7517;margin-bottom:4px}
+.auth-sub{font-size:12px;color:#888;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
+.auth-tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid #e8e6e1}
+.auth-tab{flex:1;padding:10px;border:none;background:none;font-size:12px;color:#888;border-bottom:2px solid transparent;font-weight:500;transition:all .15s}
+.auth-tab.on{color:#BA7517;border-bottom-color:#BA7517}
+.auth-input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;margin-bottom:10px}
+.auth-input:focus{outline:none;border-color:#BA7517}
+.auth-select{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;margin-bottom:10px}
+.auth-select:focus{outline:none;border-color:#BA7517}
+.auth-btn{width:100%;padding:12px;border:none;border-radius:8px;background:#BA7517;color:white;font-size:14px;font-weight:600;letter-spacing:.03em;transition:background .15s;margin-top:6px}
+.auth-btn:hover{background:#995f10}
+.auth-btn:disabled{background:#ccc;cursor:not-allowed}
+.auth-error{font-size:11px;color:#A32D2D;background:#FCEBEB;padding:8px;border-radius:6px;margin-bottom:10px}
+.auth-footer{font-size:10px;color:#bbb;margin-top:1.5rem;line-height:1.6}
+
+/* ===== MODAL ===== */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal-card{background:#fff;border-radius:12px;padding:1.5rem;max-width:400px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:8px}
+.modal-text{font-size:13px;color:#666;margin-bottom:1.25rem;line-height:1.5}
+.modal-buttons{display:flex;gap:8px;justify-content:center}
+.modal-btn{padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;transition:all .15s;border:none}
+.modal-btn.cancel{background:#f5f5f5;color:#888}.modal-btn.cancel:hover{background:#eee}
+.modal-btn.confirm-yes{background:#3B6D11;color:white}
+.modal-btn.confirm-no{background:#A32D2D;color:white}
+
+/* ===== EMPTY ===== */
+.empty-state{text-align:center;padding:3rem 1rem;color:#888}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
+.empty-text{font-size:13px;line-height:1.5}
+
+/* ===== LOADING ===== */
+.loading-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.loading-text{font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-size:22px;color:#BA7517;letter-spacing:.15em;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ===== LIVE DOT ===== */
+.live-dot{width:6px;height:6px;border-radius:50%;background:#3B6D11;display:inline-block;margin-right:4px;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:720px){
+  .detail-grid{grid-template-columns:1fr}
+  .market-grid{grid-template-columns:1fr}
+  .brand-sub{display:none}
+  .nav-inner{height:auto;padding:8px 1rem}
+  .tabs{width:100%;order:10}
+  .tab{flex:1;text-align:center;height:42px}
+  .stats-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .sides-row{flex-direction:column}
+  .section-header{flex-direction:column;align-items:flex-start}
+  .auth-card{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ═══════════════════════════════════════════════════
+   FIREBASE CONFIG — Vul hier jouw Firebase gegevens in
+   ═══════════════════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBRZf3eVajBig0_tV0VzqylrySKxbwXFks",
+  authDomain: "diesel-231c4.firebaseapp.com",
+  projectId: "diesel-231c4",
+  storageBucket: "diesel-231c4.firebasestorage.app",
+  messagingSenderId: "333378981248",
+  appId: "1:333378981248:web:11e45042c5a7c8d6b5c565"
+};
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+/* ═══════════════════════════════════════════════════
+   CONSTANTS
+   ═══════════════════════════════════════════════════ */
+const ALL_NAMES = ['Coen','Ole','Tjebbe','Robert','Pepijn','Paul','Niels','Mart','Maarten','Luc','Joris','Pieter','Max'];
+const CATEGORIES = ['Utrecht','Nederland','De wereld','Ons leven','Sport','Overig'];
+const CAT_CLASS = {'Utrecht':'b-utrecht','Nederland':'b-nederland','Ons leven':'b-ons-leven','De wereld':'b-de-wereld','Sport':'b-sport','Overig':'b-overig'};
+const AVT_BG = ['#FAEEDA','#E1F5EE','#E6F1FB','#FAECE7','#EAF3DE','#FCEBEB','#F1EFE8','#EEEDFE'];
+const AVT_FG = ['#633806','#085041','#0C447C','#712B13','#27500A','#A32D2D','#444441','#26215C'];
+const GEO = ['#BA7517','#993C1D','#BA7517','#3B6D11','#993C1D','#BA7517','#185FA5','#BA7517','#993C1D','#BA7517'];
+const START_BALANCE = 540;
+const CURRENCY = 'DD';
+
+const SEED_MARKETS = [
+  { title:'Gaat Ole dit jaar zijn rijbewijs halen?', description:'Resolveert op JA als Ole voor 31 december 2026 zijn CBR-rijbewijs haalt. Officieel slagingsblad als bewijs vereist.', category:'Ons leven', closing_date:'2026-07-01' },
+  { title:'Regent het op Koningsdag in Utrecht?', description:'Resolveert op JA als er op 27 april 2026 aantoonbare neerslag valt in Utrecht tussen 10:00 en 20:00 uur, conform KNMI-data.', category:'Utrecht', closing_date:'2026-04-26' },
+  { title:'Gaat Coen bij een advocatenkantoor werken na zijn master?', description:'Resolveert op JA als Coen voor eind 2026 in dienst treedt bij een advocatenkantoor als zijn primaire baan.', category:'Ons leven', closing_date:'2026-12-31' },
+  { title:'Wordt Nederland groepswinnaar op het WK 2026?', description:'Resolveert op JA als het Nederlands elftal zijn WK-poule als nummer 1 afsluit.', category:'Sport', closing_date:'2026-06-15' },
+  { title:'Haalt Bitcoin $150.000 voor eind 2026?', description:'Resolveert op JA als de BTC-prijs op enig moment boven $150.000 USD sluit op Coinbase voor 31 december 2026.', category:'De wereld', closing_date:'2026-12-31' },
+  { title:'Komt er een nieuw terras op de Neude voor eind 2026?', description:'Resolveert op JA als er voor 31 december 2026 een nieuw horecaterras opent op de Neude in Utrecht.', category:'Utrecht', closing_date:'2026-12-31' },
+  { title:'Wint PSV de Eredivisie 2025/26?', description:'Resolveert op JA als PSV Eindhoven landskampioen wordt in het Eredivisie-seizoen 2025/26.', category:'Sport', closing_date:'2026-05-20' },
+  { title:'Verhoogt Trump importtarieven op EU-goederen in 2026?', description:'Resolveert op JA als de VS onder Trump nieuwe of verhoogde importtarieven aankondigt die specifiek EU-goederen raken.', category:'De wereld', closing_date:'2026-12-31' },
+  { title:'Gaat iemand uit de groep in 2026 samenwonen?', description:'Resolveert op JA als minimaal één persoon uit de Zoelloe-vriendengroep in 2026 officieel gaat samenwonen met een partner.', category:'Ons leven', closing_date:'2026-12-31' },
+  { title:'Valt het kabinet voor 2027?', description:'Resolveert op JA als het huidige kabinet valt of ontslag aanbiedt voor 1 januari 2027.', category:'Nederland', closing_date:'2026-12-31' },
+];
+
+/* ═══════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════ */
+let authLoaded = false;
+let currentUser = null;     // { uid, name, email, balance }
+let allUsers = [];          // [{ uid, name, balance, ... }]
+let markets = [];           // [{ id, title, ... }]
+let allBets = [];           // [{ id, market_id, ... }]
+let view = 'markten';
+let authTab = 'login';
+let selectedMarketId = null;
+let catFilter = '';
+let betSide = 'yes';
+let betMsg = null;
+let formError = '';
+let authError = '';
+let authBusy = false;
+let unsubs = [];
+
+/* ═══════════════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════════════ */
+function fmt(n) { return Math.round(n).toLocaleString('nl-NL'); }
+function ini(name) { return name ? name.slice(0,2).toUpperCase() : '??'; }
+function avtColor(name) { let h=0; for(let i=0;i<(name||'').length;i++) h=name.charCodeAt(i)+((h<<5)-h); const idx=Math.abs(h)%AVT_BG.length; return {bg:AVT_BG[idx],fg:AVT_FG[idx]}; }
+function esc(s) { const el=document.createElement('div'); el.textContent=s; return el.innerHTML; }
+function fmtDate(ds) {
+  if(!ds) return '';
+  const months=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+  const d=new Date(ds+'T00:00:00'); if(isNaN(d)) return ds;
+  return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+}
+function todayStr() { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function geoHtml() { return '<div class="geo-bar">'+GEO.map(c=>'<span style="background:'+c+'"></span>').join('')+'</div>'; }
+function marketStats(m) {
+  const mb = allBets.filter(b => b.market_id === m.id);
+  const yT = mb.filter(b=>b.side==='yes').reduce((s,b)=>s+b.amount,0);
+  const nT = mb.filter(b=>b.side==='no').reduce((s,b)=>s+b.amount,0);
+  const pot = yT+nT;
+  const yP = pot>0 ? Math.round(yT/pot*100) : 50;
+  return { ...m, yes_total:yT, no_total:nT, total_pot:pot, yes_pct:yP, no_pct:100-yP, bet_count:mb.length, bets:mb };
+}
+function canResolve(market) {
+  if (!currentUser) return false;
+  if (currentUser.name === 'Coen') return true;
+  return market.created_by_name === currentUser.name;
+}
+function claimedNames() { return allUsers.map(u => u.name); }
+function availableNames() { return ALL_NAMES.filter(n => !claimedNames().includes(n)); }
+
+/* ═══════════════════════════════════════════════════
+   AUTH
+   ═══════════════════════════════════════════════════ */
+auth.onAuthStateChanged(async (firebaseUser) => {
+  if (firebaseUser) {
+    try {
+      const doc = await db.collection('users').doc(firebaseUser.uid).get();
+      if (doc.exists) {
+        currentUser = { uid: firebaseUser.uid, ...doc.data() };
+        startListeners();
+      } else {
+        await auth.signOut();
+        currentUser = null;
+      }
+    } catch(e) {
+      console.error('Profile load error:', e);
+      currentUser = null;
+    }
+  } else {
+    currentUser = null;
+    stopListeners();
+  }
+  authLoaded = true;
+  render();
+});
+
+async function doRegister() {
+  const name = document.getElementById('regName')?.value;
+  const email = document.getElementById('regEmail')?.value?.trim();
+  const pw = document.getElementById('regPw')?.value;
+  if (!name || !email || !pw) { authError = 'Vul alle velden in.'; render(); return; }
+  if (pw.length < 6) { authError = 'Wachtwoord moet minimaal 6 tekens zijn.'; render(); return; }
+
+  authBusy = true; authError = ''; render();
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
+    // Check name not already claimed
+    const existing = await db.collection('users').where('name','==',name).get();
+    if (!existing.empty) {
+      await cred.user.delete();
+      throw new Error('Deze naam is al geclaimd door iemand anders!');
+    }
+    await db.collection('users').doc(cred.user.uid).set({
+      name, email, balance: START_BALANCE, created_at: new Date().toISOString()
+    });
+    await seedMarketsIfNeeded();
+  } catch(e) {
+    authError = firebaseErrorNL(e);
+    authBusy = false; render();
+    return;
+  }
+  authBusy = false;
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail')?.value?.trim();
+  const pw = document.getElementById('loginPw')?.value;
+  if (!email || !pw) { authError = 'Vul e-mail en wachtwoord in.'; render(); return; }
+
+  authBusy = true; authError = ''; render();
+  try {
+    await auth.signInWithEmailAndPassword(email, pw);
+  } catch(e) {
+    authError = firebaseErrorNL(e);
+  }
+  authBusy = false; render();
+}
+
+async function doLogout() {
+  stopListeners();
+  await auth.signOut();
+  currentUser = null;
+  view = 'markten';
+  render();
+}
+
+function firebaseErrorNL(e) {
+  const msg = e?.code || e?.message || String(e);
+  if (msg.includes('email-already-in-use')) return 'Dit e-mailadres is al in gebruik.';
+  if (msg.includes('invalid-email')) return 'Ongeldig e-mailadres.';
+  if (msg.includes('weak-password')) return 'Wachtwoord is te zwak (minimaal 6 tekens).';
+  if (msg.includes('wrong-password') || msg.includes('invalid-credential')) return 'Onjuist e-mailadres of wachtwoord.';
+  if (msg.includes('user-not-found')) return 'Geen account gevonden met dit e-mailadres.';
+  if (msg.includes('too-many-requests')) return 'Te veel pogingen. Probeer het later opnieuw.';
+  return e?.message || 'Er ging iets mis. Probeer het opnieuw.';
+}
+
+/* ═══════════════════════════════════════════════════
+   FIRESTORE LISTENERS (real-time)
+   ═══════════════════════════════════════════════════ */
+function startListeners() {
+  stopListeners();
+  unsubs.push(db.collection('users').onSnapshot(snap => {
+    allUsers = snap.docs.map(d => ({ uid:d.id, ...d.data() }));
+    // Also update currentUser balance
+    if (currentUser) {
+      const me = allUsers.find(u => u.uid === currentUser.uid);
+      if (me) currentUser.balance = me.balance;
+    }
+    render();
+  }));
+  unsubs.push(db.collection('markets').orderBy('created_at','desc').onSnapshot(snap => {
+    markets = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    // Auto-close past closing date
+    const today = todayStr();
+    markets.forEach(m => {
+      if (m.status === 'open' && m.closing_date < today) {
+        db.collection('markets').doc(m.id).update({ status:'closed' });
+      }
+    });
+    render();
+  }));
+  unsubs.push(db.collection('bets').onSnapshot(snap => {
+    allBets = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+}
+
+function stopListeners() {
+  unsubs.forEach(fn => fn());
+  unsubs = [];
+}
+
+/* ═══════════════════════════════════════════════════
+   SEED MARKETS (first time only)
+   ═══════════════════════════════════════════════════ */
+async function seedMarketsIfNeeded() {
+  try {
+    const configDoc = await db.collection('config').doc('app').get();
+    if (configDoc.exists && configDoc.data().seeded) return;
+
+    const batch = db.batch();
+    SEED_MARKETS.forEach(m => {
+      const ref = db.collection('markets').doc();
+      batch.set(ref, {
+        ...m,
+        status: 'open',
+        outcome: null,
+        created_by_name: 'Systeem',
+        created_by_uid: 'system',
+        created_at: new Date().toISOString(),
+      });
+    });
+    batch.set(db.collection('config').doc('app'), { seeded: true });
+    await batch.commit();
+  } catch(e) { console.log('Seed:', e.message); }
+}
+
+/* ═══════════════════════════════════════════════════
+   ACTIONS
+   ═══════════════════════════════════════════════════ */
+async function doBet() {
+  const input = document.getElementById('betAmt');
+  const amount = parseInt(input?.value);
+  if (!amount || amount < 1) { betMsg={type:'error',text:'Voer een geldig bedrag in.'}; render(); return; }
+  if (amount > currentUser.balance) { betMsg={type:'error',text:'Je tank is leeg! Niet genoeg '+CURRENCY+' op je saldo. ⛽'}; render(); return; }
+
+  try {
+    const batch = db.batch();
+    batch.set(db.collection('bets').doc(), {
+      market_id: selectedMarketId,
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      side: betSide,
+      amount: amount,
+      created_at: new Date().toISOString(),
+    });
+    batch.update(db.collection('users').doc(currentUser.uid), {
+      balance: firebase.firestore.FieldValue.increment(-amount)
+    });
+    await batch.commit();
+    betMsg = {type:'success', text: fmt(amount)+' '+CURRENCY+' ingezet op '+(betSide==='yes'?'JA':'NEE')+'!'};
+  } catch(e) {
+    betMsg = {type:'error', text:'Fout bij inzetten: '+e.message};
+  }
+  render();
+}
+
+async function doResolve(outcome) {
+  document.querySelector('.modal-overlay')?.remove();
+  const market = markets.find(m => m.id === selectedMarketId);
+  if (!market || market.status === 'resolved') return;
+
+  const mb = allBets.filter(b => b.market_id === selectedMarketId);
+  const yT = mb.filter(b=>b.side==='yes').reduce((s,b)=>s+b.amount,0);
+  const nT = mb.filter(b=>b.side==='no').reduce((s,b)=>s+b.amount,0);
+  const pot = yT + nT;
+  const winTotal = outcome === 'yes' ? yT : nT;
+
+  try {
+    const batch = db.batch();
+    if (pot > 0) {
+      if (winTotal > 0) {
+        mb.filter(b=>b.side===outcome).forEach(b => {
+          const share = (b.amount / winTotal) * pot;
+          batch.update(db.collection('users').doc(b.user_uid), {
+            balance: firebase.firestore.FieldValue.increment(share)
+          });
+        });
+      } else {
+        mb.forEach(b => {
+          batch.update(db.collection('users').doc(b.user_uid), {
+            balance: firebase.firestore.FieldValue.increment(b.amount)
+          });
+        });
+      }
+    }
+    batch.update(db.collection('markets').doc(selectedMarketId), { status:'resolved', outcome });
+    await batch.commit();
+    betMsg = null;
+  } catch(e) {
+    betMsg = {type:'error', text:'Fout bij resolveren: '+e.message};
+  }
+  render();
+}
+
+async function doCreateMarket() {
+  const title = document.getElementById('nfTitle')?.value?.trim();
+  const desc = document.getElementById('nfDesc')?.value?.trim();
+  const cat = document.getElementById('nfCat')?.value;
+  const date = document.getElementById('nfDate')?.value;
+
+  if (!title) { formError='Geef een titel op.'; render(); return; }
+  if (!date) { formError='Kies een sluitingsdatum.'; render(); return; }
+  if (date <= todayStr()) { formError='Sluitingsdatum moet in de toekomst liggen.'; render(); return; }
+
+  try {
+    await db.collection('markets').add({
+      title, description: desc||'', category: cat, closing_date: date,
+      status:'open', outcome:null,
+      created_by_uid: currentUser.uid,
+      created_by_name: currentUser.name,
+      created_at: new Date().toISOString(),
+    });
+    formError = '';
+    view = 'markten';
+  } catch(e) {
+    formError = 'Fout: '+e.message;
+  }
+  render();
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════ */
+let renderTimer = null;
+function render() {
+  if (renderTimer) return;
+  renderTimer = requestAnimationFrame(() => {
+    renderTimer = null;
+    doRender();
+  });
+}
+
+function doRender() {
+  const app = document.getElementById('app');
+  if (!authLoaded) { app.innerHTML = '<div class="loading-screen">'+geoHtml()+'<div class="loading-text">DIESEL</div></div>'; return; }
+  if (!currentUser) { app.innerHTML = renderAuth(); return; }
+  app.innerHTML = renderMain();
+}
+
+/* ===== AUTH SCREEN ===== */
+function renderAuth() {
+  const avail = availableNames();
+  const namesOptions = avail.length > 0
+    ? avail.map(n => '<option value="'+n+'">'+n+'</option>').join('')
+    : '<option value="" disabled>Alle namen zijn geclaimd</option>';
+
+  return `
+  <div class="auth-screen">${geoHtml()}
+    <div class="auth-card">
+      <div class="auth-brand">DIESEL</div>
+      <div class="auth-sub">Zoelloe Markets</div>
+      <div class="auth-tabs">
+        <button class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
+        <button class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';refreshNames()">Account activeren</button>
+      </div>
+      ${authError ? '<div class="auth-error">'+esc(authError)+'</div>' : ''}
+      ${authTab==='login' ? `
+        <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres" onkeydown="if(event.key==='Enter')doLogin()">
+        <input class="auth-input" id="loginPw" type="password" placeholder="Wachtwoord" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="auth-btn" onclick="doLogin()" ${authBusy?'disabled':''}>
+          ${authBusy ? 'Bezig...' : 'Inloggen'}
+        </button>
+      ` : `
+        <select class="auth-select" id="regName">${namesOptions}</select>
+        <input class="auth-input" id="regEmail" type="email" placeholder="Je e-mailadres">
+        <input class="auth-input" id="regPw" type="password" placeholder="Kies een wachtwoord (min. 6 tekens)" onkeydown="if(event.key==='Enter')doRegister()">
+        <button class="auth-btn" onclick="doRegister()" ${authBusy || avail.length===0 ? 'disabled':''}>
+          ${authBusy ? 'Account aanmaken...' : 'Account activeren ⛽'}
+        </button>
+      `}
+      <div class="auth-footer">
+        Privaat predictieplatform van de Zoelloe-vriendengroep.<br>
+        Alle bedragen in Diesel Dollars (${CURRENCY}) — geen echt geld.
+      </div>
+    </div>
+  </div>`;
+}
+
+async function refreshNames() {
+  try {
+    const snap = await db.collection('users').get();
+    allUsers = snap.docs.map(d => ({ uid:d.id, ...d.data() }));
+  } catch {}
+  render();
+}
+
+/* ===== MAIN APP ===== */
+function renderMain() {
+  let contentHtml = '';
+  if (view === 'markten') contentHtml = renderMarkets();
+  else if (view === 'detail') contentHtml = renderDetail();
+  else if (view === 'leaderboard') contentHtml = renderLeaderboard();
+  else if (view === 'nieuw') contentHtml = renderCreate();
+
+  return `${geoHtml()}
+    <nav class="nav"><div class="nav-inner">
+      <div class="brand">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="5" width="11" height="17" rx="1"/><path d="M14 9h3l3 3v9a1 1 0 01-1 1h-2"/><path d="M3 11h11"/><path d="M7 5V3"/></svg>
+        <span class="brand-name">DIESEL</span>
+        <span class="brand-sub">Zoelloe Markets</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="tabs">
+        <button class="tab ${view==='markten'||view==='detail'?'on':''}" onclick="goView('markten')">Markten</button>
+        <button class="tab ${view==='leaderboard'?'on':''}" onclick="goView('leaderboard')">Klassement</button>
+        <button class="tab ${view==='nieuw'?'on':''}" onclick="goView('nieuw')">+ Nieuw</button>
+      </div>
+      <div class="user-badge">
+        <span class="uname">${esc(currentUser.name)}</span>
+        <span style="color:#BA7517;font-weight:600">${fmt(currentUser.balance)} ${CURRENCY}</span>
+        <button class="logout-btn" onclick="doLogout()" title="Uitloggen">&#x2715;</button>
+      </div>
+    </div></nav>
+    <div class="content">${contentHtml}</div>`;
+}
+
+/* ===== MARKETS VIEW ===== */
+function renderMarkets() {
+  const enriched = markets.map(m => marketStats(m));
+  const filtered = catFilter ? enriched.filter(m=>m.category===catFilter) : enriched;
+  const openCount = enriched.filter(m=>m.status==='open').length;
+
+  const chipsHtml = '<div class="chips">' +
+    '<button class="chip '+(catFilter===''?'on':'')+'" onclick="setCatFilter(\'\')">Alles</button>' +
+    CATEGORIES.map(c=>'<button class="chip '+(catFilter===c?'on':'')+'" onclick="setCatFilter(\''+c+'\')">'+c+'</button>').join('') +
+    '</div>';
+
+  if (filtered.length === 0) {
+    return `<div class="section-header"><span class="section-title">Markten</span><span class="section-meta"><span class="live-dot"></span>${openCount} open</span></div>`+chipsHtml+
+      '<div class="empty-state"><div class="empty-icon">⛽</div><div class="empty-title">Nog geen weddenschappen</div><div class="empty-text">De tank is leeg! Maak de eerste weddenschap aan<br>en laat de Zoelloe-voorspellingen beginnen.</div></div>';
+  }
+
+  const cardsHtml = filtered.map(m => {
+    const statusLabel = m.status==='resolved' ? (m.outcome==='yes'?'JA ✓':'NEE ✗') : m.status==='closed' ? 'Gesloten' : 'Sluit '+fmtDate(m.closing_date);
+    const badgeCls = m.status==='resolved' ? 'b-resolved' : (CAT_CLASS[m.category]||'b-overig');
+    const badgeText = m.status==='resolved' ? (m.outcome==='yes'?'✓ JA':'✗ NEE') : m.category;
+    return `<div class="market-card" onclick="openMarket('${m.id}')">
+      <div class="mcard-top"><span class="badge ${badgeCls}">${badgeText}</span><span class="mcard-closing">${statusLabel}</span></div>
+      <div class="mcard-title">${esc(m.title)}</div>
+      <div class="prob-row"><span class="prob-label yes">JA</span><div class="prob-track"><div class="prob-fill yes" style="width:${m.yes_pct}%"></div></div><span class="prob-pct">${m.yes_pct}%</span></div>
+      <div class="prob-row"><span class="prob-label no">NEE</span><div class="prob-track"><div class="prob-fill no" style="width:${m.no_pct}%"></div></div><span class="prob-pct">${m.no_pct}%</span></div>
+      <div class="mcard-footer"><span class="pot">Pot: <span class="pot-val">${fmt(m.total_pot)} ${CURRENCY}</span></span><span class="bet-count">${m.bet_count} inzet${m.bet_count!==1?'ten':''}</span></div>
+    </div>`;
+  }).join('');
+
+  return `<div class="section-header"><span class="section-title">Markten</span><span class="section-meta"><span class="live-dot"></span>${openCount} open</span></div>`+chipsHtml+'<div class="market-grid">'+cardsHtml+'</div>';
+}
+
+/* ===== DETAIL ===== */
+function renderDetail() {
+  const raw = markets.find(m=>m.id===selectedMarketId);
+  if (!raw) return '<p style="color:#888;text-align:center;padding:3rem">Markt laden...</p>';
+  const m = marketStats(raw);
+  const isResolved = m.status==='resolved';
+  const canBet = m.status==='open';
+  const showResolve = canResolve(m) && !isResolved;
+  const badgeCls = isResolved?'b-resolved':(CAT_CLASS[m.category]||'b-overig');
+  const badgeText = isResolved?(m.outcome==='yes'?'✓ JA':'✗ NEE'):m.category;
+  const statusText = isResolved?'Afgerond':m.status==='closed'?'Gesloten':fmtDate(m.closing_date);
+  const statusLabel = isResolved?'Status':m.status==='closed'?'Status':'Sluitingsdatum';
+
+  const outcomeBanner = isResolved ? '<div class="outcome-banner '+m.outcome+'">'+(m.outcome==='yes'?'Geresolveerd als JA ✓':'Geresolveerd als NEE ✗')+'</div>' : '';
+
+  const betsHtml = m.bets.length > 0 ? m.bets.map(b => {
+    const c=avtColor(b.user_name);
+    return '<div class="bet-row"><div class="bet-left"><div class="avatar" style="background:'+c.bg+';color:'+c.fg+'">'+ini(b.user_name)+'</div><span class="bet-name">'+esc(b.user_name)+'</span><span class="side-tag '+b.side+'">'+(b.side==='yes'?'JA':'NEE')+'</span></div><span class="bet-amount">'+fmt(b.amount)+' '+CURRENCY+'</span></div>';
+  }).join('') : '<div style="font-size:12px;color:#aaa;padding:12px 0;text-align:center">Nog geen inzetten geplaatst.</div>';
+
+  let betFormHtml;
+  if (isResolved) {
+    betFormHtml='<div style="text-align:center;padding:1rem 0"><div style="font-size:13px;font-weight:600;margin-bottom:6px">Afgerond</div><div style="font-size:12px;color:#888">Geresolveerd als <b style="color:'+(m.outcome==='yes'?'#3B6D11':'#A32D2D')+'">'+(m.outcome==='yes'?'JA':'NEE')+'</b>.</div></div>';
+  } else if (!canBet) {
+    betFormHtml='<div style="text-align:center;padding:1rem 0"><div style="font-size:13px;font-weight:600;margin-bottom:6px">Gesloten</div><div style="font-size:12px;color:#888">Wachten op resolutie.</div></div>';
+  } else {
+    betFormHtml=`<div class="bet-title">Inzetten</div>
+      <div class="sides-row">
+        <button class="side-btn yes ${betSide==='yes'?'on':''}" onclick="betSide='yes';render()">JA — ${m.yes_pct}%</button>
+        <button class="side-btn no ${betSide==='no'?'on':''}" onclick="betSide='no';render()">NEE — ${m.no_pct}%</button>
+      </div>
+      <div class="input-label">Bedrag (${CURRENCY})</div>
+      <input class="bet-input" id="betAmt" type="number" placeholder="50" min="1" onkeydown="if(event.key==='Enter')doBet()">
+      <button class="bet-submit" onclick="doBet()">Inzetten</button>
+      <div class="balance-info">Jouw saldo: <b>${fmt(currentUser.balance)} ${CURRENCY}</b></div>`;
+  }
+  const msgHtml = betMsg ? '<div class="bet-message '+betMsg.type+'">'+esc(betMsg.text)+'</div>' : '';
+  const adminHtml = showResolve ? `<div class="admin-section"><div class="admin-title">Weddenschap resolveren</div><div class="admin-row"><button class="resolve-btn yes" onclick="confirmResolve('yes')">Resolveert JA</button><button class="resolve-btn no" onclick="confirmResolve('no')">Resolveert NEE</button></div></div>` : '';
+
+  return `<button class="back-btn" onclick="goView('markten')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Terug naar markten</button>
+    <div class="detail-grid"><div>
+      <div class="detail-card">
+        <span class="badge ${badgeCls}" style="display:inline-block;margin-bottom:8px">${badgeText}</span>
+        <div class="detail-title">${esc(m.title)}</div>
+        ${outcomeBanner}
+        <div class="detail-desc">${esc(m.description)}</div>
+        <div class="detail-creator">Aangemaakt door ${esc(m.created_by_name||'onbekend')}</div>
+        <div class="big-prob-row"><span class="big-prob-label yes">JA</span><div class="big-prob-track"><div class="big-prob-fill yes" style="width:${m.yes_pct}%"></div></div><span class="big-prob-pct yes">${m.yes_pct}%</span></div>
+        <div class="big-prob-row"><span class="big-prob-label no">NEE</span><div class="big-prob-track"><div class="big-prob-fill no" style="width:${m.no_pct}%"></div></div><span class="big-prob-pct no">${m.no_pct}%</span></div>
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-label">Totale pot</div><div class="stat-value dd">${fmt(m.total_pot)} ${CURRENCY}</div></div>
+          <div class="stat-item"><div class="stat-label">Inzetten</div><div class="stat-value">${m.bet_count}</div></div>
+          <div class="stat-item"><div class="stat-label">${statusLabel}</div><div class="stat-value" style="font-size:12px">${statusText}</div></div>
+        </div>
+      </div>
+      <div class="bets-list"><div class="bets-list-header">Alle inzetten (${m.bet_count})</div>${betsHtml}</div>
+    </div><div>
+      <div class="bet-card">${betFormHtml}${msgHtml}${adminHtml}</div>
+    </div></div>`;
+}
+
+/* ===== LEADERBOARD ===== */
+function renderLeaderboard() {
+  // Show all 13 names — active users with real balance, inactive greyed out
+  const activeMap = {};
+  allUsers.forEach(u => { activeMap[u.name] = u; });
+
+  const rows = ALL_NAMES.map(name => {
+    const active = activeMap[name];
+    return {
+      name,
+      balance: active ? Math.round(active.balance*100)/100 : START_BALANCE,
+      profit: active ? Math.round((active.balance-START_BALANCE)*100)/100 : 0,
+      active: !!active,
+    };
+  }).sort((a,b) => {
+    if (a.active && !b.active) return -1;
+    if (!a.active && b.active) return 1;
+    return b.balance - a.balance;
+  });
+
+  const rowsHtml = rows.map((u,i) => {
+    const c=avtColor(u.name);
+    const pSign=u.profit>0?'+':'';
+    const pClass=u.profit>0?'pos':u.profit<0?'neg':'zero';
+    const rankHtml=i===0&&u.active?'<svg width="16" height="16" viewBox="0 0 24 24" fill="#BA7517"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>':(i+1);
+    return `<div class="lb-row ${i===0&&u.active?'first':''} ${u.active?'':'lb-inactive'}">
+      <div class="lb-rank">${rankHtml}</div>
+      <div class="lb-avatar" style="background:${c.bg};color:${c.fg}">${ini(u.name)}</div>
+      <div class="lb-name">${u.name}${u.active?'':' <span class="lb-status">nog niet actief</span>'}</div>
+      <div class="lb-right">
+        <div class="lb-balance">${fmt(u.balance)} ${CURRENCY}</div>
+        ${u.active?'<div class="lb-pnl '+pClass+'">'+pSign+fmt(u.profit)+' '+CURRENCY+'</div>':''}
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="section-header"><span class="section-title">Klassement</span><span class="section-meta">Startbedrag: ${fmt(START_BALANCE)} ${CURRENCY}</span></div><div class="lb-card">${rowsHtml}</div>`;
+}
+
+/* ===== CREATE MARKET ===== */
+function renderCreate() {
+  return `<div class="section-header"><span class="section-title">Nieuwe weddenschap</span></div>
+    <div class="create-form">
+      <div class="form-group"><label>Vraag / titel</label><input id="nfTitle" placeholder="Bijv. Gaat Ole dit jaar zijn rijbewijs halen?"></div>
+      <div class="form-group"><label>Beschrijving &amp; resolutieregels</label><textarea id="nfDesc" placeholder="Wanneer resolveert dit op JA? Welke bron geldt als bewijs?"></textarea></div>
+      <div class="form-group"><label>Categorie</label><select id="nfCat">${CATEGORIES.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+      <div class="form-group"><label>Sluitingsdatum</label><input id="nfDate" type="date" min="${todayStr()}"></div>
+      ${formError?'<div class="bet-message error">'+esc(formError)+'</div>':''}
+      <div class="form-buttons">
+        <button class="btn-cancel" onclick="goView('markten')">Annuleren</button>
+        <button class="btn-submit" onclick="doCreateMarket()">Aanmaken</button>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════ */
+function goView(v) { view=v; betMsg=null; formError=''; if(v!=='detail')selectedMarketId=null; render(); window.scrollTo(0,0); }
+function openMarket(id) { selectedMarketId=id; view='detail'; betSide='yes'; betMsg=null; render(); window.scrollTo(0,0); }
+function setCatFilter(c) { catFilter=c; render(); }
+
+function confirmResolve(outcome) {
+  const label=outcome==='yes'?'JA':'NEE';
+  const color=outcome==='yes'?'#3B6D11':'#A32D2D';
+  const btnClass=outcome==='yes'?'confirm-yes':'confirm-no';
+  const overlay=document.createElement('div');
+  overlay.className='modal-overlay';
+  overlay.onclick=()=>overlay.remove();
+  overlay.innerHTML=`<div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-title">Weddenschap resolveren?</div>
+    <div class="modal-text">Je resolveert deze markt als <b style="color:${color}">${label}</b>.<br>Dit kan niet ongedaan worden. Diesel Dollars worden direct uitgekeerd.</div>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="this.closest('.modal-overlay').remove()">Annuleren</button>
+      <button class="modal-btn ${btnClass}" onclick="doResolve('${outcome}')">Bevestigen — ${label}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+/* ═══════════════════════════════════════════════════
+   BACKGROUND PATTERN
+   ═══════════════════════════════════════════════════ */
+function setBackground() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320">
+    <!-- Zulu shield -->
+    <ellipse cx="55" cy="55" rx="16" ry="24" fill="none" stroke="#BA7517" stroke-width="1.3" opacity=".045"/>
+    <line x1="55" y1="31" x2="55" y2="79" stroke="#BA7517" stroke-width=".8" opacity=".04"/>
+    <line x1="39" y1="55" x2="71" y2="55" stroke="#BA7517" stroke-width=".8" opacity=".04"/>
+    <!-- Spear -->
+    <line x1="240" y1="25" x2="240" y2="95" stroke="#993C1D" stroke-width="1" opacity=".04"/>
+    <polygon points="240,20 234,35 246,35" fill="#993C1D" opacity=".045"/>
+    <!-- Fuel drop -->
+    <path d="M160,210 Q160,190 175,182 Q190,190 190,210 Q190,225 175,232 Q160,225 160,210Z" fill="none" stroke="#BA7517" stroke-width="1.2" opacity=".04"/>
+    <!-- Mexican zigzag -->
+    <polyline points="5,165 20,148 35,165 50,148 65,165 80,148 95,165" fill="none" stroke="#993C1D" stroke-width="1" opacity=".04"/>
+    <polyline points="225,280 240,263 255,280 270,263 285,280 300,263 315,280" fill="none" stroke="#993C1D" stroke-width="1" opacity=".035"/>
+    <!-- Diamond -->
+    <polygon points="270,155 282,140 294,155 282,170" fill="none" stroke="#BA7517" stroke-width=".9" opacity=".04"/>
+    <!-- Cactus -->
+    <line x1="60" y1="250" x2="60" y2="290" stroke="#3B6D11" stroke-width="2.2" opacity=".035"/>
+    <path d="M60,262 Q48,260 45,252" fill="none" stroke="#3B6D11" stroke-width="1.8" opacity=".035"/>
+    <path d="M60,272 Q72,270 75,262" fill="none" stroke="#3B6D11" stroke-width="1.8" opacity=".035"/>
+    <!-- Fuel pump -->
+    <rect x="155" y="80" width="20" height="30" rx="2" fill="none" stroke="#BA7517" stroke-width="1" opacity=".035"/>
+    <line x1="175" y1="88" x2="183" y2="88" stroke="#BA7517" stroke-width=".8" opacity=".035"/>
+    <line x1="183" y1="88" x2="183" y2="104" stroke="#BA7517" stroke-width=".8" opacity=".035"/>
+    <line x1="160" y1="95" x2="170" y2="95" stroke="#BA7517" stroke-width=".6" opacity=".03"/>
+    <!-- Small shield 2 -->
+    <ellipse cx="280" cy="60" rx="8" ry="12" fill="none" stroke="#993C1D" stroke-width=".8" opacity=".03"/>
+  </svg>`;
+  document.body.style.backgroundImage = 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════ */
+setBackground();
+render();
+</script>
+</body>
+</html>
