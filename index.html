@@ -401,14 +401,16 @@ async function doRegister() {
     });
     await seedMarketsIfNeeded();
   } catch(e) {
+    authBusy = false;
     if (e.message === 'naam-al-geclaimd') {
       authError = 'Deze naam is al geclaimd door iemand anders!';
     } else {
       authError = firebaseErrorNL(e);
     }
-  } finally {
-    authBusy = false; render();
+    render();
   }
+  // Succes: onAuthStateChanged handelt render af
+  authBusy = false;
 }
 
 async function doLogin() {
@@ -420,10 +422,12 @@ async function doLogin() {
   authBusy = true; authError = ''; render();
   try {
     await auth.signInWithEmailAndPassword(email, pw);
+    // Succes: onAuthStateChanged handelt render af zodra profiel geladen is
+    authBusy = false;
   } catch(e) {
+    authBusy = false;
     authError = firebaseErrorNL(e);
-  } finally {
-    authBusy = false; render();
+    render();
   }
 }
 
