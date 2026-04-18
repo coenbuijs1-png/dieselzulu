@@ -381,6 +381,7 @@ auth.onAuthStateChanged(async (firebaseUser) => {
 });
 
 async function doRegister() {
+  if (authBusy) return;
   const name = document.getElementById('regName')?.value;
   const email = document.getElementById('regEmail')?.value?.trim();
   const pw = document.getElementById('regPw')?.value;
@@ -389,26 +390,28 @@ async function doRegister() {
 
   authBusy = true; authError = ''; render();
   try {
-    const cred = await auth.createUserWithEmailAndPassword(email, pw);
-    // Check name not already claimed
+    // Check name not already claimed (before creating auth account)
     const existing = await db.collection('users').where('name','==',name).get();
     if (!existing.empty) {
-      await cred.user.delete();
-      throw new Error('Deze naam is al geclaimd door iemand anders!');
+      throw new Error('naam-al-geclaimd');
     }
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
     await db.collection('users').doc(cred.user.uid).set({
       name, email, balance: START_BALANCE, created_at: new Date().toISOString()
     });
     await seedMarketsIfNeeded();
   } catch(e) {
-    authError = firebaseErrorNL(e);
+    if (e.message === 'naam-al-geclaimd') {
+      authError = 'Deze naam is al geclaimd door iemand anders!';
+    } else {
+      authError = firebaseErrorNL(e);
+    }
     authBusy = false; render();
-    return;
   }
-  authBusy = false;
 }
 
 async function doLogin() {
+  if (authBusy) return;
   const email = document.getElementById('loginEmail')?.value?.trim();
   const pw = document.getElementById('loginPw')?.value;
   if (!email || !pw) { authError = 'Vul e-mail en wachtwoord in.'; render(); return; }
@@ -418,8 +421,8 @@ async function doLogin() {
     await auth.signInWithEmailAndPassword(email, pw);
   } catch(e) {
     authError = firebaseErrorNL(e);
+    authBusy = false; render();
   }
-  authBusy = false; render();
 }
 
 async function doLogout() {
@@ -628,23 +631,33 @@ function renderAuth() {
       <div class="auth-brand">DIESEL</div>
       <div class="auth-sub">Zoelloe Markets</div>
       <div class="auth-tabs">
-        <button class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
-        <button class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';refreshNames()">Account activeren</button>
+        <button type="button" class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
+        <button type="button" class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';render();refreshNames()">Account activeren</button>
       </div>
       ${authError ? '<div class="auth-error">'+esc(authError)+'</div>' : ''}
       ${authTab==='login' ? `
-        <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres" onkeydown="if(event.key==='Enter')doLogin()">
-        <input class="auth-input" id="loginPw" type="password" placeholder="Wachtwoord" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="auth-btn" onclick="doLogin()" ${authBusy?'disabled':''}>
-          ${authBusy ? 'Bezig...' : 'Inloggen'}
-        </button>
+        <form onsubmit="doLogin();return false;" novalidate>
+          <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres"
+            autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
+            inputmode="email">
+          <input class="auth-input" id="loginPw" type="password" placeholder="Wachtwoord"
+            autocomplete="current-password">
+          <button type="submit" class="auth-btn" ${authBusy?'disabled':''}>
+            ${authBusy ? '⏳ Bezig...' : 'Inloggen'}
+          </button>
+        </form>
       ` : `
-        <select class="auth-select" id="regName">${namesOptions}</select>
-        <input class="auth-input" id="regEmail" type="email" placeholder="Je e-mailadres">
-        <input class="auth-input" id="regPw" type="password" placeholder="Kies een wachtwoord (min. 6 tekens)" onkeydown="if(event.key==='Enter')doRegister()">
-        <button class="auth-btn" onclick="doRegister()" ${authBusy || avail.length===0 ? 'disabled':''}>
-          ${authBusy ? 'Account aanmaken...' : 'Account activeren ⛽'}
-        </button>
+        <form onsubmit="doRegister();return false;" novalidate>
+          <select class="auth-select" id="regName">${namesOptions}</select>
+          <input class="auth-input" id="regEmail" type="email" placeholder="Je e-mailadres"
+            autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
+            inputmode="email">
+          <input class="auth-input" id="regPw" type="password" placeholder="Kies een wachtwoord (min. 6 tekens)"
+            autocomplete="new-password">
+          <button type="submit" class="auth-btn" ${authBusy || avail.length===0 ? 'disabled':''}>
+            ${authBusy ? '⏳ Account aanmaken...' : 'Account activeren ⛽'}
+          </button>
+        </form>
       `}
       <div class="auth-footer">
         Privaat predictieplatform van de Zoelloe-vriendengroep.<br>
