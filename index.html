@@ -406,6 +406,7 @@ async function doRegister() {
     } else {
       authError = firebaseErrorNL(e);
     }
+  } finally {
     authBusy = false; render();
   }
 }
@@ -421,11 +422,14 @@ async function doLogin() {
     await auth.signInWithEmailAndPassword(email, pw);
   } catch(e) {
     authError = firebaseErrorNL(e);
+  } finally {
     authBusy = false; render();
   }
 }
 
 async function doLogout() {
+  authBusy = false;
+  authError = '';
   stopListeners();
   await auth.signOut();
   currentUser = null;
