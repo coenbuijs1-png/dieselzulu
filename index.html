@@ -243,20 +243,251 @@ button{cursor:pointer}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#3B6D11;display:inline-block;margin-right:4px;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
+/* ═════════════════════════════════════════════════════
+   TIJDLIJN (Berichten)
+   ═════════════════════════════════════════════════════ */
+.timeline-wrap{max-width:640px;margin:0 auto}
+.post-box{background:#fff;border:1px solid #e8e6e1;border-radius:12px;padding:14px;margin-bottom:16px}
+.post-box-top{display:flex;gap:10px;align-items:flex-start}
+.post-box textarea{flex:1;border:none;resize:none;font-family:inherit;font-size:14px;min-height:48px;outline:none;background:transparent;line-height:1.45}
+.post-box-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid #f0eeea}
+.post-counter{font-size:11px;color:#aaa}
+.post-counter.over{color:#A32D2D}
+.post-btn{padding:8px 18px;border:none;border-radius:99px;background:#BA7517;color:#fff;font-size:12px;font-weight:600;letter-spacing:.03em;transition:background .15s}
+.post-btn:hover{background:#995f10}
+.post-btn:disabled{background:#ddd;cursor:not-allowed}
+.tweet{background:#fff;border:1px solid #e8e6e1;border-radius:12px;padding:14px;margin-bottom:10px;transition:border-color .15s}
+.tweet:hover{border-color:#e0d8c8}
+.tweet-head{display:flex;gap:10px;align-items:flex-start}
+.tweet-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.tweet-body{flex:1;min-width:0}
+.tweet-meta{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:2px}
+.tweet-name{font-size:13px;font-weight:600;color:#1a1a1a}
+.tweet-time{font-size:11px;color:#aaa}
+.tweet-text{font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;margin-top:2px;color:#222}
+.tweet-actions{display:flex;gap:18px;margin-top:10px;padding-top:8px;border-top:1px solid #f5f3ee}
+.tweet-action{background:none;border:none;padding:0;font-size:11px;color:#aaa;display:flex;align-items:center;gap:5px;transition:color .15s}
+.tweet-action:hover{color:#BA7517}
+.tweet-action.liked{color:#A32D2D}
+.tweet-action.liked:hover{color:#7a1f1f}
+.tweet-action.del:hover{color:#A32D2D}
+.reply-box{margin-top:10px;padding:10px;background:#faf9f6;border-radius:8px}
+.reply-box textarea{width:100%;border:1px solid #e8e6e1;border-radius:6px;padding:6px 10px;font-family:inherit;font-size:13px;min-height:36px;resize:vertical;outline:none}
+.reply-box textarea:focus{border-color:#BA7517}
+.reply-box-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}
+.reply-box-actions button{padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;border:none;cursor:pointer}
+.reply-box-actions .cancel{background:#f0eeea;color:#888}
+.reply-box-actions .send{background:#BA7517;color:#fff}
+.replies{margin-top:10px;padding-left:22px;border-left:2px solid #f0eeea}
+.reply{padding:8px 0;border-bottom:1px solid #f5f3ee}
+.reply:last-child{border-bottom:none}
+
+/* ═════════════════════════════════════════════════════
+   SCORITO
+   ═════════════════════════════════════════════════════ */
+.sc-subtabs{display:flex;gap:4px;background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:4px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sc-subtab{flex:1;min-width:92px;padding:8px 10px;border:none;border-radius:7px;background:none;font-size:12px;color:#888;font-weight:500;transition:all .15s;white-space:nowrap}
+.sc-subtab:hover{color:#1a1a1a}
+.sc-subtab.on{background:#FAEEDA;color:#633806;font-weight:600}
+.sc-score-pill{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#BA7517,#993C1D);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:600}
+.sc-phase-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.sc-phase-chip{padding:6px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:11px;color:#666;font-weight:500;transition:all .15s}
+.sc-phase-chip.on{background:#BA7517;border-color:#BA7517;color:#fff}
+.sc-phase-chip.locked{opacity:.6}
+.sc-phase-chip .lock{font-size:9px;margin-left:3px}
+.sc-phase-info{background:#FAEEDA;border:1px solid #e5c788;border-radius:8px;padding:10px 14px;font-size:12px;color:#633806;margin-bottom:14px;line-height:1.5}
+.sc-phase-info b{color:#4a2904}
+.sc-deadline{display:flex;align-items:center;gap:6px;font-size:11px;color:#aaa}
+.sc-deadline.urgent{color:#A32D2D;font-weight:500}
+
+/* Match list */
+.sc-match-group{margin-bottom:20px}
+.sc-match-group-title{font-size:12px;font-weight:700;letter-spacing:.1em;color:#888;text-transform:uppercase;margin-bottom:8px;padding-left:4px}
+.sc-match{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.sc-match-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
+.sc-match-date{font-size:10px;color:#aaa}
+.sc-match-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.sc-match-status.scheduled{background:#f0eeea;color:#888}
+.sc-match-status.live{background:#FCEBEB;color:#A32D2D;animation:pulse 2s infinite}
+.sc-match-status.finished{background:#EAF3DE;color:#3B6D11}
+.sc-match-teams{display:grid;grid-template-columns:1fr 90px 1fr;gap:10px;align-items:center}
+.sc-team{display:flex;align-items:center;gap:8px;min-width:0}
+.sc-team.home{justify-content:flex-end}
+.sc-team.away{justify-content:flex-start}
+.sc-flag{font-size:22px;flex-shrink:0;line-height:1}
+.sc-team-name{font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-score-input{display:flex;gap:4px;justify-content:center;align-items:center}
+.sc-score-input input{width:36px;height:36px;border:1px solid #ddd;border-radius:6px;text-align:center;font-size:15px;font-weight:600;padding:0;font-family:inherit}
+.sc-score-input input:focus{outline:none;border-color:#BA7517;background:#fffef6}
+.sc-score-input input:disabled{background:#faf9f6;color:#1a1a1a;border-color:#e8e6e1}
+.sc-score-sep{font-size:14px;color:#888;font-weight:600}
+.sc-result{font-size:18px;font-weight:700;text-align:center;color:#1a1a1a}
+.sc-prediction-info{margin-top:8px;padding-top:8px;border-top:1px solid #f0eeea;font-size:11px;color:#888;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+.sc-pred-score{font-weight:600;color:#BA7517}
+.sc-pred-points{font-weight:700;padding:2px 8px;border-radius:99px;font-size:10px}
+.sc-pred-points.exact{background:#EAF3DE;color:#3B6D11}
+.sc-pred-points.toto{background:#FAEEDA;color:#633806}
+.sc-pred-points.none{background:#f5f3ee;color:#aaa}
+.sc-save-bar{position:sticky;bottom:0;background:#fff;border-top:1px solid #e8e6e1;padding:12px;margin:0 -1rem;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:10}
+.sc-save-bar-info{font-size:11px;color:#888}
+.sc-save-bar b{color:#BA7517}
+.sc-save-btn{padding:10px 22px;background:#3B6D11;color:#fff;border:none;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.03em;transition:background .15s}
+.sc-save-btn:hover{background:#2a4f0a}
+.sc-save-btn:disabled{background:#ccc;cursor:not-allowed}
+
+/* Topscorers */
+.sc-player-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.sc-player{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
+.sc-player:hover{border-color:#BA7517}
+.sc-player.picked{background:#FAEEDA;border-color:#BA7517}
+.sc-player-flag{font-size:20px;line-height:1}
+.sc-player-body{flex:1;min-width:0}
+.sc-player-name{font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-player-meta{font-size:10px;color:#888;display:flex;gap:6px;align-items:center}
+.sc-pos-badge{padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700}
+.sc-pos-badge.GK{background:#E6F1FB;color:#0C447C}
+.sc-pos-badge.DEF{background:#E1F5EE;color:#085041}
+.sc-pos-badge.MID{background:#FAEEDA;color:#633806}
+.sc-pos-badge.FWD{background:#FCEBEB;color:#A32D2D}
+.sc-player-goals{font-size:11px;color:#888}
+.sc-player-goals b{color:#BA7517;font-size:13px}
+.sc-player-check{font-size:18px;color:#BA7517;margin-left:6px}
+.sc-picker-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.sc-picker-count{font-size:13px;font-weight:600;color:#BA7517}
+.sc-picker-count.full{color:#3B6D11}
+.sc-pos-filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+
+/* Countries */
+.sc-country-section{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:14px;margin-bottom:12px}
+.sc-country-section-title{font-size:13px;font-weight:700;margin-bottom:4px;color:#1a1a1a}
+.sc-country-section-sub{font-size:11px;color:#888;margin-bottom:12px}
+.sc-groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.sc-group-box{border:1px solid #f0eeea;border-radius:8px;padding:10px}
+.sc-group-box-title{font-size:11px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px}
+.sc-group-country{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
+.sc-pos-select{margin-left:auto;padding:3px 8px;border:1px solid #ddd;border-radius:6px;font-size:11px;background:#fff;font-family:inherit}
+.sc-pos-select:focus{outline:none;border-color:#BA7517}
+.sc-ko-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc-ko-slot{padding:10px;border:1px solid #f0eeea;border-radius:8px}
+.sc-ko-slot-label{font-size:10px;color:#888;margin-bottom:4px}
+.sc-ko-select{width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:12px;background:#fff;font-family:inherit}
+.sc-ko-select:focus{outline:none;border-color:#BA7517}
+.sc-champion-pick{background:linear-gradient(135deg,#FAEEDA,#fff);border:2px solid #BA7517}
+
+/* ===== WK 2026 THEMA ===== */
+/* Variabelen per fase: stadskleuren-geïnspireerd systeem */
+.scorito-view{--wk-gold:#D4AF37;--wk-gold-dark:#A8861F;--wk-black:#0A0A0A;--wk-ink:#1a1a1a;--wk-cream:#FAF7F0;--wk-phase:#C8102E}
+.scorito-view[data-phase="group"]{--wk-phase:#C8102E}   /* rood — Mexico/NY */
+.scorito-view[data-phase="r16"]{--wk-phase:#005A9C}     /* blauw — LA/Dallas */
+.scorito-view[data-phase="qf"]{--wk-phase:#007A33}      /* groen — Seattle/Vancouver */
+.scorito-view[data-phase="sf"]{--wk-phase:#FF6B00}      /* oranje — Miami */
+.scorito-view[data-phase="3rd"]{--wk-phase:#4A3F72}     /* paars — Kansas City */
+.scorito-view[data-phase="final"]{--wk-phase:#D4AF37}   /* goud — Finale */
+
+/* Hero header */
+.wk-hero{position:relative;background:linear-gradient(135deg,#0A0A0A 0%,#1a1a1a 60%,#2a2520 100%);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:18px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.wk-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(212,175,55,.18) 0%,transparent 55%);pointer-events:none}
+.wk-hero-content{position:relative;z-index:1;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.wk-hero-left{flex:1;min-width:180px}
+.wk-hero-kicker{font-size:10px;letter-spacing:.22em;color:var(--wk-gold);font-weight:700;margin-bottom:4px;text-transform:uppercase}
+.wk-hero-title{font-size:28px;font-weight:900;letter-spacing:-.02em;line-height:1;margin-bottom:6px;color:#fff}
+.wk-hero-title .gold{color:var(--wk-gold);background:linear-gradient(135deg,#F0CD5E,#D4AF37 50%,#A8861F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.wk-hero-sub{font-size:11px;color:#c9c0b0;line-height:1.5;max-width:320px}
+.wk-hero-slogan{display:inline-block;margin-top:10px;font-size:10px;letter-spacing:.3em;color:var(--wk-gold);font-weight:800;border:1px solid var(--wk-gold);padding:4px 10px;border-radius:99px;text-transform:uppercase}
+.wk-26{position:relative;flex-shrink:0;display:flex;flex-direction:column;align-items:center;line-height:.82;font-weight:900;font-size:56px;letter-spacing:-.05em;color:#fff}
+.wk-26 .d2{background:linear-gradient(180deg,#F0CD5E,#D4AF37);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 2px 8px rgba(212,175,55,.25)}
+.wk-26 .d6{margin-top:-4px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.1)}
+.wk-trophy{font-size:38px;margin-right:-4px;filter:drop-shadow(0 4px 8px rgba(212,175,55,.4))}
+
+/* Overrides binnen scorito-view */
+.scorito-view .sc-subtab.on{background:linear-gradient(135deg,#1a1a1a,#2a2520);color:var(--wk-gold);font-weight:700}
+.scorito-view .sc-phase-chip{border:1px solid #ddd;background:#fff;color:#555;font-weight:600}
+.scorito-view .sc-phase-chip.on{background:var(--wk-phase);border-color:var(--wk-phase);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.scorito-view .sc-phase-info{background:linear-gradient(135deg,#FAF7F0,#fff);border:1px solid #e8e0c8;color:#3a2f12;border-left:4px solid var(--wk-phase)}
+.scorito-view .sc-phase-info b{color:#0A0A0A}
+.scorito-view .sc-save-btn{background:var(--wk-phase);box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.scorito-view .sc-save-btn:hover{background:var(--wk-black)}
+.scorito-view .sc-match-group-title{color:var(--wk-phase);font-weight:800;border-left:3px solid var(--wk-phase);padding-left:8px}
+.scorito-view .sc-score-input input:focus{border-color:var(--wk-phase);background:#fff;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+.scorito-view .sc-pred-score{color:var(--wk-phase)}
+.scorito-view .sc-champion-pick{background:linear-gradient(135deg,#FFF8E1,#fff);border:2px solid var(--wk-gold);box-shadow:0 2px 14px rgba(212,175,55,.15)}
+.scorito-view .sc-picker-count.full{color:#0A7A2F}
+.scorito-view .sc-player.picked{background:linear-gradient(135deg,#FFF8E1,#fff);border-color:var(--wk-gold)}
+.scorito-view .sc-player-check{color:var(--wk-gold-dark)}
+
+/* Progress bar */
+.sc-progress{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.sc-progress-label{display:flex;justify-content:space-between;font-size:11px;color:#666;margin-bottom:6px;font-weight:600}
+.sc-progress-label b{color:var(--wk-phase,#BA7517)}
+.sc-progress-bar{height:6px;background:#f0eeea;border-radius:99px;overflow:hidden}
+.sc-progress-fill{height:100%;background:linear-gradient(90deg,var(--wk-phase,#BA7517),var(--wk-gold,#D4AF37));border-radius:99px;transition:width .4s ease}
+
+/* Unsaved badge */
+.sc-unsaved-badge{display:none;background:#FFF4D6;color:#8B5A00;border:1px solid #E8C766;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.02em;animation:pulse-soft 2s ease-in-out infinite;margin-left:8px}
+.sc-unsaved-badge.show{display:inline-block}
+@keyframes pulse-soft{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* Save-bar info-block (flex van tekst + badge) */
+.scorito-view .sc-save-bar-info{display:flex;align-items:center;gap:4px;font-size:12px;color:#555;flex-wrap:wrap}
+.scorito-view .sc-save-bar{background:linear-gradient(180deg,rgba(255,255,255,.85),#fff 60%);backdrop-filter:blur(4px);border-top:2px solid var(--wk-phase,#BA7517);box-shadow:0 -4px 14px rgba(0,0,0,.06)}
+
+/* Ranking */
+.sc-rank-row{display:grid;grid-template-columns:28px 36px 1fr 64px 60px 60px 64px;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid #f0eeea;font-size:12px}
+.sc-rank-head{background:#faf9f6;font-weight:700;color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+.sc-rank-row:last-child{border-bottom:none}
+.sc-rank-row.first{background:#FFFCF5}
+.sc-rank-points{font-weight:700;color:#BA7517;text-align:right}
+.sc-rank-sub{color:#888;text-align:right;font-size:11px}
+.sc-rank-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+
+/* Admin */
+.sc-admin-section{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:14px;margin-bottom:12px}
+.sc-admin-title{font-size:13px;font-weight:700;margin-bottom:10px;color:#1a1a1a}
+.sc-admin-hint{font-size:11px;color:#888;margin-bottom:10px;line-height:1.5}
+.sc-admin-row{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #f5f3ee;flex-wrap:wrap}
+.sc-admin-row:last-child{border-bottom:none}
+.sc-admin-input{padding:5px 8px;border:1px solid #ddd;border-radius:5px;font-size:12px;background:#fff;font-family:inherit}
+.sc-admin-input:focus{outline:none;border-color:#BA7517}
+.sc-admin-btn{padding:6px 12px;border-radius:6px;border:1px solid #BA7517;background:#BA7517;color:#fff;font-size:11px;font-weight:600;cursor:pointer}
+.sc-admin-btn.ghost{background:#fff;color:#BA7517}
+.sc-admin-btn.danger{background:#A32D2D;border-color:#A32D2D}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:720px){
   .detail-grid{grid-template-columns:1fr}
   .market-grid{grid-template-columns:1fr}
   .brand-sub{display:none}
   .nav-inner{height:auto;padding:8px 1rem}
-  .tabs{width:100%;order:10}
-  .tab{flex:1;text-align:center;height:42px}
+  .tabs{width:100%;order:10;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab{text-align:center;height:42px;flex-shrink:0;padding:0 14px}
   .stats-row{grid-template-columns:1fr}
+  .sc-match-teams{grid-template-columns:1fr 96px 1fr}
+  .sc-team-name{font-size:12px}
+  .sc-rank-row{grid-template-columns:22px 28px 1fr 50px 50px;font-size:11px;gap:6px;padding:8px 10px}
+  .sc-rank-row .col-hide-mob{display:none}
+  /* Grotere score-inputs op touch — beter invulbaar */
+  .scorito-view .sc-score-input input{width:44px;height:44px;font-size:17px}
+  /* Hero compacter op mobiel */
+  .wk-hero{padding:18px 16px}
+  .wk-hero-title{font-size:22px}
+  .wk-26{font-size:44px}
+  .wk-trophy{font-size:32px}
+  .wk-hero-content{gap:14px}
 }
 @media(max-width:480px){
   .sides-row{flex-direction:column}
   .section-header{flex-direction:column;align-items:flex-start}
   .auth-card{padding:1.5rem}
+  .sc-ko-grid{grid-template-columns:1fr}
+  .wk-hero-content{gap:10px}
+  .wk-26{font-size:38px}
+  .wk-trophy{font-size:28px}
+  .wk-hero-title{font-size:19px}
+  .wk-hero-sub{font-size:10px}
+  /* Punten-blok onder op mobiel */
+  .wk-hero-content > div:last-child{text-align:left;min-width:0;flex-basis:100%;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;margin-top:4px}
+  .wk-hero-content > div:last-child > div:nth-child(2){font-size:22px;display:inline-block;margin-right:10px}
+  .wk-hero-content > div:last-child > div:nth-child(1){display:inline-block;margin-right:6px}
 }
 </style>
 </head>
@@ -291,6 +522,135 @@ const GEO = ['#BA7517','#993C1D','#BA7517','#3B6D11','#993C1D','#BA7517','#185FA
 const START_BALANCE = 540;
 const CURRENCY = 'DD';
 
+/* ═══════════════════════════════════════════════════
+   SCORITO CONSTANTS
+   ═══════════════════════════════════════════════════ */
+const SC_PHASES = [
+  { id: 'group',  name: 'Groepsfase',      short: 'Groep',   toto: 60,  exact: 90,  scorer: { GK:64,  DEF:64,  MID:32, FWD:16 } },
+  { id: 'r16',    name: 'Achtste finale',  short: '1/8',     toto: 90,  exact: 135, scorer: { GK:96,  DEF:96,  MID:48, FWD:24 } },
+  { id: 'qf',     name: 'Kwartfinale',     short: '1/4',     toto: 120, exact: 180, scorer: { GK:128, DEF:128, MID:64, FWD:32 } },
+  { id: 'sf',     name: 'Halve finale',    short: '1/2',     toto: 150, exact: 225, scorer: { GK:160, DEF:160, MID:80, FWD:40 } },
+  { id: '3rd',    name: 'Troostfinale',    short: '3e pl.',  toto: 150, exact: 225, scorer: { GK:160, DEF:160, MID:80, FWD:40 } },
+  { id: 'final',  name: 'Finale',          short: 'Finale',  toto: 180, exact: 270, scorer: { GK:192, DEF:192, MID:96, FWD:48 } }
+];
+const SC_PHASE_BY_ID = Object.fromEntries(SC_PHASES.map(p => [p.id, p]));
+
+// Land-voorspelling punten
+const SC_COUNTRY_POINTS = {
+  throughGroup: 50,    // land komt uit de groepsfase
+  correctGroupPos: 75, // juiste groepspositie (1e of 2e)
+  toQF: 30,            // door naar kwartfinale
+  toSF: 60,            // door naar halve finale
+  toFinal: 120,        // door naar finale
+  champion: 250        // wereldkampioen correct
+};
+
+// WK 2026: 48 teams, 12 groepen A-L
+// Dit is een realistische selectie op basis van huidige kwalificatie + gastlanden.
+// Admin kan in de toekomst teams aanpassen.
+const SC_GROUPS = {
+  A: ['CAN','MEX','MAR','URU'],
+  B: ['USA','POR','KOR','JAM'],
+  C: ['NED','SEN','SVK','NZL'],
+  D: ['FRA','IRN','ISL','PAN'],
+  E: ['ESP','GHA','JPN','CRC'],
+  F: ['ARG','ECU','SCO','NGR'],
+  G: ['BRA','EGY','AUT','SUI'],
+  H: ['ENG','COL','POL','QAT'],
+  I: ['GER','AUS','TUN','CHI'],
+  J: ['BEL','CIV','DEN','UZB'],
+  K: ['ITA','CRO','SRB','ALG'],
+  L: ['POR','NOR','TUR','CMR']
+};
+
+// Country code → { name, flag }
+const SC_COUNTRIES = {
+  CAN:{n:'Canada',f:'🇨🇦'}, MEX:{n:'Mexico',f:'🇲🇽'}, USA:{n:'Verenigde Staten',f:'🇺🇸'},
+  NED:{n:'Nederland',f:'🇳🇱'}, FRA:{n:'Frankrijk',f:'🇫🇷'}, ESP:{n:'Spanje',f:'🇪🇸'},
+  ARG:{n:'Argentinië',f:'🇦🇷'}, BRA:{n:'Brazilië',f:'🇧🇷'}, ENG:{n:'Engeland',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
+  GER:{n:'Duitsland',f:'🇩🇪'}, BEL:{n:'België',f:'🇧🇪'}, ITA:{n:'Italië',f:'🇮🇹'},
+  POR:{n:'Portugal',f:'🇵🇹'}, MAR:{n:'Marokko',f:'🇲🇦'}, URU:{n:'Uruguay',f:'🇺🇾'},
+  KOR:{n:'Zuid-Korea',f:'🇰🇷'}, JAM:{n:'Jamaica',f:'🇯🇲'}, SEN:{n:'Senegal',f:'🇸🇳'},
+  SVK:{n:'Slowakije',f:'🇸🇰'}, NZL:{n:'Nieuw-Zeeland',f:'🇳🇿'}, IRN:{n:'Iran',f:'🇮🇷'},
+  ISL:{n:'IJsland',f:'🇮🇸'}, PAN:{n:'Panama',f:'🇵🇦'}, GHA:{n:'Ghana',f:'🇬🇭'},
+  JPN:{n:'Japan',f:'🇯🇵'}, CRC:{n:'Costa Rica',f:'🇨🇷'}, ECU:{n:'Ecuador',f:'🇪🇨'},
+  SCO:{n:'Schotland',f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'}, NGR:{n:'Nigeria',f:'🇳🇬'}, EGY:{n:'Egypte',f:'🇪🇬'},
+  AUT:{n:'Oostenrijk',f:'🇦🇹'}, SUI:{n:'Zwitserland',f:'🇨🇭'}, COL:{n:'Colombia',f:'🇨🇴'},
+  POL:{n:'Polen',f:'🇵🇱'}, QAT:{n:'Qatar',f:'🇶🇦'}, AUS:{n:'Australië',f:'🇦🇺'},
+  TUN:{n:'Tunesië',f:'🇹🇳'}, CHI:{n:'Chili',f:'🇨🇱'}, CIV:{n:"Ivoorkust",f:'🇨🇮'},
+  DEN:{n:'Denemarken',f:'🇩🇰'}, UZB:{n:'Oezbekistan',f:'🇺🇿'}, CRO:{n:'Kroatië',f:'🇭🇷'},
+  SRB:{n:'Servië',f:'🇷🇸'}, ALG:{n:'Algerije',f:'🇩🇿'}, NOR:{n:'Noorwegen',f:'🇳🇴'},
+  TUR:{n:'Turkije',f:'🇹🇷'}, CMR:{n:'Kameroen',f:'🇨🇲'}
+};
+
+// Kleine startselectie van bekende spelers voor topscorers (admin kan toevoegen later)
+const SC_PLAYERS_SEED = [
+  { id:'mbappe', name:'Kylian Mbappé', team:'FRA', pos:'FWD' },
+  { id:'haaland', name:'Erling Haaland', team:'NOR', pos:'FWD' },
+  { id:'bellingham', name:'Jude Bellingham', team:'ENG', pos:'MID' },
+  { id:'kane', name:'Harry Kane', team:'ENG', pos:'FWD' },
+  { id:'vinicius', name:'Vinícius Júnior', team:'BRA', pos:'FWD' },
+  { id:'rodrygo', name:'Rodrygo', team:'BRA', pos:'FWD' },
+  { id:'pedri', name:'Pedri', team:'ESP', pos:'MID' },
+  { id:'yamal', name:'Lamine Yamal', team:'ESP', pos:'FWD' },
+  { id:'nico', name:'Nico Williams', team:'ESP', pos:'FWD' },
+  { id:'gakpo', name:'Cody Gakpo', team:'NED', pos:'FWD' },
+  { id:'depay', name:'Memphis Depay', team:'NED', pos:'FWD' },
+  { id:'vdven', name:'Micky van de Ven', team:'NED', pos:'DEF' },
+  { id:'vdijk', name:'Virgil van Dijk', team:'NED', pos:'DEF' },
+  { id:'frenkie', name:'Frenkie de Jong', team:'NED', pos:'MID' },
+  { id:'reijnders', name:'Tijjani Reijnders', team:'NED', pos:'MID' },
+  { id:'messi', name:'Lionel Messi', team:'ARG', pos:'FWD' },
+  { id:'lautaro', name:'Lautaro Martínez', team:'ARG', pos:'FWD' },
+  { id:'alvarez', name:'Julián Álvarez', team:'ARG', pos:'FWD' },
+  { id:'rodri', name:'Rodri', team:'ESP', pos:'MID' },
+  { id:'musiala', name:'Jamal Musiala', team:'GER', pos:'MID' },
+  { id:'wirtz', name:'Florian Wirtz', team:'GER', pos:'MID' },
+  { id:'havertz', name:'Kai Havertz', team:'GER', pos:'FWD' },
+  { id:'doku', name:'Jérémy Doku', team:'BEL', pos:'FWD' },
+  { id:'debruyne', name:'Kevin De Bruyne', team:'BEL', pos:'MID' },
+  { id:'saka', name:'Bukayo Saka', team:'ENG', pos:'FWD' },
+  { id:'foden', name:'Phil Foden', team:'ENG', pos:'MID' },
+  { id:'griezmann', name:'Antoine Griezmann', team:'FRA', pos:'FWD' },
+  { id:'dembele', name:'Ousmane Dembélé', team:'FRA', pos:'FWD' },
+  { id:'barcola', name:'Bradley Barcola', team:'FRA', pos:'FWD' },
+  { id:'tchouameni', name:'Aurélien Tchouaméni', team:'FRA', pos:'MID' },
+  { id:'ronaldo', name:'Cristiano Ronaldo', team:'POR', pos:'FWD' },
+  { id:'rubendias', name:'Rúben Dias', team:'POR', pos:'DEF' },
+  { id:'pulisic', name:'Christian Pulisic', team:'USA', pos:'FWD' },
+  { id:'mckennie', name:'Weston McKennie', team:'USA', pos:'MID' },
+  { id:'raphinha', name:'Raphinha', team:'BRA', pos:'FWD' },
+  { id:'casemiro', name:'Casemiro', team:'BRA', pos:'MID' },
+  { id:'hakimi', name:'Achraf Hakimi', team:'MAR', pos:'DEF' },
+  { id:'ziyech', name:'Hakim Ziyech', team:'MAR', pos:'MID' },
+  { id:'osimhen', name:'Victor Osimhen', team:'NGR', pos:'FWD' },
+  { id:'salah', name:'Mohamed Salah', team:'EGY', pos:'FWD' },
+  { id:'son', name:'Son Heung-min', team:'KOR', pos:'FWD' },
+  { id:'kvaratskhelia', name:'Khvicha Kvaratskhelia', team:'GEO', pos:'FWD' },
+  { id:'modric', name:'Luka Modrić', team:'CRO', pos:'MID' },
+  { id:'kramaric', name:'Andrej Kramarić', team:'CRO', pos:'FWD' },
+  { id:'lukaku', name:'Romelu Lukaku', team:'BEL', pos:'FWD' },
+  { id:'szoboszlai', name:'Dominik Szoboszlai', team:'HUN', pos:'MID' },
+  { id:'lewandowski', name:'Robert Lewandowski', team:'POL', pos:'FWD' },
+  { id:'odegaard', name:'Martin Ødegaard', team:'NOR', pos:'MID' },
+  { id:'hojlund', name:'Rasmus Højlund', team:'DEN', pos:'FWD' },
+  { id:'eriksen', name:'Christian Eriksen', team:'DEN', pos:'MID' },
+  { id:'donnarumma', name:'Gianluigi Donnarumma', team:'ITA', pos:'GK' },
+  { id:'kimmich', name:'Joshua Kimmich', team:'GER', pos:'DEF' },
+  { id:'rudiger', name:'Antonio Rüdiger', team:'GER', pos:'DEF' },
+  { id:'mendy', name:'Ferland Mendy', team:'FRA', pos:'DEF' },
+  { id:'dumfries', name:'Denzel Dumfries', team:'NED', pos:'DEF' },
+  { id:'alexarnold', name:'Trent Alexander-Arnold', team:'ENG', pos:'DEF' },
+  { id:'stones', name:'John Stones', team:'ENG', pos:'DEF' }
+];
+
+const SC_POSITIONS = [
+  { id:'GK',  name:'Keeper' },
+  { id:'DEF', name:'Verdediger' },
+  { id:'MID', name:'Middenvelder' },
+  { id:'FWD', name:'Aanvaller' }
+];
+
 const SEED_MARKETS = [
   { title:'Gaat Ole dit jaar zijn rijbewijs halen?', description:'Resolveert op JA als Ole voor 31 december 2026 zijn CBR-rijbewijs haalt. Officieel slagingsblad als bewijs vereist.', category:'Ons leven', closing_date:'2026-07-01' },
   { title:'Regent het op Koningsdag in Utrecht?', description:'Resolveert op JA als er op 27 april 2026 aantoonbare neerslag valt in Utrecht tussen 10:00 en 20:00 uur, conform KNMI-data.', category:'Utrecht', closing_date:'2026-04-26' },
@@ -323,6 +683,32 @@ let authError = '';
 let authBusy = false;
 let unsubs = [];
 
+// Tijdlijn (berichten)
+let messages = [];
+let replyingTo = null;      // message id
+let timelineMsg = null;
+
+// Scorito
+let scoritoSubview = 'matches';  // matches | topscorers | countries | ranking | admin
+let scoritoPhase = 'group';
+let scMatches = [];
+let scPlayers = [];
+let scPredictions = [];     // alle voorspellingen van alle users
+let scTopscorerPicks = [];
+let scCountryPreds = [];
+let scTournament = null;    // { current_phase, deadlines, champion, ... }
+let scDraftPredictions = {}; // { match_id: {home, away} } - tijdelijk voor invullen
+let scDraftTopscorers = [];  // [player_id, ...] tijdelijk
+let scDraftCountry = null;   // tijdelijk object voor landen-invoer
+let scPosFilter = '';        // '' | 'GK' | 'DEF' | 'MID' | 'FWD'
+let scAdminTab = 'matches';  // matches | players | countries | deadlines
+let scoritoMsg = null;
+// Unsaved-changes tracking per onderdeel
+let scUnsaved = { matches:false, topscorers:false, country:false };
+function scHasAnyUnsaved() { return scUnsaved.matches || scUnsaved.topscorers || scUnsaved.country; }
+function scMarkUnsaved(k){ scUnsaved[k]=true; }
+function scClearUnsaved(k){ scUnsaved[k]=false; }
+
 /* ═══════════════════════════════════════════════════
    HELPERS
    ═══════════════════════════════════════════════════ */
@@ -353,6 +739,157 @@ function canResolve(market) {
 }
 function claimedNames() { return allUsers.map(u => u.name); }
 function availableNames() { return ALL_NAMES.filter(n => !claimedNames().includes(n)); }
+function isAdmin() { return currentUser && currentUser.name === 'Coen'; }
+
+/* ═══════════════════════════════════════════════════
+   SCORITO HELPERS
+   ═══════════════════════════════════════════════════ */
+function scFlag(code) { return SC_COUNTRIES[code]?.f || '🏳️'; }
+function scName(code) { return SC_COUNTRIES[code]?.n || code; }
+function scPhase(id) { return SC_PHASE_BY_ID[id]; }
+
+// Controleer of een fase deadline verstreken is
+function scPhaseLocked(phaseId) {
+  if (!scTournament) return false;
+  const dl = scTournament.deadlines?.[phaseId];
+  if (!dl) return false;
+  return new Date() > new Date(dl);
+}
+
+// Formatteer datum/tijd voor weergave
+function scFmtDateTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mi = String(d.getMinutes()).padStart(2,'0');
+  return `${dd}-${mm} ${hh}:${mi}`;
+}
+function scFmtRelDeadline(iso) {
+  if (!iso) return 'Geen deadline';
+  const d = new Date(iso);
+  const diff = d - new Date();
+  if (diff < 0) return 'Deadline verlopen';
+  const h = Math.floor(diff/3600000);
+  if (h < 1) return Math.floor(diff/60000)+' min over';
+  if (h < 24) return h+' uur over';
+  return Math.floor(h/24)+' dagen over';
+}
+
+// Punten voor een wedstrijdvoorspelling
+function scMatchPoints(pred, match) {
+  if (!pred || !match || match.status !== 'finished') return null;
+  if (match.score_home == null || match.score_away == null) return null;
+  if (pred.pred_home == null || pred.pred_away == null) return null;
+  const phase = scPhase(match.phase);
+  if (!phase) return null;
+  const actualWinner = match.score_home > match.score_away ? 'H' : match.score_home < match.score_away ? 'A' : 'D';
+  const predWinner = pred.pred_home > pred.pred_away ? 'H' : pred.pred_home < pred.pred_away ? 'A' : 'D';
+  if (pred.pred_home === match.score_home && pred.pred_away === match.score_away) {
+    return { pts: phase.exact, type:'exact' };
+  }
+  if (actualWinner === predWinner) {
+    return { pts: phase.toto, type:'toto' };
+  }
+  return { pts: 0, type:'none' };
+}
+
+// Totale punten van een user voor wedstrijdvoorspellingen
+function scUserMatchPoints(uid) {
+  let total = 0;
+  const myPreds = scPredictions.filter(p => p.user_uid === uid);
+  for (const p of myPreds) {
+    const m = scMatches.find(x => x.id === p.match_id);
+    if (!m || m.status !== 'finished') continue;
+    const r = scMatchPoints(p, m);
+    if (r) total += r.pts;
+  }
+  return total;
+}
+
+// Totale punten voor topscorer-picks
+function scUserTopscorerPoints(uid) {
+  let total = 0;
+  const picks = scTopscorerPicks.filter(p => p.user_uid === uid);
+  for (const pick of picks) {
+    const phase = scPhase(pick.phase);
+    if (!phase) continue;
+    for (const playerId of (pick.player_ids || [])) {
+      const player = scPlayers.find(p => p.id === playerId);
+      if (!player) continue;
+      // Doelpunten gescoord in deze fase
+      const goalsThisPhase = player.goals_by_phase?.[pick.phase] || 0;
+      const ptsPerGoal = phase.scorer[player.pos] || 0;
+      total += goalsThisPhase * ptsPerGoal;
+    }
+  }
+  return total;
+}
+
+// Totale punten voor land-voorspellingen
+function scUserCountryPoints(uid) {
+  const pred = scCountryPreds.find(p => p.user_uid === uid);
+  if (!pred || !scTournament) return 0;
+  let total = 0;
+  const results = scTournament.country_results || {};
+
+  // Groepsfase: door / juiste positie
+  if (pred.groups) {
+    for (const [code, info] of Object.entries(pred.groups)) {
+      const actual = results[code];
+      if (!actual) continue;
+      if (info.through && actual.through_group) {
+        total += SC_COUNTRY_POINTS.throughGroup;
+        if (info.position && actual.group_position && info.position === actual.group_position) {
+          total += SC_COUNTRY_POINTS.correctGroupPos;
+        }
+      }
+    }
+  }
+  // KO rondes
+  const rounds = [
+    ['to_qf',    SC_COUNTRY_POINTS.toQF],
+    ['to_sf',    SC_COUNTRY_POINTS.toSF],
+    ['to_final', SC_COUNTRY_POINTS.toFinal]
+  ];
+  for (const [key, pts] of rounds) {
+    const picked = pred[key] || [];
+    const actual = scTournament[key] || [];
+    for (const code of picked) {
+      if (actual.includes(code)) total += pts;
+    }
+  }
+  // Kampioen
+  if (pred.champion && scTournament.champion && pred.champion === scTournament.champion) {
+    total += SC_COUNTRY_POINTS.champion;
+  }
+  return total;
+}
+
+function scUserTotalPoints(uid) {
+  return scUserMatchPoints(uid) + scUserTopscorerPoints(uid) + scUserCountryPoints(uid);
+}
+
+function scMatchesForPhase(phaseId) {
+  return scMatches.filter(m => m.phase === phaseId).sort((a,b) => (a.kickoff||'').localeCompare(b.kickoff||''));
+}
+
+function scMyPrediction(matchId) {
+  if (!currentUser) return null;
+  return scPredictions.find(p => p.user_uid === currentUser.uid && p.match_id === matchId) || null;
+}
+
+function scMyTopscorerPick(phaseId) {
+  if (!currentUser) return null;
+  return scTopscorerPicks.find(p => p.user_uid === currentUser.uid && p.phase === phaseId) || null;
+}
+
+function scMyCountryPred() {
+  if (!currentUser) return null;
+  return scCountryPreds.find(p => p.user_uid === currentUser.uid) || null;
+}
 
 /* ═══════════════════════════════════════════════════
    AUTH
@@ -364,6 +901,8 @@ auth.onAuthStateChanged(async (firebaseUser) => {
       if (doc.exists) {
         currentUser = { uid: firebaseUser.uid, ...doc.data() };
         startListeners();
+        // Seed scorito data éénmalig voor bestaande gebruikers (non-blocking)
+        seedScoritoIfNeeded().catch(e => console.log('seedScorito:', e?.message||e));
       } else {
         await auth.signOut();
         currentUser = null;
@@ -481,6 +1020,38 @@ function startListeners() {
     allBets = snap.docs.map(d => ({ id:d.id, ...d.data() }));
     render();
   }));
+
+  // Tijdlijn berichten
+  unsubs.push(db.collection('messages').orderBy('created_at','desc').onSnapshot(snap => {
+    messages = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+
+  // Scorito listeners
+  unsubs.push(db.collection('sc_matches').onSnapshot(snap => {
+    scMatches = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+  unsubs.push(db.collection('sc_players').onSnapshot(snap => {
+    scPlayers = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+  unsubs.push(db.collection('sc_predictions').onSnapshot(snap => {
+    scPredictions = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+  unsubs.push(db.collection('sc_topscorer_picks').onSnapshot(snap => {
+    scTopscorerPicks = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+  unsubs.push(db.collection('sc_country_predictions').onSnapshot(snap => {
+    scCountryPreds = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+  unsubs.push(db.collection('sc_config').doc('tournament').onSnapshot(doc => {
+    scTournament = doc.exists ? doc.data() : null;
+    render();
+  }));
 }
 
 function stopListeners() {
@@ -511,6 +1082,82 @@ async function seedMarketsIfNeeded() {
     batch.set(db.collection('config').doc('app'), { seeded: true });
     await batch.commit();
   } catch(e) { console.log('Seed:', e.message); }
+
+  // Seed Scorito data ook bij eerste keer
+  await seedScoritoIfNeeded();
+}
+
+/* ═══════════════════════════════════════════════════
+   SCORITO SEED
+   ═══════════════════════════════════════════════════ */
+async function seedScoritoIfNeeded() {
+  try {
+    const configDoc = await db.collection('sc_config').doc('seed').get();
+    if (configDoc.exists && configDoc.data().done) return;
+
+    const batch = db.batch();
+
+    // Seed spelers
+    for (const p of SC_PLAYERS_SEED) {
+      const ref = db.collection('sc_players').doc(p.id);
+      batch.set(ref, {
+        name: p.name,
+        team: p.team,
+        pos: p.pos,
+        goals_by_phase: { group:0, r16:0, qf:0, sf:0, '3rd':0, final:0 }
+      });
+    }
+
+    // Seed wedstrijden (36 groepswedstrijden, 12 groepen × 6 wedstrijden per groep)
+    // Voor WK 2026: elke groep speelt 6 wedstrijden (iedereen tegen iedereen in groep van 4)
+    const baseDate = new Date('2026-06-11T18:00:00');
+    let matchIdx = 0;
+    for (const [group, teams] of Object.entries(SC_GROUPS)) {
+      // 6 wedstrijden per groep: 1v2, 3v4, 1v3, 2v4, 1v4, 2v3
+      const pairings = [[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];
+      for (const [i,j] of pairings) {
+        const kickoff = new Date(baseDate.getTime() + matchIdx * 3 * 3600 * 1000);
+        const ref = db.collection('sc_matches').doc();
+        batch.set(ref, {
+          phase: 'group',
+          group: group,
+          team_home: teams[i],
+          team_away: teams[j],
+          kickoff: kickoff.toISOString(),
+          status: 'scheduled',
+          score_home: null,
+          score_away: null
+        });
+        matchIdx++;
+      }
+    }
+
+    // Initialiseer toernooi-state met deadlines
+    batch.set(db.collection('sc_config').doc('tournament'), {
+      name: 'WK 2026',
+      current_phase: 'group',
+      deadlines: {
+        group:  '2026-06-11T18:00:00',
+        r16:    '2026-07-04T18:00:00',
+        qf:     '2026-07-09T18:00:00',
+        sf:     '2026-07-14T18:00:00',
+        '3rd':  '2026-07-18T18:00:00',
+        final:  '2026-07-19T18:00:00'
+      },
+      countries_deadline: '2026-06-11T18:00:00',  // voorspelling landen sluit bij start toernooi
+      country_results: {},  // { [code]: { through_group, group_position } }
+      to_qf: [],
+      to_sf: [],
+      to_final: [],
+      champion: null
+    });
+
+    batch.set(db.collection('sc_config').doc('seed'), { done: true, at: new Date().toISOString() });
+    await batch.commit();
+    console.log('Scorito seed: done');
+  } catch(e) {
+    console.log('Scorito seed error:', e.message);
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -579,6 +1226,420 @@ async function doResolve(outcome) {
     betMsg = {type:'error', text:'Fout bij resolveren: '+e.message};
   }
   render();
+}
+
+/* ═══════════════════════════════════════════════════
+   TIJDLIJN ACTIES
+   ═══════════════════════════════════════════════════ */
+async function doPostMessage() {
+  const input = document.getElementById('postInput');
+  const text = input?.value?.trim();
+  if (!text) return;
+  if (text.length > 500) { timelineMsg={type:'error',text:'Max 500 tekens'}; render(); return; }
+  try {
+    await db.collection('messages').add({
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      text: text,
+      created_at: new Date().toISOString(),
+      reply_to: null,
+      liked_by: []
+    });
+    if (input) input.value = '';
+    timelineMsg = null;
+    render();
+  } catch(e) {
+    timelineMsg = {type:'error', text:'Fout: '+e.message};
+    render();
+  }
+}
+
+async function doReply(parentId) {
+  const input = document.getElementById('replyInput-'+parentId);
+  const text = input?.value?.trim();
+  if (!text) return;
+  try {
+    await db.collection('messages').add({
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      text: text,
+      created_at: new Date().toISOString(),
+      reply_to: parentId,
+      liked_by: []
+    });
+    replyingTo = null;
+    render();
+  } catch(e) {
+    timelineMsg = {type:'error', text:'Fout: '+e.message};
+    render();
+  }
+}
+
+async function doLikeMessage(msgId) {
+  const msg = messages.find(m => m.id === msgId);
+  if (!msg) return;
+  const liked = (msg.liked_by || []).includes(currentUser.uid);
+  try {
+    await db.collection('messages').doc(msgId).update({
+      liked_by: liked
+        ? firebase.firestore.FieldValue.arrayRemove(currentUser.uid)
+        : firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+    });
+  } catch(e) { console.log('like error', e); }
+}
+
+async function doDeleteMessage(msgId) {
+  const msg = messages.find(m => m.id === msgId);
+  if (!msg) return;
+  if (msg.user_uid !== currentUser.uid && !isAdmin()) return;
+  if (!confirm('Bericht verwijderen?')) return;
+  try {
+    await db.collection('messages').doc(msgId).delete();
+    // Verwijder ook replies
+    const replies = messages.filter(m => m.reply_to === msgId);
+    for (const r of replies) {
+      await db.collection('messages').doc(r.id).delete();
+    }
+  } catch(e) { console.log('delete error', e); }
+}
+
+function startReply(msgId) { replyingTo = replyingTo === msgId ? null : msgId; render(); }
+
+function fmtRelTime(iso) {
+  const diff = new Date() - new Date(iso);
+  if (diff < 60000) return 'zojuist';
+  if (diff < 3600000) return Math.floor(diff/60000)+'m';
+  if (diff < 86400000) return Math.floor(diff/3600000)+'u';
+  if (diff < 604800000) return Math.floor(diff/86400000)+'d';
+  return fmtDate(iso.slice(0,10));
+}
+
+/* ═══════════════════════════════════════════════════
+   SCORITO ACTIES
+   ═══════════════════════════════════════════════════ */
+async function doSavePredictions(phaseId) {
+  if (scPhaseLocked(phaseId)) {
+    scoritoMsg = { type:'error', text:'Deadline voor deze ronde is al verlopen.' };
+    render();
+    return;
+  }
+  const matchesInPhase = scMatchesForPhase(phaseId);
+  const batch = db.batch();
+  let savedCount = 0;
+  let hasErrors = false;
+
+  for (const m of matchesInPhase) {
+    const draft = scDraftPredictions[m.id];
+    if (!draft) continue;
+    const h = parseInt(draft.home);
+    const a = parseInt(draft.away);
+    if (isNaN(h) || isNaN(a) || h < 0 || a < 0) { hasErrors = true; continue; }
+
+    // Zoek bestaande voorspelling
+    const existing = scPredictions.find(p => p.user_uid === currentUser.uid && p.match_id === m.id);
+    const data = {
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      match_id: m.id,
+      pred_home: h,
+      pred_away: a,
+      phase: phaseId,
+      submitted_at: new Date().toISOString()
+    };
+    if (existing) {
+      batch.update(db.collection('sc_predictions').doc(existing.id), data);
+    } else {
+      batch.set(db.collection('sc_predictions').doc(), data);
+    }
+    savedCount++;
+  }
+
+  if (savedCount === 0) {
+    scoritoMsg = { type:'error', text:'Niks om op te slaan. Vul eerst scores in.' };
+    render();
+    return;
+  }
+
+  try {
+    await batch.commit();
+    scDraftPredictions = {};
+    scClearUnsaved('matches');
+    scoritoMsg = { type:'success', text: savedCount+' voorspelling'+(savedCount>1?'en':'')+' opgeslagen!' + (hasErrors?' (Sommige overgeslagen)':'') };
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+  }
+  render();
+}
+
+async function doSaveTopscorers(phaseId) {
+  if (scPhaseLocked(phaseId)) {
+    scoritoMsg = { type:'error', text:'Deadline voor deze ronde is al verlopen.' };
+    render();
+    return;
+  }
+  if (scDraftTopscorers.length !== 4) {
+    scoritoMsg = { type:'error', text:'Kies precies 4 spelers.' };
+    render();
+    return;
+  }
+  try {
+    const existing = scMyTopscorerPick(phaseId);
+    const data = {
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      phase: phaseId,
+      player_ids: scDraftTopscorers.slice(),
+      submitted_at: new Date().toISOString()
+    };
+    if (existing) {
+      await db.collection('sc_topscorer_picks').doc(existing.id).update(data);
+    } else {
+      await db.collection('sc_topscorer_picks').add(data);
+    }
+    scClearUnsaved('topscorers');
+    scoritoMsg = { type:'success', text:'Topscorers opgeslagen!' };
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+  }
+  render();
+}
+
+function toggleTopscorer(playerId) {
+  const idx = scDraftTopscorers.indexOf(playerId);
+  if (idx >= 0) {
+    scDraftTopscorers.splice(idx, 1);
+  } else {
+    if (scDraftTopscorers.length >= 4) {
+      scoritoMsg = { type:'error', text:'Je hebt al 4 spelers gekozen. Verwijder er eerst één.' };
+      render();
+      return;
+    }
+    scDraftTopscorers.push(playerId);
+  }
+  scMarkUnsaved('topscorers');
+  scoritoMsg = null;
+  render();
+}
+
+async function doSaveCountryPredictions() {
+  const dl = scTournament?.countries_deadline;
+  if (dl && new Date() > new Date(dl)) {
+    scoritoMsg = { type:'error', text:'Deadline voor landen-voorspelling is verlopen.' };
+    render();
+    return;
+  }
+  if (!scDraftCountry) {
+    scoritoMsg = { type:'error', text:'Niks om op te slaan. Vul eerst iets in.' };
+    render();
+    return;
+  }
+  // Niks is verplicht - sla op wat de gebruiker heeft ingevuld.
+  // Check of er überhaupt iets ingevuld is:
+  const hasGroups = scDraftCountry.groups && Object.values(scDraftCountry.groups).some(g => g && (g.through || g.position));
+  const hasKo = (scDraftCountry.to_qf?.length || scDraftCountry.to_sf?.length || scDraftCountry.to_final?.length);
+  const hasChamp = !!scDraftCountry.champion;
+  if (!hasGroups && !hasKo && !hasChamp) {
+    scoritoMsg = { type:'error', text:'Vul eerst iets in voordat je opslaat.' };
+    render();
+    return;
+  }
+  try {
+    const existing = scMyCountryPred();
+    const data = {
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      groups: scDraftCountry.groups || {},
+      to_qf: scDraftCountry.to_qf || [],
+      to_sf: scDraftCountry.to_sf || [],
+      to_final: scDraftCountry.to_final || [],
+      champion: scDraftCountry.champion || null,
+      submitted_at: new Date().toISOString()
+    };
+    if (existing) {
+      await db.collection('sc_country_predictions').doc(existing.id).update(data);
+    } else {
+      await db.collection('sc_country_predictions').add(data);
+    }
+    scClearUnsaved('country');
+    scoritoMsg = { type:'success', text:'Landenvoorspelling opgeslagen!' };
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+  }
+  render();
+}
+
+/* ═══════════════════════════════════════════════════
+   SCORITO ADMIN ACTIES
+   ═══════════════════════════════════════════════════ */
+async function adminSaveMatchResult(matchId) {
+  if (!isAdmin()) return;
+  const hInput = document.getElementById('adm-score-h-'+matchId);
+  const aInput = document.getElementById('adm-score-a-'+matchId);
+  const h = hInput?.value === '' ? null : parseInt(hInput.value);
+  const a = aInput?.value === '' ? null : parseInt(aInput.value);
+  try {
+    await db.collection('sc_matches').doc(matchId).update({
+      score_home: h,
+      score_away: a,
+      status: (h != null && a != null) ? 'finished' : 'scheduled'
+    });
+    scoritoMsg = { type:'success', text:'Uitslag opgeslagen.' };
+    render();
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+    render();
+  }
+}
+
+async function adminSetMatchStatus(matchId, status) {
+  if (!isAdmin()) return;
+  try {
+    await db.collection('sc_matches').doc(matchId).update({ status });
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSavePlayerGoals(playerId, phaseId) {
+  if (!isAdmin()) return;
+  const input = document.getElementById('adm-goals-'+playerId+'-'+phaseId);
+  const g = parseInt(input?.value) || 0;
+  const player = scPlayers.find(p => p.id === playerId);
+  const goalsByPhase = { ...(player?.goals_by_phase || {}) };
+  goalsByPhase[phaseId] = g;
+  try {
+    await db.collection('sc_players').doc(playerId).update({ goals_by_phase: goalsByPhase });
+    scoritoMsg = { type:'success', text:'Doelpunten opgeslagen.' };
+    render();
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+    render();
+  }
+}
+
+async function adminAddPlayer() {
+  if (!isAdmin()) return;
+  const name = document.getElementById('adm-new-player-name')?.value?.trim();
+  const team = document.getElementById('adm-new-player-team')?.value;
+  const pos = document.getElementById('adm-new-player-pos')?.value;
+  if (!name || !team || !pos) { scoritoMsg={type:'error',text:'Vul alle velden in.'}; render(); return; }
+  try {
+    const id = name.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,20) + '_' + Date.now().toString(36).slice(-4);
+    await db.collection('sc_players').doc(id).set({
+      name, team, pos,
+      goals_by_phase: { group:0, r16:0, qf:0, sf:0, '3rd':0, final:0 }
+    });
+    scoritoMsg = { type:'success', text:'Speler toegevoegd: '+name };
+    render();
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+    render();
+  }
+}
+
+async function adminDeletePlayer(playerId) {
+  if (!isAdmin()) return;
+  if (!confirm('Speler verwijderen?')) return;
+  try {
+    await db.collection('sc_players').doc(playerId).delete();
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSaveCountryResult(code) {
+  if (!isAdmin()) return;
+  const through = document.getElementById('adm-cntry-through-'+code)?.checked;
+  const pos = document.getElementById('adm-cntry-pos-'+code)?.value;
+  const current = scTournament?.country_results || {};
+  const updated = { ...current };
+  if (through) {
+    updated[code] = { through_group: true, group_position: parseInt(pos) || null };
+  } else {
+    delete updated[code];
+  }
+  try {
+    await db.collection('sc_config').doc('tournament').update({ country_results: updated });
+    scoritoMsg = { type:'success', text:scName(code)+' bijgewerkt.' };
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSetKoCountries(key) {
+  if (!isAdmin()) return;
+  const sel = document.getElementById('adm-ko-'+key);
+  const codes = Array.from(sel?.selectedOptions || []).map(o => o.value);
+  try {
+    await db.collection('sc_config').doc('tournament').update({ [key]: codes });
+    scoritoMsg = { type:'success', text:'Bijgewerkt.' };
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSetChampion() {
+  if (!isAdmin()) return;
+  const code = document.getElementById('adm-champion')?.value;
+  try {
+    await db.collection('sc_config').doc('tournament').update({ champion: code || null });
+    scoritoMsg = { type:'success', text:'Kampioen gezet.' };
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSetDeadline(phaseId) {
+  if (!isAdmin()) return;
+  const input = document.getElementById('adm-dl-'+phaseId);
+  const val = input?.value;
+  if (!val) return;
+  const iso = new Date(val).toISOString();
+  const deadlines = { ...(scTournament?.deadlines || {}) };
+  deadlines[phaseId] = iso;
+  try {
+    await db.collection('sc_config').doc('tournament').update({ deadlines });
+    scoritoMsg = { type:'success', text:'Deadline opgeslagen.' };
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminSetCountriesDeadline() {
+  if (!isAdmin()) return;
+  const input = document.getElementById('adm-dl-countries');
+  const val = input?.value;
+  if (!val) return;
+  try {
+    await db.collection('sc_config').doc('tournament').update({ countries_deadline: new Date(val).toISOString() });
+    scoritoMsg = { type:'success', text:'Deadline opgeslagen.' };
+    render();
+  } catch(e) { console.log(e); }
+}
+
+async function adminAddMatch() {
+  if (!isAdmin()) return;
+  const phase = document.getElementById('adm-new-match-phase')?.value;
+  const home = document.getElementById('adm-new-match-home')?.value;
+  const away = document.getElementById('adm-new-match-away')?.value;
+  const kickoff = document.getElementById('adm-new-match-kickoff')?.value;
+  if (!phase || !home || !away || !kickoff) { scoritoMsg={type:'error',text:'Vul alle velden in.'}; render(); return; }
+  try {
+    await db.collection('sc_matches').add({
+      phase, team_home: home, team_away: away,
+      kickoff: new Date(kickoff).toISOString(),
+      status:'scheduled', score_home:null, score_away:null,
+      group: phase === 'group' ? (document.getElementById('adm-new-match-group')?.value||null) : null
+    });
+    scoritoMsg = { type:'success', text:'Wedstrijd toegevoegd.' };
+    render();
+  } catch(e) {
+    scoritoMsg = { type:'error', text:'Fout: '+e.message };
+    render();
+  }
+}
+
+async function adminDeleteMatch(matchId) {
+  if (!isAdmin()) return;
+  if (!confirm('Wedstrijd verwijderen?')) return;
+  try {
+    await db.collection('sc_matches').doc(matchId).delete();
+    render();
+  } catch(e) { console.log(e); }
 }
 
 async function doCreateMarket() {
@@ -690,6 +1751,8 @@ function renderMain() {
   else if (view === 'detail') contentHtml = renderDetail();
   else if (view === 'leaderboard') contentHtml = renderLeaderboard();
   else if (view === 'nieuw') contentHtml = renderCreate();
+  else if (view === 'tijdlijn') contentHtml = renderTimeline();
+  else if (view === 'scorito') contentHtml = renderScorito();
 
   return `${geoHtml()}
     <nav class="nav"><div class="nav-inner">
@@ -701,6 +1764,8 @@ function renderMain() {
       <div class="spacer"></div>
       <div class="tabs">
         <button class="tab ${view==='markten'||view==='detail'?'on':''}" onclick="goView('markten')">Markten</button>
+        <button class="tab ${view==='tijdlijn'?'on':''}" onclick="goView('tijdlijn')">Tijdlijn</button>
+        <button class="tab ${view==='scorito'?'on':''}" onclick="goView('scorito')">Scorito</button>
         <button class="tab ${view==='leaderboard'?'on':''}" onclick="goView('leaderboard')">Klassement</button>
         <button class="tab ${view==='nieuw'?'on':''}" onclick="goView('nieuw')">+ Nieuw</button>
       </div>
@@ -862,11 +1927,821 @@ function renderCreate() {
 }
 
 /* ═══════════════════════════════════════════════════
+   TIJDLIJN VIEW
+   ═══════════════════════════════════════════════════ */
+function renderTimeline() {
+  const topLevel = messages.filter(m => !m.reply_to);
+  const getReplies = (pid) => messages.filter(m => m.reply_to === pid).sort((a,b) => (a.created_at||'').localeCompare(b.created_at||''));
+
+  const postBoxHtml = `
+    <div class="post-box">
+      <div class="post-box-top">
+        <div class="tweet-avatar" style="background:${avtColor(currentUser.name).bg};color:${avtColor(currentUser.name).fg}">${ini(currentUser.name)}</div>
+        <textarea id="postInput" placeholder="Wat speelt er in de Zoelloe-groep?" maxlength="500" oninput="updateCharCount()"></textarea>
+      </div>
+      <div class="post-box-bottom">
+        <span class="post-counter" id="postCounter">0 / 500</span>
+        <button class="post-btn" onclick="doPostMessage()">Plaatsen</button>
+      </div>
+    </div>
+  `;
+
+  const tweetHtml = (m) => {
+    const c = avtColor(m.user_name);
+    const likeCount = (m.liked_by || []).length;
+    const liked = (m.liked_by || []).includes(currentUser.uid);
+    const canDelete = m.user_uid === currentUser.uid || isAdmin();
+    const replies = getReplies(m.id);
+    const replyBox = replyingTo === m.id ? `
+      <div class="reply-box">
+        <textarea id="replyInput-${m.id}" placeholder="Schrijf een reactie..." maxlength="500"></textarea>
+        <div class="reply-box-actions">
+          <button class="cancel" onclick="replyingTo=null;render()">Annuleren</button>
+          <button class="send" onclick="doReply('${m.id}')">Plaatsen</button>
+        </div>
+      </div>` : '';
+    const repliesHtml = replies.length > 0 ? `
+      <div class="replies">
+        ${replies.map(r => {
+          const rc = avtColor(r.user_name);
+          const rLiked = (r.liked_by || []).includes(currentUser.uid);
+          const rLikes = (r.liked_by || []).length;
+          const rCanDel = r.user_uid === currentUser.uid || isAdmin();
+          return `<div class="reply">
+            <div class="tweet-head">
+              <div class="tweet-avatar" style="width:28px;height:28px;font-size:10px;background:${rc.bg};color:${rc.fg}">${ini(r.user_name)}</div>
+              <div class="tweet-body">
+                <div class="tweet-meta">
+                  <span class="tweet-name">${esc(r.user_name)}</span>
+                  <span class="tweet-time">· ${fmtRelTime(r.created_at)}</span>
+                </div>
+                <div class="tweet-text">${esc(r.text)}</div>
+                <div class="tweet-actions">
+                  <button class="tweet-action ${rLiked?'liked':''}" onclick="doLikeMessage('${r.id}')">
+                    ${rLiked?'♥':'♡'} ${rLikes||''}
+                  </button>
+                  ${rCanDel?`<button class="tweet-action del" onclick="doDeleteMessage('${r.id}')">🗑</button>`:''}
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>` : '';
+    return `<div class="tweet">
+      <div class="tweet-head">
+        <div class="tweet-avatar" style="background:${c.bg};color:${c.fg}">${ini(m.user_name)}</div>
+        <div class="tweet-body">
+          <div class="tweet-meta">
+            <span class="tweet-name">${esc(m.user_name)}</span>
+            <span class="tweet-time">· ${fmtRelTime(m.created_at)}</span>
+          </div>
+          <div class="tweet-text">${esc(m.text)}</div>
+          <div class="tweet-actions">
+            <button class="tweet-action" onclick="startReply('${m.id}')">💬 ${replies.length||''}</button>
+            <button class="tweet-action ${liked?'liked':''}" onclick="doLikeMessage('${m.id}')">
+              ${liked?'♥':'♡'} ${likeCount||''}
+            </button>
+            ${canDelete?`<button class="tweet-action del" onclick="doDeleteMessage('${m.id}')">🗑</button>`:''}
+          </div>
+          ${replyBox}
+          ${repliesHtml}
+        </div>
+      </div>
+    </div>`;
+  };
+
+  const msgBanner = timelineMsg ? `<div class="bet-message ${timelineMsg.type}">${esc(timelineMsg.text)}</div>` : '';
+
+  const tweetsHtml = topLevel.length === 0
+    ? '<div class="empty-state"><div class="empty-icon">💬</div><div class="empty-title">Nog geen berichten</div><div class="empty-text">Wees de eerste die iets post in de Zoelloe-tijdlijn.</div></div>'
+    : topLevel.map(tweetHtml).join('');
+
+  return `<div class="section-header"><span class="section-title">Tijdlijn</span><span class="section-meta"><span class="live-dot"></span>${topLevel.length} bericht${topLevel.length===1?'':'en'}</span></div>
+    <div class="timeline-wrap">
+      ${postBoxHtml}
+      ${msgBanner}
+      ${tweetsHtml}
+    </div>`;
+}
+
+function updateCharCount() {
+  const input = document.getElementById('postInput');
+  const counter = document.getElementById('postCounter');
+  if (input && counter) {
+    const len = input.value.length;
+    counter.textContent = len + ' / 500';
+    counter.className = 'post-counter' + (len > 500 ? ' over' : '');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   SCORITO VIEWS
+   ═══════════════════════════════════════════════════ */
+function renderScorito() {
+  const myTotal = currentUser ? scUserTotalPoints(currentUser.uid) : 0;
+  const msgBanner = scoritoMsg ? `<div class="bet-message ${scoritoMsg.type}" style="margin-bottom:12px">${esc(scoritoMsg.text)}</div>` : '';
+
+  const sub = scoritoSubview;
+  // Fase voor thema-kleur (valt terug op group als niet-fase-view)
+  const activePhase = (sub === 'matches' || sub === 'topscorers') ? scoritoPhase : 'final';
+  const phaseObj = scPhase(activePhase);
+
+  // Hero-header met WK 2026 branding
+  const heroHtml = `
+    <div class="wk-hero">
+      <div class="wk-hero-content">
+        <div class="wk-trophy">🏆</div>
+        <div class="wk-hero-left">
+          <div class="wk-hero-kicker">FIFA World Cup</div>
+          <div class="wk-hero-title"><span class="gold">DIESEL</span> · ${scTournament?.name || 'WK 2026'}</div>
+          <div class="wk-hero-sub">Voorspel wedstrijden, kies topscorers en zet landen op de kaart. Drie landen, één toernooi — één pool.</div>
+          <div class="wk-hero-slogan">We Are 26</div>
+        </div>
+        <div class="wk-26">
+          <span class="d2">2</span>
+          <span class="d6">6</span>
+        </div>
+        <div style="text-align:right;min-width:110px">
+          <div style="font-size:10px;letter-spacing:.2em;color:#c9c0b0;font-weight:700;margin-bottom:4px">JOUW PUNTEN</div>
+          <div style="font-size:28px;font-weight:900;color:#D4AF37;letter-spacing:-.02em">${fmt(myTotal)}</div>
+          <div style="font-size:10px;color:#8a8170;margin-top:2px">${phaseObj?.name || ''}</div>
+        </div>
+      </div>
+    </div>`;
+
+  const subtabsHtml = `
+    <div class="sc-subtabs">
+      <button class="sc-subtab ${sub==='matches'?'on':''}" onclick="goScoritoSub('matches')">⚽ Wedstrijden</button>
+      <button class="sc-subtab ${sub==='topscorers'?'on':''}" onclick="goScoritoSub('topscorers')">🥇 Topscorers</button>
+      <button class="sc-subtab ${sub==='countries'?'on':''}" onclick="goScoritoSub('countries')">🌍 Landen</button>
+      <button class="sc-subtab ${sub==='ranking'?'on':''}" onclick="goScoritoSub('ranking')">📊 Ranglijst</button>
+      ${isAdmin() ? `<button class="sc-subtab ${sub==='admin'?'on':''}" onclick="goScoritoSub('admin')">⚙️ Admin</button>` : ''}
+    </div>
+  `;
+
+  let inner = '';
+  if (sub === 'matches') inner = renderScoMatches();
+  else if (sub === 'topscorers') inner = renderScoTopscorers();
+  else if (sub === 'countries') inner = renderScoCountries();
+  else if (sub === 'ranking') inner = renderScoRanking();
+  else if (sub === 'admin' && isAdmin()) inner = renderScoAdmin();
+
+  return `<div class="scorito-view" data-phase="${activePhase}">
+    ${heroHtml}
+    ${subtabsHtml}
+    ${msgBanner}
+    ${inner}
+  </div>`;
+}
+
+function renderScoPhaseSelector(activePhase) {
+  return `<div class="sc-phase-selector">
+    ${SC_PHASES.map(p => {
+      const locked = scPhaseLocked(p.id);
+      return `<button class="sc-phase-chip ${activePhase===p.id?'on':''} ${locked?'locked':''}" onclick="setScPhase('${p.id}')">${p.short}${locked?'<span class="lock">🔒</span>':''}</button>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderScoMatches() {
+  const phaseId = scoritoPhase;
+  const phase = scPhase(phaseId);
+  const matchesInPhase = scMatchesForPhase(phaseId);
+  const locked = scPhaseLocked(phaseId);
+  const dl = scTournament?.deadlines?.[phaseId];
+  const relDl = scFmtRelDeadline(dl);
+  const openCount = matchesInPhase.filter(m => m.status !== 'finished').length;
+
+  const groupsInPhase = phaseId === 'group'
+    ? [...new Set(matchesInPhase.map(m => m.group).filter(Boolean))].sort()
+    : null;
+
+  const infoHtml = `<div class="sc-phase-info">
+    <b>${phase.name}</b> — ${phase.toto} pnt bij juiste winnaar, <b>${phase.exact}</b> pnt bij exacte uitslag.
+    ${dl ? `<br>⏰ Deadline: ${scFmtDateTime(dl)} (${relDl})` : ''}
+    ${locked ? ' — <b style="color:#A32D2D">gesloten</b>' : ''}
+  </div>`;
+
+  if (matchesInPhase.length === 0) {
+    return renderScoPhaseSelector(phaseId) + infoHtml +
+      '<div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-title">Nog geen wedstrijden</div><div class="empty-text">Coen kan via admin wedstrijden toevoegen voor deze fase.</div></div>';
+  }
+
+  const matchCardHtml = (m) => {
+    const myPred = scMyPrediction(m.id);
+    const draft = scDraftPredictions[m.id] || { home: myPred?.pred_home ?? '', away: myPred?.pred_away ?? '' };
+    const canEdit = !locked && m.status !== 'finished';
+    const isFin = m.status === 'finished';
+    const statusLabel = m.status === 'live' ? 'LIVE' : m.status === 'finished' ? 'KLAAR' : 'GEPLAND';
+
+    let scoreBlock;
+    if (isFin) {
+      scoreBlock = `<div class="sc-result">${m.score_home} - ${m.score_away}</div>`;
+    } else {
+      scoreBlock = `<div class="sc-score-input">
+        <input id="sc-h-${m.id}" type="number" min="0" max="20" inputmode="numeric" value="${draft.home!==''&&draft.home!=null?draft.home:''}"
+               ${canEdit?'':'disabled'}
+               oninput="scDraftPredictions['${m.id}']=scDraftPredictions['${m.id}']||{};scDraftPredictions['${m.id}'].home=this.value;scDraftPredictions['${m.id}'].away=document.getElementById('sc-a-${m.id}').value;scMarkUnsaved('matches');document.getElementById('sc-unsaved-matches')?.classList.add('show');">
+        <span class="sc-score-sep">-</span>
+        <input id="sc-a-${m.id}" type="number" min="0" max="20" inputmode="numeric" value="${draft.away!==''&&draft.away!=null?draft.away:''}"
+               ${canEdit?'':'disabled'}
+               oninput="scDraftPredictions['${m.id}']=scDraftPredictions['${m.id}']||{};scDraftPredictions['${m.id}'].away=this.value;scDraftPredictions['${m.id}'].home=document.getElementById('sc-h-${m.id}').value;scMarkUnsaved('matches');document.getElementById('sc-unsaved-matches')?.classList.add('show');">
+      </div>`;
+    }
+
+    let predInfo = '';
+    if (myPred) {
+      if (isFin) {
+        const r = scMatchPoints(myPred, m);
+        const badge = r?.type === 'exact' ? '<span class="sc-pred-points exact">+'+r.pts+' exact</span>'
+                    : r?.type === 'toto'  ? '<span class="sc-pred-points toto">+'+r.pts+' toto</span>'
+                    : '<span class="sc-pred-points none">0</span>';
+        predInfo = `<div class="sc-prediction-info"><span>Jouw gok: <span class="sc-pred-score">${myPred.pred_home}-${myPred.pred_away}</span></span>${badge}</div>`;
+      } else {
+        predInfo = `<div class="sc-prediction-info"><span>Jouw gok: <span class="sc-pred-score">${myPred.pred_home}-${myPred.pred_away}</span></span><span style="font-size:10px;color:#aaa">opgeslagen</span></div>`;
+      }
+    }
+
+    return `<div class="sc-match">
+      <div class="sc-match-top">
+        <span class="sc-match-date">${scFmtDateTime(m.kickoff)}${m.group?' · Groep '+m.group:''}</span>
+        <span class="sc-match-status ${m.status||'scheduled'}">${statusLabel}</span>
+      </div>
+      <div class="sc-match-teams">
+        <div class="sc-team home">
+          <span class="sc-team-name">${esc(scName(m.team_home))}</span>
+          <span class="sc-flag">${scFlag(m.team_home)}</span>
+        </div>
+        ${scoreBlock}
+        <div class="sc-team away">
+          <span class="sc-flag">${scFlag(m.team_away)}</span>
+          <span class="sc-team-name">${esc(scName(m.team_away))}</span>
+        </div>
+      </div>
+      ${predInfo}
+    </div>`;
+  };
+
+  let matchesHtml;
+  if (groupsInPhase && groupsInPhase.length > 0) {
+    matchesHtml = groupsInPhase.map(g => {
+      const gm = matchesInPhase.filter(m => m.group === g);
+      return `<div class="sc-match-group">
+        <div class="sc-match-group-title">Groep ${g}</div>
+        ${gm.map(matchCardHtml).join('')}
+      </div>`;
+    }).join('');
+  } else {
+    matchesHtml = matchesInPhase.map(matchCardHtml).join('');
+  }
+
+  // Progress-indicator: hoeveel wedstrijden hebben al een voorspelling (opgeslagen of draft)?
+  const filledCount = matchesInPhase.filter(m => {
+    const d = scDraftPredictions[m.id];
+    if (d && d.home !== '' && d.home != null && d.away !== '' && d.away != null) return true;
+    const p = scMyPrediction(m.id);
+    return !!p;
+  }).length;
+  const total = matchesInPhase.length;
+  const pct = total ? Math.round(filledCount/total*100) : 0;
+  const progressHtml = total > 0 ? `<div class="sc-progress">
+      <div class="sc-progress-label"><span>Ingevuld: <b>${filledCount}/${total}</b></span><span>${pct}%</span></div>
+      <div class="sc-progress-bar"><div class="sc-progress-fill" style="width:${pct}%"></div></div>
+    </div>` : '';
+
+  const unsavedBadge = `<span id="sc-unsaved-matches" class="sc-unsaved-badge ${scUnsaved.matches?'show':''}">⚠️ Niet opgeslagen</span>`;
+  const saveBar = !locked && openCount > 0 ? `
+    <div class="sc-save-bar">
+      <div class="sc-save-bar-info">
+        <span>${openCount} open wedstrijd${openCount!==1?'en':''} · <b>${phase.name}</b></span>
+        ${unsavedBadge}
+      </div>
+      <button class="sc-save-btn" onclick="doSavePredictions('${phaseId}')">💾 Opslaan</button>
+    </div>
+  ` : '';
+
+  return renderScoPhaseSelector(phaseId) + infoHtml + progressHtml + matchesHtml + saveBar;
+}
+
+function renderScoTopscorers() {
+  const phaseId = scoritoPhase;
+  const phase = scPhase(phaseId);
+  const locked = scPhaseLocked(phaseId);
+  const dl = scTournament?.deadlines?.[phaseId];
+
+  // Initialiseer draft uit bestaande pick
+  if (scDraftTopscorers.length === 0) {
+    const existing = scMyTopscorerPick(phaseId);
+    if (existing && existing.player_ids) {
+      scDraftTopscorers = existing.player_ids.slice();
+    }
+  }
+
+  const infoHtml = `<div class="sc-phase-info">
+    <b>Topscorers ${phase.name}</b> — kies 4 spelers. Verdienen per doelpunt:
+    <b>${phase.scorer.GK}pnt</b> (GK/DEF) · <b>${phase.scorer.MID}pnt</b> (MID) · <b>${phase.scorer.FWD}pnt</b> (FWD)
+    ${dl ? `<br>⏰ Deadline: ${scFmtDateTime(dl)}` : ''}
+    ${locked ? ' — <b style="color:#A32D2D">gesloten</b>' : ''}
+  </div>`;
+
+  const posFilterHtml = `<div class="sc-pos-filter">
+    <button class="chip ${scPosFilter===''?'on':''}" onclick="scPosFilter='';render()">Alle</button>
+    ${SC_POSITIONS.map(p => `<button class="chip ${scPosFilter===p.id?'on':''}" onclick="scPosFilter='${p.id}';render()">${p.name}</button>`).join('')}
+  </div>`;
+
+  const filtered = scPosFilter ? scPlayers.filter(p => p.pos === scPosFilter) : scPlayers;
+  const sorted = filtered.slice().sort((a,b) => {
+    const posOrder = { GK:1, DEF:2, MID:3, FWD:4 };
+    if (posOrder[a.pos] !== posOrder[b.pos]) return posOrder[a.pos] - posOrder[b.pos];
+    return (a.name||'').localeCompare(b.name||'');
+  });
+
+  const playersHtml = sorted.map(p => {
+    const picked = scDraftTopscorers.includes(p.id);
+    const totalGoals = Object.values(p.goals_by_phase || {}).reduce((s,n) => s + (n||0), 0);
+    return `<div class="sc-player ${picked?'picked':''}" onclick="${locked?'':'toggleTopscorer(\''+p.id+'\')'}">
+      <span class="sc-player-flag">${scFlag(p.team)}</span>
+      <div class="sc-player-body">
+        <div class="sc-player-name">${esc(p.name)}</div>
+        <div class="sc-player-meta">
+          <span class="sc-pos-badge ${p.pos}">${p.pos}</span>
+          <span>${scName(p.team)}</span>
+          <span class="sc-player-goals">· <b>${totalGoals}</b>g</span>
+        </div>
+      </div>
+      ${picked?'<span class="sc-player-check">✓</span>':''}
+    </div>`;
+  }).join('');
+
+  const count = scDraftTopscorers.length;
+
+  const unsavedTS = scUnsaved.topscorers ? '<span class="sc-unsaved-badge show" style="margin-left:8px">⚠️ Niet opgeslagen</span>' : '';
+  return renderScoPhaseSelector(phaseId) + infoHtml + `
+    <div class="sc-picker-header">
+      <span class="sc-picker-count ${count===4?'full':''}">Gekozen: ${count} / 4</span>${unsavedTS}
+      <button class="sc-save-btn" ${locked||count!==4?'disabled':''} onclick="doSaveTopscorers('${phaseId}')">💾 Topscorers opslaan</button>
+    </div>
+    ${posFilterHtml}
+    <div class="sc-player-list">${playersHtml || '<div class="empty-state"><div class="empty-text">Geen spelers in deze filter.</div></div>'}</div>
+  `;
+}
+
+function renderScoCountries() {
+  const dl = scTournament?.countries_deadline;
+  const locked = dl && new Date() > new Date(dl);
+  const existing = scMyCountryPred();
+
+  // Init draft
+  if (!scDraftCountry) {
+    scDraftCountry = {
+      groups: existing?.groups ? {...existing.groups} : {},
+      to_qf: existing?.to_qf ? existing.to_qf.slice() : [],
+      to_sf: existing?.to_sf ? existing.to_sf.slice() : [],
+      to_final: existing?.to_final ? existing.to_final.slice() : [],
+      champion: existing?.champion || null
+    };
+  }
+
+  const infoHtml = `<div class="sc-phase-info">
+    <b>Landenvoorspellingen</b> — één keer invullen vóór start toernooi.
+    ${dl ? `<br>⏰ Deadline: ${scFmtDateTime(dl)} (${scFmtRelDeadline(dl)})` : ''}
+    ${locked ? ' — <b style="color:#A32D2D">gesloten</b>' : ''}
+    <br><b>Punten:</b> 50 door groep, 75 juiste positie, 30 naar 1/4, 60 naar 1/2, 120 naar finale, <b>250 voor kampioen</b>.
+  </div>`;
+
+  const allGroupCountries = Object.entries(SC_GROUPS);
+
+  const groupsHtml = `<div class="sc-country-section">
+    <div class="sc-country-section-title">🏁 Groepsfase — wie gaat er door en op welke plek?</div>
+    <div class="sc-country-section-sub">Vink aan wie volgens jou doorgaat. Kies ook positie (1e/2e) voor bonus.</div>
+    <div class="sc-groups-grid">
+      ${allGroupCountries.map(([g, teams]) => `
+        <div class="sc-group-box">
+          <div class="sc-group-box-title">Groep ${g}</div>
+          ${teams.map(code => {
+            const info = scDraftCountry.groups[code] || { through:false, position:null };
+            return `<div class="sc-group-country">
+              <input type="checkbox" ${info.through?'checked':''} ${locked?'disabled':''}
+                onchange="scDraftCountry.groups['${code}']={...scDraftCountry.groups['${code}'],through:this.checked};scMarkUnsaved('country');render()">
+              <span class="sc-flag" style="font-size:16px">${scFlag(code)}</span>
+              <span>${esc(scName(code))}</span>
+              <select class="sc-pos-select" ${locked?'disabled':''}
+                onchange="scDraftCountry.groups['${code}']={...scDraftCountry.groups['${code}'],position:this.value?parseInt(this.value):null};scMarkUnsaved('country');render()">
+                <option value="">—</option>
+                <option value="1" ${info.position===1?'selected':''}>1e</option>
+                <option value="2" ${info.position===2?'selected':''}>2e</option>
+              </select>
+            </div>`;
+          }).join('')}
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+
+  // KO-rondes: multiselect
+  const allCountries = Object.keys(SC_COUNTRIES).sort((a,b) => scName(a).localeCompare(scName(b)));
+  const koSection = (key, title, sub, limit) => {
+    const picked = scDraftCountry[key] || [];
+    return `<div class="sc-country-section">
+      <div class="sc-country-section-title">${title}</div>
+      <div class="sc-country-section-sub">${sub} (${picked.length}/${limit})</div>
+      <div class="sc-groups-grid">
+        ${Object.entries(SC_GROUPS).map(([g, teams]) => `
+          <div class="sc-group-box">
+            <div class="sc-group-box-title">Groep ${g}</div>
+            ${teams.map(code => {
+              const on = picked.includes(code);
+              return `<div class="sc-group-country">
+                <input type="checkbox" ${on?'checked':''} ${locked?'disabled':''}
+                  onchange="toggleKoCountry('${key}','${code}',${limit})">
+                <span class="sc-flag" style="font-size:16px">${scFlag(code)}</span>
+                <span>${esc(scName(code))}</span>
+              </div>`;
+            }).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  };
+
+  const championHtml = `<div class="sc-country-section sc-champion-pick">
+    <div class="sc-country-section-title">🏆 Wereldkampioen (250 punten!)</div>
+    <div class="sc-country-section-sub">Je belangrijkste voorspelling.</div>
+    <select class="sc-ko-select" ${locked?'disabled':''} onchange="scDraftCountry.champion=this.value||null;scMarkUnsaved('country');render()" style="font-size:14px;padding:10px">
+      <option value="">— Kies kampioen —</option>
+      ${allCountries.map(c => `<option value="${c}" ${scDraftCountry.champion===c?'selected':''}>${scFlag(c)} ${scName(c)}</option>`).join('')}
+    </select>
+  </div>`;
+
+  const statusText = scUnsaved.country
+    ? '<span class="sc-unsaved-badge show">⚠️ Niet opgeslagen</span>'
+    : existing ? '<span style="color:#7c7">✓ Voorspelling opgeslagen</span>' : '<span style="color:#aaa">Nog niets opgeslagen</span>';
+  const saveBtn = locked ? '' : `
+    <div class="sc-save-bar">
+      <span class="sc-save-bar-info">${statusText}</span>
+      <button class="sc-save-btn" onclick="doSaveCountryPredictions()">💾 Opslaan</button>
+    </div>
+  `;
+
+  return infoHtml + groupsHtml
+    + koSection('to_qf', '🎯 Naar de kwartfinale', '8 landen (30 pnt elk)', 8)
+    + koSection('to_sf', '🎯 Naar de halve finale', '4 landen (60 pnt elk)', 4)
+    + koSection('to_final', '🎯 Naar de finale', '2 landen (120 pnt elk)', 2)
+    + championHtml + saveBtn;
+}
+
+function toggleKoCountry(key, code, limit) {
+  const arr = scDraftCountry[key] || [];
+  const idx = arr.indexOf(code);
+  if (idx >= 0) { arr.splice(idx, 1); }
+  else {
+    if (arr.length >= limit) {
+      scoritoMsg = { type:'error', text:'Max '+limit+' landen in deze ronde. Verwijder er eerst een.' };
+      render(); return;
+    }
+    arr.push(code);
+  }
+  scDraftCountry[key] = arr;
+  scMarkUnsaved('country');
+  scoritoMsg = null;
+  render();
+}
+
+function renderScoRanking() {
+  const activeUids = allUsers.map(u => u.uid);
+  const rows = allUsers.map(u => {
+    const mp = scUserMatchPoints(u.uid);
+    const tp = scUserTopscorerPoints(u.uid);
+    const cp = scUserCountryPoints(u.uid);
+    return {
+      uid: u.uid,
+      name: u.name,
+      matches: mp,
+      topscorers: tp,
+      countries: cp,
+      total: mp + tp + cp
+    };
+  }).sort((a,b) => b.total - a.total);
+
+  const rowsHtml = rows.map((r,i) => {
+    const c = avtColor(r.name);
+    const isMe = currentUser && r.uid === currentUser.uid;
+    const rankHtml = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1);
+    return `<div class="sc-rank-row ${i===0?'first':''}" style="${isMe?'background:#fff8ec':''}">
+      <div class="lb-rank">${rankHtml}</div>
+      <div class="sc-rank-avatar" style="background:${c.bg};color:${c.fg}">${ini(r.name)}</div>
+      <div style="font-weight:${isMe?'700':'500'}">${esc(r.name)}${isMe?' <span style="font-size:9px;color:#BA7517">· jij</span>':''}</div>
+      <div class="sc-rank-sub col-hide-mob">${fmt(r.matches)}</div>
+      <div class="sc-rank-sub col-hide-mob">${fmt(r.topscorers)}</div>
+      <div class="sc-rank-sub col-hide-mob">${fmt(r.countries)}</div>
+      <div class="sc-rank-points">${fmt(r.total)}</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="sc-phase-info" style="background:#E1F5EE;border-color:#9ad2bd;color:#085041">
+      <b>Totale Scorito-ranglijst</b> — sommatie van wedstrijdpunten, topscorers en landenvoorspellingen.
+    </div>
+    <div class="lb-card">
+      <div class="sc-rank-row sc-rank-head">
+        <div>#</div>
+        <div></div>
+        <div>Naam</div>
+        <div class="sc-rank-sub col-hide-mob">Matches</div>
+        <div class="sc-rank-sub col-hide-mob">Toppers</div>
+        <div class="sc-rank-sub col-hide-mob">Landen</div>
+        <div class="sc-rank-points">Totaal</div>
+      </div>
+      ${rowsHtml}
+    </div>
+  `;
+}
+
+function renderScoAdmin() {
+  const tab = scAdminTab;
+  const subtabs = `
+    <div class="sc-subtabs" style="margin-bottom:14px">
+      <button class="sc-subtab ${tab==='matches'?'on':''}" onclick="scAdminTab='matches';render()">🗓 Wedstrijden</button>
+      <button class="sc-subtab ${tab==='goals'?'on':''}" onclick="scAdminTab='goals';render()">⚽ Doelpunten</button>
+      <button class="sc-subtab ${tab==='players'?'on':''}" onclick="scAdminTab='players';render()">👤 Spelers</button>
+      <button class="sc-subtab ${tab==='countries'?'on':''}" onclick="scAdminTab='countries';render()">🌍 Landen</button>
+      <button class="sc-subtab ${tab==='deadlines'?'on':''}" onclick="scAdminTab='deadlines';render()">⏰ Deadlines</button>
+    </div>
+  `;
+
+  let content = '';
+  if (tab === 'matches') content = renderAdmMatches();
+  else if (tab === 'goals') content = renderAdmGoals();
+  else if (tab === 'players') content = renderAdmPlayers();
+  else if (tab === 'countries') content = renderAdmCountries();
+  else if (tab === 'deadlines') content = renderAdmDeadlines();
+
+  return subtabs + content;
+}
+
+function renderAdmMatches() {
+  const phaseId = scoritoPhase;
+  const inPhase = scMatchesForPhase(phaseId);
+
+  const newMatchForm = `<div class="sc-admin-section">
+    <div class="sc-admin-title">➕ Nieuwe wedstrijd</div>
+    <div class="sc-admin-row">
+      <select class="sc-admin-input" id="adm-new-match-phase">
+        ${SC_PHASES.map(p => `<option value="${p.id}" ${p.id===phaseId?'selected':''}>${p.name}</option>`).join('')}
+      </select>
+      <select class="sc-admin-input" id="adm-new-match-group">
+        <option value="">— Groep —</option>
+        ${Object.keys(SC_GROUPS).map(g => `<option value="${g}">Groep ${g}</option>`).join('')}
+      </select>
+    </div>
+    <div class="sc-admin-row">
+      <select class="sc-admin-input" id="adm-new-match-home">
+        <option value="">— Thuisteam —</option>
+        ${Object.keys(SC_COUNTRIES).sort((a,b)=>scName(a).localeCompare(scName(b))).map(c => `<option value="${c}">${scFlag(c)} ${scName(c)}</option>`).join('')}
+      </select>
+      <select class="sc-admin-input" id="adm-new-match-away">
+        <option value="">— Uitteam —</option>
+        ${Object.keys(SC_COUNTRIES).sort((a,b)=>scName(a).localeCompare(scName(b))).map(c => `<option value="${c}">${scFlag(c)} ${scName(c)}</option>`).join('')}
+      </select>
+      <input class="sc-admin-input" id="adm-new-match-kickoff" type="datetime-local">
+      <button class="sc-admin-btn" onclick="adminAddMatch()">Toevoegen</button>
+    </div>
+  </div>`;
+
+  return renderScoPhaseSelector(phaseId) + newMatchForm + `
+    <div class="sc-admin-section">
+      <div class="sc-admin-title">🗓 ${inPhase.length} wedstrijden in ${scPhase(phaseId).name}</div>
+      <div class="sc-admin-hint">Voer de uitslag in (regulier + verlenging, géén penalty's). Zet status op 'KLAAR' door een score op te slaan. Leeg → terug naar 'GEPLAND'.</div>
+      ${inPhase.map(m => `<div class="sc-admin-row">
+        <span style="flex:1;min-width:180px;font-size:12px">${scFmtDateTime(m.kickoff)} · ${scFlag(m.team_home)} ${scName(m.team_home)} - ${scName(m.team_away)} ${scFlag(m.team_away)}${m.group?' (Gr '+m.group+')':''}</span>
+        <input class="sc-admin-input" id="adm-score-h-${m.id}" type="number" min="0" style="width:50px" value="${m.score_home??''}">
+        <span>-</span>
+        <input class="sc-admin-input" id="adm-score-a-${m.id}" type="number" min="0" style="width:50px" value="${m.score_away??''}">
+        <button class="sc-admin-btn" onclick="adminSaveMatchResult('${m.id}')">Opslaan</button>
+        <button class="sc-admin-btn ghost" onclick="adminSetMatchStatus('${m.id}','live')">Live</button>
+        <button class="sc-admin-btn danger" onclick="adminDeleteMatch('${m.id}')">🗑</button>
+      </div>`).join('')}
+    </div>
+  `;
+}
+
+function renderAdmGoals() {
+  const phaseId = scoritoPhase;
+  const phase = scPhase(phaseId);
+
+  const sortedPlayers = scPlayers.slice().sort((a,b) => {
+    const posOrder = { GK:1, DEF:2, MID:3, FWD:4 };
+    if (posOrder[a.pos] !== posOrder[b.pos]) return posOrder[a.pos] - posOrder[b.pos];
+    return (a.name||'').localeCompare(b.name||'');
+  });
+
+  return renderScoPhaseSelector(phaseId) + `
+    <div class="sc-admin-section">
+      <div class="sc-admin-title">⚽ Doelpunten in ${phase.name}</div>
+      <div class="sc-admin-hint">Vul per speler in hoeveel doelpunten hij in deze fase maakte. Punten worden automatisch berekend: GK/DEF ${phase.scorer.GK}, MID ${phase.scorer.MID}, FWD ${phase.scorer.FWD}.</div>
+      ${sortedPlayers.map(p => {
+        const g = p.goals_by_phase?.[phaseId] ?? 0;
+        return `<div class="sc-admin-row">
+          <span style="flex:1;min-width:200px;font-size:12px"><span class="sc-pos-badge ${p.pos}">${p.pos}</span> ${scFlag(p.team)} <b>${esc(p.name)}</b></span>
+          <input class="sc-admin-input" id="adm-goals-${p.id}-${phaseId}" type="number" min="0" style="width:60px" value="${g}">
+          <span style="font-size:11px;color:#888">goals</span>
+          <button class="sc-admin-btn" onclick="adminSavePlayerGoals('${p.id}','${phaseId}')">Opslaan</button>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderAdmPlayers() {
+  const newForm = `<div class="sc-admin-section">
+    <div class="sc-admin-title">➕ Nieuwe speler</div>
+    <div class="sc-admin-row">
+      <input class="sc-admin-input" id="adm-new-player-name" placeholder="Naam" style="flex:1;min-width:160px">
+      <select class="sc-admin-input" id="adm-new-player-team">
+        <option value="">— Land —</option>
+        ${Object.keys(SC_COUNTRIES).sort((a,b)=>scName(a).localeCompare(scName(b))).map(c => `<option value="${c}">${scFlag(c)} ${scName(c)}</option>`).join('')}
+      </select>
+      <select class="sc-admin-input" id="adm-new-player-pos">
+        <option value="">— Positie —</option>
+        ${SC_POSITIONS.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
+      </select>
+      <button class="sc-admin-btn" onclick="adminAddPlayer()">Toevoegen</button>
+    </div>
+  </div>`;
+
+  return newForm + `
+    <div class="sc-admin-section">
+      <div class="sc-admin-title">👤 Spelerslijst (${scPlayers.length})</div>
+      <div class="sc-admin-hint">Verwijder een speler die niet (meer) in de selectie zit. Topscorer-picks die deze speler hebben tellen dan 0 punten.</div>
+      ${scPlayers.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(p => `<div class="sc-admin-row">
+        <span style="flex:1"><span class="sc-pos-badge ${p.pos}">${p.pos}</span> ${scFlag(p.team)} ${esc(p.name)}</span>
+        <button class="sc-admin-btn danger" onclick="adminDeletePlayer('${p.id}')">🗑</button>
+      </div>`).join('')}
+    </div>
+  `;
+}
+
+function renderAdmCountries() {
+  const results = scTournament?.country_results || {};
+  const allCountries = [...new Set(Object.values(SC_GROUPS).flat())];
+  const sorted = allCountries.slice().sort((a,b) => scName(a).localeCompare(scName(b)));
+
+  const koSelect = (key, title, limit) => {
+    const picked = scTournament?.[key] || [];
+    return `<div class="sc-admin-section">
+      <div class="sc-admin-title">${title} (${picked.length}/${limit})</div>
+      <select multiple id="adm-ko-${key}" class="sc-admin-input" style="width:100%;min-height:140px">
+        ${sorted.map(c => `<option value="${c}" ${picked.includes(c)?'selected':''}>${scFlag(c)} ${scName(c)}</option>`).join('')}
+      </select>
+      <div style="margin-top:8px"><button class="sc-admin-btn" onclick="adminSetKoCountries('${key}')">Opslaan</button></div>
+    </div>`;
+  };
+
+  return `
+    <div class="sc-admin-section">
+      <div class="sc-admin-title">🏁 Uit groepsfase: wie is door en op welke plek?</div>
+      <div class="sc-admin-hint">Vink aan welke landen doorgaan. Positie 1 of 2 voor bonuspunten.</div>
+      ${sorted.map(c => {
+        const r = results[c] || { through_group: false, group_position: null };
+        return `<div class="sc-admin-row">
+          <span style="flex:1;min-width:160px">${scFlag(c)} ${scName(c)}</span>
+          <label style="font-size:11px;display:flex;align-items:center;gap:4px">
+            <input type="checkbox" id="adm-cntry-through-${c}" ${r.through_group?'checked':''}> Door
+          </label>
+          <select class="sc-admin-input" id="adm-cntry-pos-${c}">
+            <option value="" ${!r.group_position?'selected':''}>—</option>
+            <option value="1" ${r.group_position===1?'selected':''}>1e</option>
+            <option value="2" ${r.group_position===2?'selected':''}>2e</option>
+          </select>
+          <button class="sc-admin-btn" onclick="adminSaveCountryResult('${c}')">Opslaan</button>
+        </div>`;
+      }).join('')}
+    </div>
+    ${koSelect('to_qf','🎯 Landen in kwartfinale',8)}
+    ${koSelect('to_sf','🎯 Landen in halve finale',4)}
+    ${koSelect('to_final','🎯 Landen in finale',2)}
+    <div class="sc-admin-section sc-champion-pick">
+      <div class="sc-admin-title">🏆 Wereldkampioen</div>
+      <select id="adm-champion" class="sc-admin-input" style="font-size:14px;padding:8px;width:100%">
+        <option value="">— nog niet bekend —</option>
+        ${sorted.map(c => `<option value="${c}" ${scTournament?.champion===c?'selected':''}>${scFlag(c)} ${scName(c)}</option>`).join('')}
+      </select>
+      <div style="margin-top:8px"><button class="sc-admin-btn" onclick="adminSetChampion()">Kampioen opslaan</button></div>
+    </div>
+  `;
+}
+
+function renderAdmDeadlines() {
+  const deadlines = scTournament?.deadlines || {};
+  const toLocal = (iso) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    const pad = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  return `<div class="sc-admin-section">
+    <div class="sc-admin-title">⏰ Deadlines per fase</div>
+    <div class="sc-admin-hint">Na de deadline kunnen spelers geen voorspellingen meer aanpassen.</div>
+    ${SC_PHASES.map(p => `<div class="sc-admin-row">
+      <span style="flex:1;min-width:140px">${p.name}</span>
+      <input class="sc-admin-input" id="adm-dl-${p.id}" type="datetime-local" value="${toLocal(deadlines[p.id])}">
+      <button class="sc-admin-btn" onclick="adminSetDeadline('${p.id}')">Opslaan</button>
+    </div>`).join('')}
+    <div class="sc-admin-row" style="border-top:2px solid #f0eeea;margin-top:10px;padding-top:14px">
+      <span style="flex:1;min-width:140px"><b>Landen-deadline</b> (eenmalig, voor start)</span>
+      <input class="sc-admin-input" id="adm-dl-countries" type="datetime-local" value="${toLocal(scTournament?.countries_deadline)}">
+      <button class="sc-admin-btn" onclick="adminSetCountriesDeadline()">Opslaan</button>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
    NAVIGATION
    ═══════════════════════════════════════════════════ */
-function goView(v) { view=v; betMsg=null; formError=''; if(v!=='detail')selectedMarketId=null; render(); window.scrollTo(0,0); }
+function goView(v) {
+  // Waarschuwing bij verlaten scorito met unsaved changes
+  if (view === 'scorito' && v !== 'scorito' && scHasAnyUnsaved()) {
+    if (!confirm('Je hebt niet-opgeslagen wijzigingen in Scorito.\n\nWeet je zeker dat je weg wilt navigeren? Niet-opgeslagen invoer gaat verloren.')) {
+      return;
+    }
+  }
+  view = v;
+  betMsg = null;
+  formError = '';
+  if (v !== 'detail') selectedMarketId = null;
+  // Reset scorito draft state bij wegnavigeren
+  if (v !== 'scorito') {
+    scDraftPredictions = {};
+    scDraftTopscorers = [];
+    scDraftCountry = null;
+    scoritoMsg = null;
+    scUnsaved = { matches:false, topscorers:false, country:false };
+  }
+  // Reset tijdlijn reply bij wegnavigeren
+  if (v !== 'tijdlijn') {
+    replyingTo = null;
+    timelineMsg = null;
+  }
+  render();
+  window.scrollTo(0, 0);
+}
 function openMarket(id) { selectedMarketId=id; view='detail'; betSide='yes'; betMsg=null; render(); window.scrollTo(0,0); }
 function setCatFilter(c) { catFilter=c; render(); }
+
+function goScoritoSub(sub) {
+  // Waarschuwing als je sub-tab wisselt met niet-opgeslagen wijzigingen
+  const curKey = scoritoSubview === 'matches' ? 'matches'
+               : scoritoSubview === 'topscorers' ? 'topscorers'
+               : scoritoSubview === 'countries' ? 'country' : null;
+  if (curKey && scUnsaved[curKey] && sub !== scoritoSubview) {
+    if (!confirm('Je hebt niet-opgeslagen wijzigingen in dit onderdeel.\n\nDoorgaan zonder opslaan?')) {
+      return;
+    }
+    if (curKey === 'matches')    { scDraftPredictions = {}; scUnsaved.matches = false; }
+    if (curKey === 'topscorers') { scDraftTopscorers = []; scUnsaved.topscorers = false; }
+    if (curKey === 'country')    { scDraftCountry = null;  scUnsaved.country = false; }
+  }
+  scoritoSubview = sub;
+  scoritoMsg = null;
+  // Pre-fill topscorer draft (alleen als niet al bewerkt)
+  if (!scUnsaved.topscorers) {
+    const existing = scMyTopscorerPick(scoritoPhase);
+    scDraftTopscorers = existing?.player_ids ? existing.player_ids.slice() : [];
+  }
+  // Pre-fill country draft (alleen als niet al bewerkt)
+  if (!scUnsaved.country) {
+    const myCountry = scCountryPreds.find(c => c.user_uid === currentUser?.uid);
+    scDraftCountry = myCountry ? {
+      groups: myCountry.groups ? Object.assign({}, myCountry.groups) : {},
+      to_qf: (myCountry.to_qf||[]).slice(),
+      to_sf: (myCountry.to_sf||[]).slice(),
+      to_final: (myCountry.to_final||[]).slice(),
+      champion: myCountry.champion || null
+    } : null;
+  }
+  render();
+  window.scrollTo(0, 0);
+}
+
+function setScPhase(phaseId) {
+  if (scUnsaved.matches || scUnsaved.topscorers) {
+    if (!confirm('Niet-opgeslagen voorspellingen in deze fase.\n\nDoorgaan naar andere fase zonder opslaan?')) {
+      return;
+    }
+  }
+  scoritoPhase = phaseId;
+  scDraftPredictions = {};
+  scUnsaved.matches = false;
+  const existing = scMyTopscorerPick(phaseId);
+  scDraftTopscorers = existing?.player_ids ? existing.player_ids.slice() : [];
+  scUnsaved.topscorers = false;
+  scoritoMsg = null;
+  render();
+}
+
+function setScPosFilter(p) { scPosFilter = p; render(); }
+function setScAdminTab(t) { scAdminTab = t; render(); }
 
 function confirmResolve(outcome) {
   const label=outcome==='yes'?'JA':'NEE';

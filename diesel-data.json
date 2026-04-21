@@ -1,0 +1,290 @@
+{
+  "users": {
+    "Ole": {
+      "name": "Ole",
+      "balance": 5100,
+      "is_admin": 0
+    },
+    "Tjebbe": {
+      "name": "Tjebbe",
+      "balance": 5000,
+      "is_admin": 0
+    },
+    "Robert": {
+      "name": "Robert",
+      "balance": 4400,
+      "is_admin": 0
+    },
+    "Pepijn": {
+      "name": "Pepijn",
+      "balance": 4950,
+      "is_admin": 0
+    },
+    "Paul": {
+      "name": "Paul",
+      "balance": 4900,
+      "is_admin": 0
+    },
+    "Niels": {
+      "name": "Niels",
+      "balance": 4350,
+      "is_admin": 0
+    },
+    "Mart": {
+      "name": "Mart",
+      "balance": 4850,
+      "is_admin": 0
+    },
+    "Maarten": {
+      "name": "Maarten",
+      "balance": 4300,
+      "is_admin": 0
+    },
+    "Luc": {
+      "name": "Luc",
+      "balance": 4700,
+      "is_admin": 0
+    },
+    "Joris": {
+      "name": "Joris",
+      "balance": 5000,
+      "is_admin": 0
+    },
+    "Pieter": {
+      "name": "Pieter",
+      "balance": 5050,
+      "is_admin": 0
+    },
+    "Max": {
+      "name": "Max",
+      "balance": 4500,
+      "is_admin": 0
+    },
+    "Coen": {
+      "name": "Coen",
+      "balance": 4900,
+      "is_admin": 1
+    }
+  },
+  "markets": [
+    {
+      "id": 1,
+      "title": "Gaat Ole dit jaar zijn rijbewijs halen?",
+      "description": "Resolveert op JA als Ole voor 31 december 2026 zijn CBR-rijbewijs haalt. Officieel slagingsblad als bewijs vereist.",
+      "category": "Ons leven",
+      "closing_date": "2026-07-01",
+      "created_by": "Coen",
+      "created_at": "2026-04-10T14:30:00",
+      "status": "open",
+      "outcome": null
+    },
+    {
+      "id": 2,
+      "title": "Regent het op Koningsdag in Utrecht?",
+      "description": "Resolveert op JA als er op 27 april 2026 aantoonbare neerslag valt in Utrecht tussen 10:00 en 20:00 uur, conform KNMI-data.",
+      "category": "Utrecht",
+      "closing_date": "2026-04-26",
+      "created_by": "Maarten",
+      "created_at": "2026-04-12T10:00:00",
+      "status": "open",
+      "outcome": null
+    },
+    {
+      "id": 3,
+      "title": "Gaat Coen bij een advocatenkantoor werken na zijn master?",
+      "description": "Resolveert op JA als Coen voor eind 2026 in dienst treedt bij een advocatenkantoor als zijn primaire baan.",
+      "category": "Ons leven",
+      "closing_date": "2026-12-31",
+      "created_by": "Paul",
+      "created_at": "2026-04-12T19:00:00",
+      "status": "open",
+      "outcome": null
+    },
+    {
+      "id": 4,
+      "title": "Wordt Nederland groepswinnaar op het WK 2026?",
+      "description": "Resolveert op JA als het Nederlands elftal zijn poule als nummer 1 afsluit op het FIFA WK 2026.",
+      "category": "Sport",
+      "closing_date": "2026-06-15",
+      "created_by": "Pieter",
+      "created_at": "2026-04-13T16:00:00",
+      "status": "open",
+      "outcome": null
+    },
+    {
+      "id": 5,
+      "title": "Haalt Bitcoin $150.000 voor eind 2026?",
+      "description": "Resolveert op JA als de BTC-prijs op Coinbase voor 31 december 2026 op enig moment boven $150.000 USD sluit.",
+      "category": "De wereld",
+      "closing_date": "2026-12-31",
+      "created_by": "Niels",
+      "created_at": "2026-04-14T20:00:00",
+      "status": "open",
+      "outcome": null
+    }
+  ],
+  "bets": [
+    {
+      "id": 1,
+      "market_id": 1,
+      "user_name": "Coen",
+      "side": "yes",
+      "amount": 400,
+      "created_at": "2026-04-10T15:00:00"
+    },
+    {
+      "id": 2,
+      "market_id": 1,
+      "user_name": "Tjebbe",
+      "side": "yes",
+      "amount": 200,
+      "created_at": "2026-04-10T16:20:00"
+    },
+    {
+      "id": 3,
+      "market_id": 1,
+      "user_name": "Robert",
+      "side": "no",
+      "amount": 600,
+      "created_at": "2026-04-11T09:10:00"
+    },
+    {
+      "id": 4,
+      "market_id": 1,
+      "user_name": "Pepijn",
+      "side": "yes",
+      "amount": 250,
+      "created_at": "2026-04-11T12:45:00"
+    },
+    {
+      "id": 5,
+      "market_id": 2,
+      "user_name": "Maarten",
+      "side": "yes",
+      "amount": 300,
+      "created_at": "2026-04-12T11:00:00"
+    },
+    {
+      "id": 6,
+      "market_id": 2,
+      "user_name": "Niels",
+      "side": "no",
+      "amount": 450,
+      "created_at": "2026-04-12T14:30:00"
+    },
+    {
+      "id": 7,
+      "market_id": 2,
+      "user_name": "Mart",
+      "side": "yes",
+      "amount": 150,
+      "created_at": "2026-04-13T08:15:00"
+    },
+    {
+      "id": 8,
+      "market_id": 3,
+      "user_name": "Paul",
+      "side": "yes",
+      "amount": 500,
+      "created_at": "2026-04-12T19:30:00"
+    },
+    {
+      "id": 9,
+      "market_id": 3,
+      "user_name": "Luc",
+      "side": "no",
+      "amount": 700,
+      "created_at": "2026-04-12T20:10:00"
+    },
+    {
+      "id": 10,
+      "market_id": 3,
+      "user_name": "Joris",
+      "side": "no",
+      "amount": 400,
+      "created_at": "2026-04-13T11:00:00"
+    },
+    {
+      "id": 11,
+      "market_id": 3,
+      "user_name": "Ole",
+      "side": "yes",
+      "amount": 300,
+      "created_at": "2026-04-13T13:45:00"
+    },
+    {
+      "id": 12,
+      "market_id": 3,
+      "user_name": "Max",
+      "side": "no",
+      "amount": 900,
+      "created_at": "2026-04-14T09:00:00"
+    },
+    {
+      "id": 13,
+      "market_id": 4,
+      "user_name": "Pieter",
+      "side": "yes",
+      "amount": 350,
+      "created_at": "2026-04-13T16:30:00"
+    },
+    {
+      "id": 14,
+      "market_id": 4,
+      "user_name": "Tjebbe",
+      "side": "yes",
+      "amount": 200,
+      "created_at": "2026-04-14T10:00:00"
+    },
+    {
+      "id": 15,
+      "market_id": 4,
+      "user_name": "Robert",
+      "side": "no",
+      "amount": 400,
+      "created_at": "2026-04-14T14:20:00"
+    },
+    {
+      "id": 16,
+      "market_id": 5,
+      "user_name": "Niels",
+      "side": "yes",
+      "amount": 600,
+      "created_at": "2026-04-14T20:30:00"
+    },
+    {
+      "id": 17,
+      "market_id": 5,
+      "user_name": "Maarten",
+      "side": "no",
+      "amount": 800,
+      "created_at": "2026-04-15T08:00:00"
+    },
+    {
+      "id": 18,
+      "market_id": 5,
+      "user_name": "Mart",
+      "side": "no",
+      "amount": 400,
+      "created_at": "2026-04-15T11:30:00"
+    },
+    {
+      "id": 19,
+      "market_id": 5,
+      "user_name": "Pepijn",
+      "side": "yes",
+      "amount": 200,
+      "created_at": "2026-04-15T15:00:00"
+    },
+    {
+      "id": 20,
+      "market_id": 5,
+      "user_name": "Coen",
+      "side": "no",
+      "amount": 100,
+      "created_at": "2026-04-16T15:20:19.872Z"
+    }
+  ],
+  "nextMarketId": 6,
+  "nextBetId": 21
+}

@@ -1,0 +1,6 @@
+node_modules/
+.next/
+diesel-data.json
+diesel.db
+*.db-journal
+*.db-wal
