@@ -38,75 +38,181 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=Archivo+Black&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════════
+   DIESEL / ZULU DESIGN SYSTEM — Premium layer
+   ═══════════════════════════════════════════════════ */
+:root{
+  /* Sahara palette */
+  --sahara-sand: #F5EDD8;
+  --sahara-cream: #FAF3E0;
+  --sahara-bone:  #EFE7D0;
+  --sahara-dust:  #E8DDC0;
+  /* Goud */
+  --gold-500: #BA7517;
+  --gold-400: #D09530;
+  --gold-300: #E5B453;
+  --gold-200: #F2CE7A;
+  --gold-foil: linear-gradient(135deg,#E5B453 0%,#BA7517 45%,#8A5410 100%);
+  --gold-foil-light: linear-gradient(135deg,#F5DA95 0%,#D09530 55%,#BA7517 100%);
+  /* Aarde-kleuren */
+  --terra:    #993C1D;   /* clay / terracotta */
+  --rooibos:  #A32D2D;   /* red */
+  --rooibos-deep: #7A1F1F;
+  --savanna:  #3B6D11;   /* green */
+  --indigo:   #2A3A5C;   /* deep blue */
+  --ochre:    #C56A1E;
+  /* Ink */
+  --ink-900: #0F0A05;
+  --ink-800: #1A120A;
+  --ink-700: #2A1E10;
+  --ink-600: #4A3820;
+  /* Category dots */
+  --cat-utrecht:  #085041;
+  --cat-nederland:#0C447C;
+  --cat-onsleven: #633806;
+  --cat-wereld:   #712B13;
+  --cat-sport:    #27500A;
+  --cat-overig:   #444441;
+  /* Shadows */
+  --shadow-lift: 0 10px 30px -8px rgba(26,20,10,.25), 0 2px 6px rgba(26,20,10,.08);
+  --shadow-soft: 0 4px 14px rgba(26,20,10,.06);
+  --shadow-med: 0 6px 22px -6px rgba(26,20,10,.18), 0 2px 5px rgba(26,20,10,.06);
+  --shadow-inset-gold: inset 0 0 0 1px rgba(186,117,23,.15);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
-  font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',system-ui,sans-serif;
-  background-color:#F5F3EF;
-  color:#1a1a1a;min-height:100vh;
+  font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;
+  background-color:var(--sahara-cream);
+  color:var(--ink-800);min-height:100vh;
   background-repeat:repeat;background-size:320px 320px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-feature-settings:"ss01","cv11";
 }
+/* Globale typografie */
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.01em;color:var(--ink-900)}
+.display{font-family:'Archivo Black','Futura',sans-serif;letter-spacing:.02em}
+.serif{font-family:'Fraunces',Georgia,serif}
+.kicker{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.28em;font-weight:700;text-transform:uppercase;color:var(--gold-500)}
+
+/* Utility: gouden foil tekst */
+.gold-text{background:var(--gold-foil);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+.gold-text-light{background:var(--gold-foil-light);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
 button,input,select,textarea{font-family:inherit}
 button{cursor:pointer}
 
-/* ===== GEO BAR ===== */
-.geo-bar{height:5px;display:flex}
-.geo-bar span{flex:1}
+/* ===== GEO BAR — gouden foil strip ===== */
+.geo-bar{height:4px;background:var(--gold-foil);position:relative}
+.geo-bar::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 18px,rgba(255,255,255,.25) 18px 19px,transparent 19px 38px);mix-blend-mode:overlay}
+.geo-bar span{display:none}
 
 /* ===== NAV ===== */
-.nav{background:#fff;border-bottom:1px solid #e8e6e1}
-.nav-inner{max-width:1080px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;gap:10px;height:54px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:8px}
-.brand-name{font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-size:20px;font-weight:600;letter-spacing:.22em;color:#BA7517}
-.brand-sub{font-size:10px;color:#888;letter-spacing:.06em;text-transform:uppercase}
+.nav{background:linear-gradient(180deg,#fff 85%,#fbf7ed 100%);border-bottom:1px solid #e8dfc9;position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 1px 2px rgba(26,20,10,.03)}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 1.2rem;display:flex;align-items:center;gap:14px;height:64px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--gold-foil);border-radius:8px;box-shadow:0 2px 6px rgba(186,117,23,.3),inset 0 1px 0 rgba(255,255,255,.3)}
+.brand-mark svg{width:18px;height:18px;color:#fff}
+.brand-text{display:flex;flex-direction:column;line-height:1}
+.brand-name{font-family:'Archivo Black','Futura',sans-serif;font-size:22px;font-weight:900;letter-spacing:.18em;color:var(--ink-900);line-height:1}
+.brand-sub{font-size:9px;color:var(--gold-500);letter-spacing:.24em;text-transform:uppercase;font-weight:600;margin-top:3px}
 .spacer{flex:1}
-.tabs{display:flex;gap:0}
-.tab{padding:0 16px;height:54px;border:none;background:none;font-size:12px;color:#888;border-bottom:2px solid transparent;letter-spacing:.03em;transition:color .15s,border-color .15s}
-.tab:hover{color:#1a1a1a}
-.tab.on{color:#BA7517;border-bottom-color:#BA7517;font-weight:600}
-.user-badge{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;background:#fafafa;color:#1a1a1a}
-.user-badge .uname{font-weight:600;color:#BA7517}
-.logout-btn{background:none;border:none;color:#aaa;font-size:10px;padding:2px 4px;transition:color .15s}
-.logout-btn:hover{color:#A32D2D}
+.tabs{display:flex;gap:2px}
+.tab{padding:0 16px;height:64px;border:none;background:none;font-size:12px;color:#8a7f6d;border-bottom:2px solid transparent;letter-spacing:.08em;text-transform:uppercase;font-weight:600;transition:color .18s,border-color .18s,background .18s;position:relative}
+.tab:hover{color:var(--ink-900);background:rgba(186,117,23,.04)}
+.tab.on{color:var(--ink-900);border-bottom-color:var(--gold-500);font-weight:700}
+.tab.on::after{content:"";position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold-500);box-shadow:0 0 0 3px rgba(186,117,23,.12)}
+.user-badge{display:flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--sahara-dust);border-radius:99px;font-size:11px;background:linear-gradient(135deg,#fff,#faf7ef);color:var(--ink-800);box-shadow:var(--shadow-inset-gold)}
+.user-badge .uname{font-weight:700;color:var(--gold-500)}
+.logout-btn{background:none;border:none;color:#bbb;font-size:11px;padding:4px 6px;transition:color .15s;border-radius:4px}
+.logout-btn:hover{color:var(--rooibos);background:rgba(163,45,45,.06)}
 
 /* ===== CONTENT ===== */
-.content{max-width:1080px;margin:0 auto;padding:1.5rem 1rem 3rem}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
-.section-title{font-size:16px;font-weight:600}
-.section-meta{font-size:12px;color:#888}
+.content{max-width:1160px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:12px;padding-bottom:12px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,rgba(186,117,23,.35),transparent) 1}
+.section-title{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:700;color:var(--ink-900);letter-spacing:-.01em}
+.section-meta{font-size:11px;color:#8a7f6d;letter-spacing:.15em;text-transform:uppercase;font-weight:600}
 
-/* ===== CHIPS ===== */
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
-.chip{padding:4px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:11px;color:#888;transition:all .15s}
-.chip:hover{border-color:#BA7517;color:#633806}
-.chip.on{background:#FAEEDA;border-color:#BA7517;color:#633806;font-weight:500}
+/* ═══════════════════════════════════════════════════
+   HERO — poster in Diesel/Zulu stijl
+   ═══════════════════════════════════════════════════ */
+.dz-hero{position:relative;background:linear-gradient(135deg,#1A120A 0%,#2A1E10 40%,#3d2815 80%,#4a2c10 100%);border-radius:20px;padding:40px 36px;margin-bottom:28px;overflow:hidden;min-height:240px;box-shadow:var(--shadow-lift),inset 0 0 0 1px rgba(229,180,83,.1)}
+.dz-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 25%,rgba(229,180,83,.22) 0%,transparent 45%),radial-gradient(circle at 15% 85%,rgba(153,60,29,.18) 0%,transparent 55%);pointer-events:none}
+/* Noise texture */
+.dz-hero::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.8 0 0 0 0 0.65 0 0 0 0 0.3 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.9;mix-blend-mode:overlay;pointer-events:none}
+.dz-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+.dz-hero-art{position:absolute;right:-20px;top:0;bottom:0;width:45%;opacity:.85;pointer-events:none;z-index:1}
+.dz-hero-art svg{width:100%;height:100%}
+.dz-hero-content{position:relative;z-index:3;max-width:560px}
+.dz-hero-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--gold-300);font-size:10px;letter-spacing:.32em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.dz-hero-kicker::before{content:"";width:24px;height:1px;background:var(--gold-400)}
+.dz-hero-title{font-family:'Archivo Black','Futura',sans-serif;font-size:clamp(38px,6vw,64px);font-weight:900;letter-spacing:-.02em;line-height:.95;color:#fff;margin-bottom:6px;text-shadow:0 2px 20px rgba(229,180,83,.15)}
+.dz-hero-title .gold{background:linear-gradient(180deg,#F5DA95 0%,#E5B453 40%,#BA7517 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 6px rgba(229,180,83,.3))}
+.dz-hero-subtitle{font-family:'Fraunces',Georgia,serif;font-size:18px;color:#d9c9a8;font-style:italic;font-weight:500;margin-bottom:18px;letter-spacing:.01em}
+.dz-hero-tagline{font-size:13px;color:#bfae8a;line-height:1.65;max-width:420px;margin-bottom:22px}
+.dz-hero-stats{display:flex;gap:28px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(229,180,83,.15)}
+.dz-hero-stat{}
+.dz-hero-stat-label{font-size:9px;color:#8a7f6a;letter-spacing:.22em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.dz-hero-stat-value{font-family:'Archivo Black',sans-serif;font-size:22px;color:#fff;letter-spacing:-.01em}
+.dz-hero-stat-value .small{font-size:12px;color:var(--gold-300);margin-left:4px}
 
-/* ===== MARKET CARDS ===== */
-.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.market-card{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1rem 1.1rem;cursor:pointer;transition:border-color .15s,box-shadow .15s}
-.market-card:hover{border-color:#BA7517;box-shadow:0 2px 12px rgba(186,117,23,.08)}
-.mcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
-.badge{font-size:9px;font-weight:600;letter-spacing:.05em;padding:3px 9px;border-radius:99px;text-transform:uppercase;white-space:nowrap}
-.b-utrecht{background:#E1F5EE;color:#085041}
-.b-nederland{background:#E6F1FB;color:#0C447C}
-.b-ons-leven{background:#FAEEDA;color:#633806}
-.b-de-wereld{background:#FAECE7;color:#712B13}
-.b-sport{background:#EAF3DE;color:#27500A}
-.b-overig{background:#F1EFE8;color:#444441}
-.b-resolved{background:#E8E8E8;color:#555}
-.mcard-closing{font-size:10px;color:#aaa}
-.mcard-title{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.45;margin-bottom:12px}
-.prob-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.prob-label{font-size:10px;font-weight:600;width:28px}
-.prob-label.yes{color:#3B6D11}.prob-label.no{color:#A32D2D}
-.prob-track{flex:1;height:5px;background:#f0eeea;border-radius:3px;overflow:hidden}
-.prob-fill{height:100%;border-radius:3px;transition:width .3s}
-.prob-fill.yes{background:#639922}.prob-fill.no{background:#E24B4A}
-.prob-pct{font-size:10px;width:30px;text-align:right;color:#888}
-.mcard-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid #f0eeea}
-.pot{font-size:11px;color:#888}.pot-val{font-weight:600;color:#BA7517}
-.bet-count{font-size:10px;color:#aaa}
+/* Bank-strip boven de markten */
+.dz-strip{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding:10px 16px;background:linear-gradient(90deg,#fff,#fbf5e5);border:1px solid var(--sahara-dust);border-radius:12px;box-shadow:var(--shadow-soft)}
+.dz-strip-icon{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--gold-foil);border-radius:8px;box-shadow:0 2px 6px rgba(186,117,23,.25)}
+.dz-strip-icon svg{width:16px;height:16px;color:#fff}
+.dz-strip-body{flex:1;min-width:0}
+.dz-strip-title{font-size:12px;font-weight:700;color:var(--ink-900)}
+.dz-strip-sub{font-size:11px;color:#8a7f6a;margin-top:1px}
+.dz-strip-value{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--gold-500)}
+
+/* ===== CHIPS (premium) ===== */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.chip{padding:7px 14px;border-radius:99px;border:1px solid var(--sahara-dust);background:#fff;font-size:11px;color:#8a7f6a;transition:all .18s cubic-bezier(.4,0,.2,1);letter-spacing:.05em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:6px;box-shadow:var(--shadow-soft)}
+.chip:hover{border-color:var(--gold-500);color:var(--ink-800);transform:translateY(-1px);box-shadow:0 4px 10px rgba(186,117,23,.1)}
+.chip.on{background:var(--ink-800);border-color:var(--ink-800);color:var(--gold-300);font-weight:700;box-shadow:0 4px 12px rgba(26,20,10,.25)}
+.chip.on:hover{background:var(--ink-900)}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.7}
+
+/* ═══════════════════════════════════════════════════
+   MARKET CARDS — premium
+   ═══════════════════════════════════════════════════ */
+.market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.market-card{position:relative;background:linear-gradient(180deg,#fff 0%,#fdfaf1 100%);border:1px solid var(--sahara-dust);border-radius:14px;padding:1.15rem 1.25rem 1.1rem;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);overflow:hidden;box-shadow:var(--shadow-soft)}
+.market-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold-foil);opacity:0;transition:opacity .2s}
+.market-card:hover::before{opacity:1}
+.market-card:hover{border-color:var(--gold-400);box-shadow:var(--shadow-lift);transform:translateY(-2px)}
+.market-card.resolved{opacity:.72}
+.market-card.resolved::before{opacity:0}
+.mcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px}
+.badge{font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:99px;text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.badge::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.65}
+.b-utrecht{background:rgba(8,80,65,.08);color:#085041}
+.b-nederland{background:rgba(12,68,124,.08);color:#0C447C}
+.b-ons-leven{background:rgba(99,56,6,.09);color:#633806}
+.b-de-wereld{background:rgba(113,43,19,.08);color:#712B13}
+.b-sport{background:rgba(39,80,10,.08);color:#27500A}
+.b-overig{background:rgba(68,68,65,.08);color:#444441}
+.b-resolved{background:rgba(85,85,85,.08);color:#555}
+.mcard-closing{font-size:10px;color:#a89a7a;letter-spacing:.03em;font-weight:500}
+.mcard-ai{font-size:9px;font-weight:800;letter-spacing:.1em;padding:3px 8px;border-radius:99px;background:var(--gold-foil);color:#1a1206;box-shadow:0 1px 4px rgba(186,117,23,.25);text-transform:uppercase;margin-right:auto}
+.mcard-title{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;line-height:1.35;margin-bottom:14px;color:var(--ink-900);letter-spacing:-.005em}
+.prob-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.prob-label{font-size:10px;font-weight:700;width:30px;letter-spacing:.05em}
+.prob-label.yes{color:var(--savanna)}.prob-label.no{color:var(--rooibos)}
+.prob-track{flex:1;height:6px;background:#f4ecd9;border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(26,20,10,.06)}
+.prob-fill{height:100%;border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1);position:relative}
+.prob-fill.yes{background:linear-gradient(90deg,#7ab030,#3B6D11)}
+.prob-fill.no{background:linear-gradient(90deg,#e06565,#A32D2D)}
+.prob-fill::after{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);border-radius:99px 99px 0 0}
+.prob-pct{font-size:11px;width:36px;text-align:right;color:var(--ink-800);font-weight:700;font-variant-numeric:tabular-nums}
+.mcard-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px dashed var(--sahara-dust)}
+.pot{font-size:11px;color:#8a7f6a;font-weight:500}
+.pot-val{font-family:'Fraunces',serif;font-weight:700;color:var(--gold-500);font-size:13px}
+.bet-count{font-size:10px;color:#a89a7a;display:inline-flex;align-items:center;gap:4px;font-weight:600}
 
 /* ===== DETAIL ===== */
 .back-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#888;margin-bottom:1rem;background:none;border:none;padding:0;transition:color .15s}
@@ -159,9 +265,116 @@ button{cursor:pointer}
 .resolve-btn.yes{border-color:#3B6D11;color:#3B6D11}.resolve-btn.yes:hover{background:#EAF3DE}
 .resolve-btn.no{border-color:#A32D2D;color:#A32D2D}.resolve-btn.no:hover{background:#FCEBEB}
 
+/* ═══════════════════════════════════════════════════
+   MARKET COMMENTS
+   ═══════════════════════════════════════════════════ */
+.mc-wrap{background:linear-gradient(180deg,#fff 0%,#fdfaf1 100%);border:1px solid var(--sahara-dust);border-radius:14px;padding:1.1rem 1.25rem;margin-top:14px;box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
+.mc-wrap::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold-foil);opacity:.6}
+.mc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.mc-head-left{display:flex;align-items:center;gap:10px}
+.mc-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--gold-foil);border-radius:8px;box-shadow:0 2px 6px rgba(186,117,23,.25);color:#fff}
+.mc-title{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ink-900);letter-spacing:-.005em}
+.mc-count{font-size:10px;color:#a89a7a;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.mc-post{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--sahara-cream);border-radius:12px;border:1px solid var(--sahara-dust);margin-bottom:14px}
+.mc-post-avatar{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.mc-post-body{flex:1;min-width:0}
+.mc-post-textarea{width:100%;border:none;background:transparent;resize:none;font-family:inherit;font-size:13px;line-height:1.5;min-height:38px;outline:none;color:var(--ink-800)}
+.mc-post-textarea::placeholder{color:#a89a7a;font-style:italic}
+.mc-post-bot{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.mc-post-counter{font-size:10px;color:#a89a7a;font-variant-numeric:tabular-nums}
+.mc-post-counter.over{color:var(--rooibos)}
+.mc-post-btn{padding:7px 16px;border:none;border-radius:99px;background:var(--ink-800);color:var(--gold-300);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;cursor:pointer}
+.mc-post-btn:hover{background:var(--ink-900);transform:translateY(-1px)}
+.mc-post-btn:disabled{background:#d8cfbe;color:#a89a7a;cursor:not-allowed;transform:none}
+.mc-list{display:flex;flex-direction:column;gap:10px}
+.mc-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--sahara-dust)}
+.mc-item:last-child{border-bottom:none}
+.mc-item-avatar{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.mc-item-body{flex:1;min-width:0}
+.mc-item-meta{display:flex;align-items:baseline;gap:8px;margin-bottom:3px;flex-wrap:wrap}
+.mc-item-name{font-size:12px;font-weight:700;color:var(--ink-900)}
+.mc-item-side{font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.05em}
+.mc-item-side.yes{background:rgba(59,109,17,.1);color:var(--savanna)}
+.mc-item-side.no{background:rgba(163,45,45,.1);color:var(--rooibos)}
+.mc-item-time{font-size:10px;color:#a89a7a}
+.mc-item-text{font-size:13px;line-height:1.55;color:var(--ink-700);white-space:pre-wrap;word-wrap:break-word}
+.mc-item-actions{display:flex;gap:14px;margin-top:6px}
+.mc-item-action{background:none;border:none;padding:0;font-size:10px;color:#a89a7a;display:inline-flex;align-items:center;gap:4px;transition:color .15s;cursor:pointer;letter-spacing:.04em;font-weight:600}
+.mc-item-action:hover{color:var(--gold-500)}
+.mc-item-action.liked{color:var(--rooibos)}
+.mc-item-action.del:hover{color:var(--rooibos)}
+
+/* ===== AI MARKET GENERATOR PANEL ===== */
+.ai-panel{background:linear-gradient(135deg,#1a1206 0%,#2a1d0a 50%,#1a1206 100%);border:1px solid var(--gold-500);border-radius:16px;margin-bottom:18px;overflow:hidden;position:relative;box-shadow:var(--shadow-med)}
+.ai-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold-foil);opacity:.9}
+.ai-panel::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .78 0 0 0 0 .30 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.4;pointer-events:none}
+.ai-panel-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;position:relative;z-index:1;transition:background .2s}
+.ai-panel-head:hover{background:rgba(240,196,75,.05)}
+.ai-panel-head-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.ai-icon{width:36px;height:36px;background:var(--gold-foil);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a1206;box-shadow:0 4px 12px rgba(240,196,75,.3);flex-shrink:0}
+.ai-panel-title-wrap{flex:1;min-width:0}
+.ai-panel-title{font-family:'Fraunces',serif;font-size:16px;font-weight:700;background:var(--gold-foil);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.01em}
+.ai-panel-sub{font-size:11px;color:#c9b380;margin-top:2px;font-style:italic}
+.ai-chevron{color:var(--gold-300);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(240,196,75,.1);border-radius:50%;flex-shrink:0}
+.ai-panel-body{padding:0 20px 20px;position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
+.ai-key-block{background:rgba(255,255,255,.03);border:1px solid rgba(240,196,75,.2);border-radius:10px;padding:14px}
+.ai-key-block.ok{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:rgba(59,109,17,.08);border-color:rgba(59,109,17,.35)}
+.ai-key-label{font-size:11px;color:var(--gold-300);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:8px}
+.ai-key-row{display:flex;gap:8px}
+.ai-key-input{flex:1;background:#0d0904;border:1px solid rgba(240,196,75,.3);color:var(--gold-300);padding:10px 12px;border-radius:8px;font-size:12px;font-family:'SF Mono',Menlo,monospace;outline:none}
+.ai-key-input:focus{border-color:var(--gold-400);box-shadow:0 0 0 3px rgba(240,196,75,.15)}
+.ai-key-hint{font-size:10px;color:#8a7a5a;margin-top:8px;font-style:italic;line-height:1.4}
+.ai-key-ok{display:flex;align-items:center;gap:8px;font-size:12px;color:#b5d492;font-weight:600}
+.ai-key-ok-dot{width:8px;height:8px;background:#7fb84a;border-radius:50%;box-shadow:0 0 0 3px rgba(127,184,74,.2);animation:aiPulse 2s infinite}
+@keyframes aiPulse{0%,100%{box-shadow:0 0 0 3px rgba(127,184,74,.2)}50%{box-shadow:0 0 0 6px rgba(127,184,74,.05)}}
+.ai-key-masked{font-family:'SF Mono',Menlo,monospace;font-size:10px;color:#8a7a5a;margin-left:4px}
+.ai-gen-block{display:flex;flex-direction:column;gap:10px}
+.ai-gen-label{font-size:11px;color:var(--gold-300);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.ai-theme-input{background:#0d0904;border:1px solid rgba(240,196,75,.3);color:var(--gold-300);padding:11px 13px;border-radius:8px;font-size:13px;outline:none;font-family:inherit}
+.ai-theme-input::placeholder{color:#5a4e38;font-style:italic}
+.ai-theme-input:focus{border-color:var(--gold-400);box-shadow:0 0 0 3px rgba(240,196,75,.15)}
+.ai-btn{padding:9px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+.ai-btn.primary{background:var(--gold-foil);color:#1a1206;box-shadow:0 2px 10px rgba(240,196,75,.25)}
+.ai-btn.primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 14px rgba(240,196,75,.35)}
+.ai-btn.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.ai-btn.ghost{background:transparent;border:1px solid rgba(240,196,75,.3);color:var(--gold-300)}
+.ai-btn.ghost:hover{background:rgba(240,196,75,.1);border-color:var(--gold-400)}
+.ai-btn.full{width:100%;padding:12px;font-size:13px;text-transform:uppercase}
+.ai-btn.small{padding:6px 11px;font-size:10px;text-transform:uppercase}
+.ai-spinner{width:14px;height:14px;border:2px solid rgba(26,18,6,.25);border-top-color:#1a1206;border-radius:50%;animation:aiSpin .7s linear infinite}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+.ai-error{background:rgba(163,45,45,.15);border:1px solid rgba(163,45,45,.4);color:#e8b0b0;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.5}
+.ai-sugg-head{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed rgba(240,196,75,.2)}
+.ai-sugg-count{font-size:11px;color:var(--gold-300);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.ai-sugg-list{display:flex;flex-direction:column;gap:12px}
+.ai-sugg{background:#fffdf7;border:1px solid var(--sahara-dust);border-radius:12px;padding:14px;position:relative;box-shadow:var(--shadow-soft)}
+.ai-sugg::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold-foil);border-radius:12px 12px 0 0}
+.ai-sugg-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.ai-sugg-cat{font-size:10px;padding:3px 9px;border-radius:99px;font-weight:700;letter-spacing:.05em}
+.ai-sugg-conf{font-size:10px;padding:3px 9px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.ai-sugg-conf.hi{background:rgba(59,109,17,.1);color:var(--savanna)}
+.ai-sugg-conf.mid{background:rgba(186,117,23,.12);color:var(--gold-500)}
+.ai-sugg-conf.lo{background:rgba(163,45,45,.08);color:var(--rooibos)}
+.ai-sugg-title{width:100%;font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink-900);background:transparent;border:none;border-bottom:1px dashed transparent;padding:4px 0;margin-bottom:6px;outline:none;transition:border-color .15s}
+.ai-sugg-title:focus{border-bottom-color:var(--gold-400)}
+.ai-sugg-desc{width:100%;font-size:12px;color:var(--ink-700);background:var(--sahara-cream);border:1px solid var(--sahara-dust);border-radius:8px;padding:8px 10px;resize:vertical;font-family:inherit;line-height:1.5;outline:none;margin-bottom:10px}
+.ai-sugg-desc:focus{border-color:var(--gold-400)}
+.ai-sugg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ai-sugg-field label{display:block;font-size:10px;color:#8a7a5a;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px}
+.ai-sugg-field select,.ai-sugg-field input{width:100%;border:1px solid var(--sahara-dust);border-radius:7px;padding:7px 9px;font-size:12px;background:#fff;font-family:inherit;outline:none}
+.ai-sugg-field select:focus,.ai-sugg-field input:focus{border-color:var(--gold-400)}
+.ai-sugg-rationale{font-size:11px;color:var(--ink-600);background:var(--sahara-cream);border-left:3px solid var(--gold-400);padding:8px 10px;border-radius:0 7px 7px 0;line-height:1.5;margin-bottom:10px;font-style:italic}
+.ai-sugg-rationale b{color:var(--ink-800);font-style:normal}
+.ai-sugg-actions{display:flex;gap:8px;justify-content:flex-end}
+.ai-sugg-actions .ai-btn.ghost{background:#fff;border:1px solid var(--sahara-dust);color:var(--ink-700)}
+.ai-sugg-actions .ai-btn.ghost:hover{background:#fbf7ec;border-color:var(--rooibos);color:var(--rooibos)}
+.ai-sugg-actions .ai-btn.primary{background:var(--ink-800);color:var(--gold-300);box-shadow:0 2px 8px rgba(26,18,6,.15)}
+.ai-sugg-actions .ai-btn.primary:hover{background:var(--ink-900)}
+@media(max-width:600px){.ai-sugg-row{grid-template-columns:1fr}}
+
 /* ===== BETS LIST ===== */
-.bets-list{background:#fff;border:1px solid #e8e6e1;border-radius:10px;padding:1rem 1.1rem;margin-top:14px}
-.bets-list-header{font-size:12px;font-weight:600;margin-bottom:12px}
+.bets-list{background:linear-gradient(180deg,#fff 0%,#fdfaf1 100%);border:1px solid var(--sahara-dust);border-radius:14px;padding:1.1rem 1.25rem;margin-top:14px;box-shadow:var(--shadow-soft)}
+.bets-list-header{font-family:'Fraunces',serif;font-size:15px;font-weight:700;margin-bottom:12px;color:var(--ink-900)}
 .bet-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0eeea}
 .bet-row:last-child{border-bottom:none}
 .bet-left{display:flex;align-items:center;gap:8px}
@@ -199,23 +412,39 @@ button{cursor:pointer}
 .btn-submit{padding:8px 18px;border:none;border-radius:6px;background:#BA7517;color:white;font-size:12px;font-weight:600;transition:background .15s}
 .btn-submit:hover{background:#995f10}
 
-/* ===== AUTH SCREEN ===== */
-.auth-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
-.auth-card{background:#fff;border:1px solid #e8e6e1;border-radius:12px;padding:2rem 2.5rem;text-align:center;max-width:400px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.05)}
-.auth-brand{font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-size:32px;font-weight:700;letter-spacing:.25em;color:#BA7517;margin-bottom:4px}
-.auth-sub{font-size:12px;color:#888;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
-.auth-tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid #e8e6e1}
-.auth-tab{flex:1;padding:10px;border:none;background:none;font-size:12px;color:#888;border-bottom:2px solid transparent;font-weight:500;transition:all .15s}
-.auth-tab.on{color:#BA7517;border-bottom-color:#BA7517}
-.auth-input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;margin-bottom:10px}
-.auth-input:focus{outline:none;border-color:#BA7517}
-.auth-select{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;margin-bottom:10px}
-.auth-select:focus{outline:none;border-color:#BA7517}
-.auth-btn{width:100%;padding:12px;border:none;border-radius:8px;background:#BA7517;color:white;font-size:14px;font-weight:600;letter-spacing:.03em;transition:background .15s;margin-top:6px}
-.auth-btn:hover{background:#995f10}
-.auth-btn:disabled{background:#ccc;cursor:not-allowed}
-.auth-error{font-size:11px;color:#A32D2D;background:#FCEBEB;padding:8px;border-radius:6px;margin-bottom:10px}
-.auth-footer{font-size:10px;color:#bbb;margin-top:1.5rem;line-height:1.6}
+/* ═══════════════════════════════════════════════════
+   AUTH SCREEN — full poster
+   ═══════════════════════════════════════════════════ */
+.auth-screen{min-height:100vh;display:flex;align-items:stretch;position:relative;background:linear-gradient(135deg,#1A120A 0%,#2A1E10 50%,#4a2c10 100%);overflow:hidden}
+.auth-screen::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 25%,rgba(229,180,83,.2) 0%,transparent 50%),radial-gradient(circle at 20% 80%,rgba(153,60,29,.15) 0%,transparent 55%);pointer-events:none}
+.auth-poster{flex:1;display:none;position:relative;padding:48px;overflow:hidden;color:#fff}
+@media(min-width:900px){.auth-poster{display:flex;flex-direction:column;justify-content:space-between}}
+.auth-poster-art{position:absolute;inset:0;pointer-events:none;opacity:.92}
+.auth-poster-art svg{width:100%;height:100%}
+.auth-poster-content{position:relative;z-index:2;max-width:420px}
+.auth-poster-title{font-family:'Archivo Black',sans-serif;font-size:72px;line-height:.9;letter-spacing:-.02em;margin-bottom:10px}
+.auth-poster-title .g{background:linear-gradient(180deg,#F5DA95,#BA7517);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-poster-sub{font-family:'Fraunces',serif;font-size:22px;font-style:italic;color:#d9c9a8;margin-bottom:20px}
+.auth-poster-blurb{font-size:13px;color:#bfae8a;line-height:1.7;max-width:380px}
+.auth-poster-foot{position:relative;z-index:2;font-size:10px;color:#8a7f6a;letter-spacing:.25em;text-transform:uppercase}
+.auth-right{flex:0 0 auto;width:100%;max-width:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:2}
+@media(min-width:900px){.auth-right{background:rgba(255,255,255,.02);backdrop-filter:blur(4px);border-left:1px solid rgba(229,180,83,.15)}}
+.auth-card{background:#fff;border:1px solid var(--sahara-dust);border-radius:16px;padding:2.25rem 2.5rem;text-align:center;max-width:400px;width:100%;box-shadow:0 20px 60px -10px rgba(0,0,0,.4),0 0 0 1px rgba(229,180,83,.2);position:relative;overflow:hidden}
+.auth-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold-foil)}
+.auth-brand{font-family:'Archivo Black',sans-serif;font-size:38px;font-weight:900;letter-spacing:.18em;color:var(--ink-900);margin-bottom:4px;position:relative}
+.auth-brand .g{background:var(--gold-foil);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-sub{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--gold-500);letter-spacing:.02em;margin-bottom:1.75rem;font-weight:500}
+.auth-tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid var(--sahara-dust);gap:4px}
+.auth-tab{flex:1;padding:11px 10px;border:none;background:none;font-size:11px;color:#8a7f6a;border-bottom:2px solid transparent;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .18s}
+.auth-tab:hover{color:var(--ink-800)}
+.auth-tab.on{color:var(--ink-900);border-bottom-color:var(--gold-500)}
+.auth-input,.auth-select{width:100%;padding:12px 14px;border:1px solid var(--sahara-dust);border-radius:10px;font-size:13px;background:#faf7ee;margin-bottom:10px;font-family:inherit;transition:all .18s}
+.auth-input:focus,.auth-select:focus{outline:none;border-color:var(--gold-500);background:#fff;box-shadow:0 0 0 4px rgba(186,117,23,.08)}
+.auth-btn{width:100%;padding:13px;border:none;border-radius:10px;background:var(--gold-foil);color:white;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;margin-top:8px;box-shadow:0 4px 14px rgba(186,117,23,.25),inset 0 1px 0 rgba(255,255,255,.2);cursor:pointer}
+.auth-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(186,117,23,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+.auth-btn:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+.auth-error{font-size:11px;color:var(--rooibos);background:rgba(163,45,45,.08);border:1px solid rgba(163,45,45,.2);padding:10px;border-radius:8px;margin-bottom:10px}
+.auth-footer{font-size:10px;color:#a89a7a;margin-top:1.5rem;line-height:1.7;letter-spacing:.03em}
 
 /* ===== MODAL ===== */
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
@@ -688,6 +917,18 @@ let messages = [];
 let replyingTo = null;      // message id
 let timelineMsg = null;
 
+// Market comments
+let marketComments = [];    // [{id, market_id, user_uid, user_name, text, created_at, liked_by}]
+let commentMsg = null;
+
+// AI market generator
+let aiSuggestions = [];     // [{title, description, category, closing_date, confidence, rationale}]
+let aiLoading = false;
+let aiError = '';
+let aiApiKey = localStorage.getItem('claude_api_key') || '';
+let aiTheme = '';           // optional thema/nieuws-seed
+let aiExpanded = false;     // show/hide AI panel
+
 // Scorito
 let scoritoSubview = 'matches';  // matches | topscorers | countries | ranking | admin
 let scoritoPhase = 'group';
@@ -1027,6 +1268,12 @@ function startListeners() {
     render();
   }));
 
+  // Market comments
+  unsubs.push(db.collection('market_comments').orderBy('created_at','asc').onSnapshot(snap => {
+    marketComments = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    render();
+  }));
+
   // Scorito listeners
   unsubs.push(db.collection('sc_matches').onSnapshot(snap => {
     scMatches = snap.docs.map(d => ({ id:d.id, ...d.data() }));
@@ -1305,6 +1552,55 @@ async function doDeleteMessage(msgId) {
 
 function startReply(msgId) { replyingTo = replyingTo === msgId ? null : msgId; render(); }
 
+/* ═══════════════════════════════════════════════════
+   MARKET COMMENTS ACTIES
+   ═══════════════════════════════════════════════════ */
+async function doPostComment(marketId) {
+  const input = document.getElementById('commentInput-'+marketId);
+  const text = input?.value?.trim();
+  if (!text) return;
+  if (text.length > 600) { commentMsg = {type:'error', text:'Max 600 tekens'}; render(); return; }
+  try {
+    await db.collection('market_comments').add({
+      market_id: marketId,
+      user_uid: currentUser.uid,
+      user_name: currentUser.name,
+      text: text,
+      created_at: new Date().toISOString(),
+      liked_by: []
+    });
+    if (input) input.value = '';
+    commentMsg = null;
+    render();
+  } catch(e) {
+    commentMsg = {type:'error', text:'Fout: '+e.message};
+    render();
+  }
+}
+
+async function doLikeComment(commentId) {
+  const c = marketComments.find(x => x.id === commentId);
+  if (!c) return;
+  const liked = (c.liked_by || []).includes(currentUser.uid);
+  try {
+    await db.collection('market_comments').doc(commentId).update({
+      liked_by: liked
+        ? firebase.firestore.FieldValue.arrayRemove(currentUser.uid)
+        : firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+    });
+  } catch(e) { console.log('like comment error', e); }
+}
+
+async function doDeleteComment(commentId) {
+  const c = marketComments.find(x => x.id === commentId);
+  if (!c) return;
+  if (c.user_uid !== currentUser.uid && !isAdmin()) return;
+  if (!confirm('Reactie verwijderen?')) return;
+  try {
+    await db.collection('market_comments').doc(commentId).delete();
+  } catch(e) { console.log('delete comment error', e); }
+}
+
 function fmtRelTime(iso) {
   const diff = new Date() - new Date(iso);
   if (diff < 60000) return 'zojuist';
@@ -1312,6 +1608,169 @@ function fmtRelTime(iso) {
   if (diff < 86400000) return Math.floor(diff/3600000)+'u';
   if (diff < 604800000) return Math.floor(diff/86400000)+'d';
   return fmtDate(iso.slice(0,10));
+}
+
+/* ═══════════════════════════════════════════════════
+   AI MARKET GENERATOR (Claude API)
+   ═══════════════════════════════════════════════════ */
+function saveAiApiKey() {
+  const input = document.getElementById('aiApiKeyInput');
+  const val = input?.value?.trim();
+  if (!val) { aiError = 'Geef een API key op.'; render(); return; }
+  aiApiKey = val;
+  localStorage.setItem('claude_api_key', val);
+  aiError = '';
+  render();
+}
+
+function clearAiApiKey() {
+  aiApiKey = '';
+  localStorage.removeItem('claude_api_key');
+  render();
+}
+
+function toggleAiPanel() {
+  aiExpanded = !aiExpanded;
+  render();
+}
+
+async function generateAiMarkets() {
+  if (!aiApiKey) { aiError = 'Geen API key ingesteld.'; render(); return; }
+  aiLoading = true;
+  aiError = '';
+  aiSuggestions = [];
+  render();
+
+  const themeInput = document.getElementById('aiThemeInput');
+  const theme = themeInput?.value?.trim() || '';
+  aiTheme = theme;
+
+  const today = new Date().toISOString().slice(0,10);
+  const in30 = new Date(Date.now() + 30*86400000).toISOString().slice(0,10);
+
+  const existingTitles = markets.slice(0, 20).map(m => '- '+m.title).join('\n');
+
+  const systemPrompt = `Je bent een creatieve markt-maker voor DIESEL Zoelloe Markets, een prediction-market-app voor een Nederlandse vriendengroep.
+De groep is gevestigd in Utrecht en houdt van ironische, scherpe, pakkende vragen over lokale en wereldactualiteit.
+Categorieën: ${CATEGORIES.join(', ')}.
+Elke markt is een JA/NEE-vraag die vóór een bepaalde datum (tussen ${today} en ${in30}) resolveert.
+Stijl: Nederlands, informeel, grappig maar respectvol. Titels kort (max 90 tekens). Beschrijving: 1-2 zinnen met duidelijke resolutieregel en bron.`;
+
+  const userPrompt = `Genereer 6 nieuwe marktvoorstellen gebaseerd op actualiteit van vandaag (${today}).${theme ? `\n\nExtra thema / nieuws-seed van de admin: "${theme}".` : ''}
+Vermijd onderwerpen die al lopen:
+${existingTitles || '(geen)'}
+
+Antwoord ALLEEN met valide JSON (geen markdown, geen extra tekst):
+{
+  "suggestions": [
+    {
+      "title": "string, max 90 tekens, eindigt meestal met vraagteken",
+      "description": "string, 1-2 zinnen, resolutieregel + bron",
+      "category": "één van: ${CATEGORIES.join(' | ')}",
+      "closing_date": "YYYY-MM-DD tussen ${today} en ${in30}",
+      "rationale": "string, korte uitleg waarom relevant nu",
+      "confidence": "laag | middel | hoog"
+    }
+  ]
+}`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': aiApiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 2000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    if (!resp.ok) {
+      const errText = await resp.text();
+      throw new Error('API '+resp.status+': '+errText.slice(0,200));
+    }
+    const data = await resp.json();
+    const textBlock = (data.content || []).find(b => b.type === 'text');
+    let rawText = textBlock?.text || '';
+    // Strip eventuele markdown fences
+    rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+    const parsed = JSON.parse(rawText);
+    const sugg = Array.isArray(parsed.suggestions) ? parsed.suggestions : [];
+    aiSuggestions = sugg.map((s, i) => ({
+      id: 'ai-'+Date.now()+'-'+i,
+      title: String(s.title || '').slice(0, 120),
+      description: String(s.description || '').slice(0, 500),
+      category: CATEGORIES.includes(s.category) ? s.category : 'Overig',
+      closing_date: /^\d{4}-\d{2}-\d{2}$/.test(s.closing_date) ? s.closing_date : in30,
+      rationale: String(s.rationale || ''),
+      confidence: String(s.confidence || 'middel')
+    }));
+    if (aiSuggestions.length === 0) aiError = 'Claude gaf geen bruikbare suggesties terug.';
+  } catch(e) {
+    aiError = 'Fout: '+e.message;
+    console.log('AI error', e);
+  }
+  aiLoading = false;
+  render();
+}
+
+function updateAiSuggestion(id, field, value) {
+  const s = aiSuggestions.find(x => x.id === id);
+  if (!s) return;
+  s[field] = value;
+  // Geen render — we willen de input niet laten flashen
+}
+
+async function acceptAiSuggestion(id) {
+  const s = aiSuggestions.find(x => x.id === id);
+  if (!s) return;
+  // Lees actuele waardes (kan door admin aangepast zijn)
+  const titleEl = document.getElementById('aiTitle-'+id);
+  const descEl = document.getElementById('aiDesc-'+id);
+  const catEl = document.getElementById('aiCat-'+id);
+  const dateEl = document.getElementById('aiDate-'+id);
+  const title = titleEl?.value?.trim() || s.title;
+  const desc = descEl?.value?.trim() || s.description;
+  const category = catEl?.value || s.category;
+  const closing_date = dateEl?.value || s.closing_date;
+
+  if (!title) { aiError = 'Titel mag niet leeg zijn.'; render(); return; }
+  if (!closing_date || closing_date <= todayStr()) { aiError = 'Sluitingsdatum moet in de toekomst liggen.'; render(); return; }
+
+  try {
+    await db.collection('markets').add({
+      title, description: desc, category, closing_date,
+      status:'open', outcome:null,
+      created_by_uid: currentUser.uid,
+      created_by_name: currentUser.name + ' (AI)',
+      created_at: new Date().toISOString(),
+      ai_generated: true,
+      ai_rationale: s.rationale || '',
+      ai_confidence: s.confidence || ''
+    });
+    aiSuggestions = aiSuggestions.filter(x => x.id !== id);
+    aiError = '';
+    render();
+  } catch(e) {
+    aiError = 'Fout bij opslaan: '+e.message;
+    render();
+  }
+}
+
+function rejectAiSuggestion(id) {
+  aiSuggestions = aiSuggestions.filter(x => x.id !== id);
+  render();
+}
+
+function clearAiSuggestions() {
+  aiSuggestions = [];
+  aiError = '';
+  render();
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1695,45 +2154,234 @@ function renderAuth() {
     : '<option value="" disabled>Alle namen zijn geclaimd</option>';
 
   return `
-  <div class="auth-screen">${geoHtml()}
-    <div class="auth-card">
-      <div class="auth-brand">DIESEL</div>
-      <div class="auth-sub">Zoelloe Markets</div>
-      <div class="auth-tabs">
-        <button type="button" class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
-        <button type="button" class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';render();refreshNames()">Account activeren</button>
+  <div class="auth-screen">
+    <div class="auth-poster">
+      <div class="auth-poster-art">${posterArtSvg()}</div>
+      <div class="auth-poster-content">
+        <div class="kicker" style="color:#E5B453;margin-bottom:14px">Privaat · Vriendengroep · 2026</div>
+        <div class="auth-poster-title">DIESEL<br><span class="g">MARKETS</span></div>
+        <div class="auth-poster-sub">Zoelloe Edition</div>
+        <div class="auth-poster-blurb">Wedden, voorspellen en scorito'en met de hele groep. Eigen valuta, eigen gokken, eigen regels. Welkom thuis.</div>
       </div>
-      ${authError ? '<div class="auth-error">'+esc(authError)+'</div>' : ''}
-      ${authTab==='login' ? `
-        <form onsubmit="doLogin();return false;" novalidate>
-          <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres"
-            autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
-            inputmode="email">
-          <input class="auth-input" id="loginPw" type="password" placeholder="Wachtwoord"
-            autocomplete="current-password">
-          <button type="submit" class="auth-btn" ${authBusy?'disabled':''}>
-            ${authBusy ? '⏳ Bezig...' : 'Inloggen'}
-          </button>
-        </form>
-      ` : `
-        <form onsubmit="doRegister();return false;" novalidate>
-          <select class="auth-select" id="regName">${namesOptions}</select>
-          <input class="auth-input" id="regEmail" type="email" placeholder="Je e-mailadres"
-            autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
-            inputmode="email">
-          <input class="auth-input" id="regPw" type="password" placeholder="Kies een wachtwoord (min. 6 tekens)"
-            autocomplete="new-password">
-          <button type="submit" class="auth-btn" ${authBusy || avail.length===0 ? 'disabled':''}>
-            ${authBusy ? '⏳ Account aanmaken...' : 'Account activeren ⛽'}
-          </button>
-        </form>
-      `}
-      <div class="auth-footer">
-        Privaat predictieplatform van de Zoelloe-vriendengroep.<br>
-        Alle bedragen in Diesel Dollars (${CURRENCY}) — geen echt geld.
+      <div class="auth-poster-foot">Est. 2025 — No Real Money — ${CURRENCY} Only</div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-brand"><span class="g">DIESEL</span></div>
+        <div class="auth-sub">Zoelloe Markets</div>
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
+          <button type="button" class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';render();refreshNames()">Activeren</button>
+        </div>
+        ${authError ? '<div class="auth-error">'+esc(authError)+'</div>' : ''}
+        ${authTab==='login' ? `
+          <form onsubmit="doLogin();return false;" novalidate>
+            <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres"
+              autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
+              inputmode="email">
+            <input class="auth-input" id="loginPw" type="password" placeholder="Wachtwoord"
+              autocomplete="current-password">
+            <button type="submit" class="auth-btn" ${authBusy?'disabled':''}>
+              ${authBusy ? '⏳ Bezig...' : 'Inloggen'}
+            </button>
+          </form>
+        ` : `
+          <form onsubmit="doRegister();return false;" novalidate>
+            <select class="auth-select" id="regName">${namesOptions}</select>
+            <input class="auth-input" id="regEmail" type="email" placeholder="Je e-mailadres"
+              autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false"
+              inputmode="email">
+            <input class="auth-input" id="regPw" type="password" placeholder="Kies een wachtwoord (min. 6 tekens)"
+              autocomplete="new-password">
+            <button type="submit" class="auth-btn" ${authBusy || avail.length===0 ? 'disabled':''}>
+              ${authBusy ? '⏳ Account aanmaken...' : 'Account activeren ⛽'}
+            </button>
+          </form>
+        `}
+        <div class="auth-footer">
+          Privaat predictieplatform van de Zoelloe-vriendengroep.<br>
+          Alle bedragen in Diesel Dollars (${CURRENCY}) — geen echt geld.
+        </div>
       </div>
     </div>
   </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   DIESEL / ZULU SVG ART — poster, hero, icons
+   ═══════════════════════════════════════════════════ */
+function posterArtSvg() {
+  // Rijke poster-SVG in Diesel/Zulu stijl: Zulu krijger silhouet, adelaar,
+  // cactus, vlammen, zon, diamond patroon, spear
+  return `<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="goldG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#F5DA95"/>
+        <stop offset="50%" stop-color="#BA7517"/>
+        <stop offset="100%" stop-color="#6b3f08"/>
+      </linearGradient>
+      <linearGradient id="fireG" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#993C1D"/>
+        <stop offset="55%" stop-color="#E5B453"/>
+        <stop offset="100%" stop-color="#F5DA95"/>
+      </linearGradient>
+      <radialGradient id="sunG" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%" stop-color="#F5DA95" stop-opacity="0.9"/>
+        <stop offset="70%" stop-color="#BA7517" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#BA7517" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Grote zon achter alles -->
+    <circle cx="420" cy="220" r="180" fill="url(#sunG)"/>
+    <circle cx="420" cy="220" r="90" fill="none" stroke="#E5B453" stroke-width="1.5" opacity=".5"/>
+    <!-- Zon-stralen -->
+    <g opacity=".45" stroke="#E5B453" stroke-width="2" stroke-linecap="round">
+      <line x1="420" y1="70" x2="420" y2="110"/>
+      <line x1="570" y1="220" x2="530" y2="220"/>
+      <line x1="420" y1="370" x2="420" y2="330"/>
+      <line x1="310" y1="110" x2="340" y2="140"/>
+      <line x1="530" y1="110" x2="500" y2="140"/>
+      <line x1="530" y1="330" x2="500" y2="300"/>
+      <line x1="310" y1="330" x2="340" y2="300"/>
+    </g>
+    <!-- Adelaar silhouet vliegend -->
+    <g transform="translate(430,160)" fill="#1A120A" opacity=".82">
+      <path d="M0,0 Q-20,-12 -45,-10 Q-28,-2 -18,0 Q-30,10 -38,22 Q-18,14 -5,6 L0,14 L5,6 Q18,14 38,22 Q30,10 18,0 Q28,-2 45,-10 Q20,-12 0,0 Z"/>
+      <circle cx="0" cy="2" r="2.2"/>
+    </g>
+    <!-- Zulu krijger silhouet groot -->
+    <g transform="translate(145,240)">
+      <!-- Schild (groot ovaal met strepen) -->
+      <ellipse cx="0" cy="180" rx="78" ry="130" fill="#2A1E10" stroke="#BA7517" stroke-width="3"/>
+      <ellipse cx="0" cy="180" rx="78" ry="130" fill="none" stroke="#E5B453" stroke-width="1" opacity=".7"/>
+      <line x1="0" y1="50" x2="0" y2="310" stroke="#BA7517" stroke-width="2.5" opacity=".75"/>
+      <ellipse cx="0" cy="130" rx="28" ry="12" fill="#BA7517" opacity=".3"/>
+      <ellipse cx="0" cy="180" rx="28" ry="12" fill="#BA7517" opacity=".3"/>
+      <ellipse cx="0" cy="230" rx="28" ry="12" fill="#BA7517" opacity=".3"/>
+      <!-- Speren (kruislings achter schild) -->
+      <g stroke="url(#goldG)" stroke-width="4" stroke-linecap="round">
+        <line x1="-95" y1="30" x2="95" y2="320"/>
+        <line x1="95" y1="30" x2="-95" y2="320"/>
+      </g>
+      <!-- Speer punten -->
+      <polygon points="-95,30 -102,48 -84,46" fill="#BA7517"/>
+      <polygon points="95,30 102,48 84,46" fill="#BA7517"/>
+    </g>
+    <!-- Cactus rechtsonder -->
+    <g transform="translate(490,600)" fill="#3B6D11" opacity=".85">
+      <rect x="-8" y="-80" width="16" height="120" rx="4"/>
+      <rect x="-36" y="-50" width="16" height="60" rx="4"/>
+      <rect x="-36" y="-50" width="30" height="16" rx="4"/>
+      <rect x="20" y="-65" width="16" height="50" rx="4"/>
+      <rect x="6" y="-65" width="30" height="16" rx="4"/>
+      <!-- Stekels -->
+      <g stroke="#E5B453" stroke-width="1" opacity=".6">
+        <line x1="-6" y1="-60" x2="-2" y2="-58"/>
+        <line x1="6" y1="-40" x2="2" y2="-38"/>
+        <line x1="-6" y1="-20" x2="-2" y2="-18"/>
+        <line x1="6" y1="-0" x2="2" y2="2"/>
+      </g>
+    </g>
+    <!-- Vlammen linksonder (fuel fire) -->
+    <g transform="translate(100,700)" fill="url(#fireG)" opacity=".85">
+      <path d="M0,0 Q-15,-25 -10,-50 Q-5,-35 0,-45 Q5,-70 15,-55 Q25,-30 20,-10 Q30,-20 25,0 Z"/>
+    </g>
+    <!-- Mexican zigzag border boven -->
+    <g stroke="#BA7517" stroke-width="2" fill="none" opacity=".6">
+      <polyline points="20,40 50,20 80,40 110,20 140,40 170,20 200,40 230,20 260,40 290,20 320,40"/>
+    </g>
+    <!-- Diamond patroon onder -->
+    <g fill="#E5B453" opacity=".35">
+      <polygon points="40,760 50,748 60,760 50,772"/>
+      <polygon points="90,760 100,748 110,760 100,772"/>
+      <polygon points="140,760 150,748 160,760 150,772"/>
+      <polygon points="190,760 200,748 210,760 200,772"/>
+      <polygon points="240,760 250,748 260,760 250,772"/>
+      <polygon points="290,760 300,748 310,760 300,772"/>
+      <polygon points="340,760 350,748 360,760 350,772"/>
+      <polygon points="390,760 400,748 410,760 400,772"/>
+      <polygon points="440,760 450,748 460,760 450,772"/>
+      <polygon points="490,760 500,748 510,760 500,772"/>
+      <polygon points="540,760 550,748 560,760 550,772"/>
+    </g>
+    <!-- Gazelle silhouet -->
+    <g transform="translate(60,550)" fill="#1A120A" opacity=".75">
+      <path d="M0,0 L2,-8 L5,-12 L4,-18 L8,-18 L8,-12 L14,-14 L16,-10 L18,-4 L22,0 L22,8 L20,8 L18,4 L14,6 L12,10 L10,4 L6,4 L4,10 L2,10 L0,6 Z"/>
+      <line x1="4" y1="-18" x2="2" y2="-24" stroke="#1A120A" stroke-width="1.5"/>
+      <line x1="8" y1="-18" x2="10" y2="-24" stroke="#1A120A" stroke-width="1.5"/>
+    </g>
+    <!-- Brandstof-druppel -->
+    <g transform="translate(510,420)">
+      <path d="M0,-30 Q-14,-10 -14,5 Q-14,22 0,25 Q14,22 14,5 Q14,-10 0,-30Z" fill="#BA7517" opacity=".65"/>
+      <path d="M-3,-5 Q-7,2 -5,10" fill="none" stroke="#F5DA95" stroke-width="1.5" opacity=".8"/>
+    </g>
+  </svg>`;
+}
+
+function heroArtSvg() {
+  // Compacter art voor de hero-banner boven Markten
+  return `<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="sunH" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%" stop-color="#F5DA95" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="#BA7517" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#F5DA95"/>
+        <stop offset="100%" stop-color="#BA7517"/>
+      </linearGradient>
+    </defs>
+    <circle cx="380" cy="100" r="140" fill="url(#sunH)"/>
+    <circle cx="380" cy="100" r="70" fill="none" stroke="#E5B453" stroke-width="1" opacity=".5"/>
+    <!-- Schild + speren -->
+    <g transform="translate(380,150)">
+      <ellipse cx="0" cy="0" rx="48" ry="80" fill="none" stroke="#E5B453" stroke-width="2.5" opacity=".8"/>
+      <line x1="0" y1="-80" x2="0" y2="80" stroke="#BA7517" stroke-width="1.5" opacity=".55"/>
+      <ellipse cx="0" cy="-30" rx="18" ry="8" fill="#BA7517" opacity=".35"/>
+      <ellipse cx="0" cy="0" rx="18" ry="8" fill="#BA7517" opacity=".35"/>
+      <ellipse cx="0" cy="30" rx="18" ry="8" fill="#BA7517" opacity=".35"/>
+      <line x1="-60" y1="-80" x2="60" y2="80" stroke="url(#goldH)" stroke-width="2.5"/>
+      <line x1="60" y1="-80" x2="-60" y2="80" stroke="url(#goldH)" stroke-width="2.5"/>
+    </g>
+    <!-- Zigzag boven -->
+    <g stroke="#E5B453" stroke-width="1.5" fill="none" opacity=".4">
+      <polyline points="20,30 40,18 60,30 80,18 100,30 120,18 140,30 160,18 180,30"/>
+    </g>
+    <!-- Diamonds onder -->
+    <g fill="#E5B453" opacity=".3">
+      <polygon points="30,280 38,270 46,280 38,290"/>
+      <polygon points="70,280 78,270 86,280 78,290"/>
+      <polygon points="110,280 118,270 126,280 118,290"/>
+    </g>
+    <!-- Adelaar klein -->
+    <g transform="translate(120,80)" fill="#F5DA95" opacity=".65">
+      <path d="M0,0 Q-10,-6 -22,-5 Q-14,-1 -8,0 Q-14,5 -18,11 Q-8,7 -2,3 L0,7 L2,3 Q8,7 18,11 Q14,5 8,0 Q14,-1 22,-5 Q10,-6 0,0 Z"/>
+    </g>
+  </svg>`;
+}
+
+function shieldIconSvg() {
+  // Klein schild-icoon voor brand-mark
+  return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2 L4 5 L4 12 Q4 18 12 22 Q20 18 20 12 L20 5 Z" fill="currentColor" opacity=".25"/>
+    <path d="M12 2 L4 5 L4 12 Q4 18 12 22 Q20 18 20 12 L20 5 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    <line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" stroke-width="1.2"/>
+    <ellipse cx="12" cy="10" rx="3" ry="1.5" fill="currentColor" opacity=".6"/>
+    <ellipse cx="12" cy="14" rx="3" ry="1.5" fill="currentColor" opacity=".6"/>
+  </svg>`;
+}
+
+function categoryIconSvg(cat) {
+  // Kleine SVG-iconen per categorie
+  const icons = {
+    'Utrecht':    '<svg viewBox="0 0 20 20" fill="none"><path d="M3 17 L3 8 L10 3 L17 8 L17 17 Z" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="11" width="4" height="6" fill="currentColor" opacity=".3"/></svg>',
+    'Nederland':  '<svg viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="3.3" fill="#AE1C28"/><rect x="2" y="8.3" width="16" height="3.4" fill="currentColor" opacity=".15"/><rect x="2" y="11.7" width="16" height="3.3" fill="#21468B"/></svg>',
+    'Ons leven':  '<svg viewBox="0 0 20 20" fill="none"><path d="M10 16 L4.5 11.5 Q1 8 4 5 Q7 2 10 6 Q13 2 16 5 Q19 8 15.5 11.5 Z" fill="currentColor" opacity=".8"/></svg>',
+    'De wereld':  '<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><ellipse cx="10" cy="10" rx="3" ry="7" stroke="currentColor" stroke-width="1.2"/><line x1="3" y1="10" x2="17" y2="10" stroke="currentColor" stroke-width="1.2"/></svg>',
+    'Sport':      '<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 3 L10 17 M3 10 L17 10 M5 5 L15 15 M15 5 L5 15" stroke="currentColor" stroke-width="1"/></svg>',
+    'Overig':     '<svg viewBox="0 0 20 20" fill="none"><circle cx="6" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="14" cy="10" r="1.5" fill="currentColor"/></svg>',
+  };
+  return icons[cat] || icons['Overig'];
 }
 
 async function refreshNames() {
@@ -1756,10 +2404,12 @@ function renderMain() {
 
   return `${geoHtml()}
     <nav class="nav"><div class="nav-inner">
-      <div class="brand">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="5" width="11" height="17" rx="1"/><path d="M14 9h3l3 3v9a1 1 0 01-1 1h-2"/><path d="M3 11h11"/><path d="M7 5V3"/></svg>
-        <span class="brand-name">DIESEL</span>
-        <span class="brand-sub">Zoelloe Markets</span>
+      <div class="brand" onclick="goView('markten')" style="cursor:pointer">
+        <div class="brand-mark">${shieldIconSvg()}</div>
+        <div class="brand-text">
+          <span class="brand-name">DIESEL</span>
+          <span class="brand-sub">Zoelloe Markets</span>
+        </div>
       </div>
       <div class="spacer"></div>
       <div class="tabs">
@@ -1771,7 +2421,7 @@ function renderMain() {
       </div>
       <div class="user-badge">
         <span class="uname">${esc(currentUser.name)}</span>
-        <span style="color:#BA7517;font-weight:600">${fmt(currentUser.balance)} ${CURRENCY}</span>
+        <span style="color:var(--gold-500);font-weight:700">${fmt(currentUser.balance)} ${CURRENCY}</span>
         <button class="logout-btn" onclick="doLogout()" title="Uitloggen">&#x2715;</button>
       </div>
     </div></nav>
@@ -1783,14 +2433,56 @@ function renderMarkets() {
   const enriched = markets.map(m => marketStats(m));
   const filtered = catFilter ? enriched.filter(m=>m.category===catFilter) : enriched;
   const openCount = enriched.filter(m=>m.status==='open').length;
+  const resolvedCount = enriched.filter(m=>m.status==='resolved').length;
+  const totalPot = enriched.reduce((s,m)=>s + (m.total_pot||0), 0);
+  const myActiveBets = currentUser ? allBets.filter(b => b.user_uid === currentUser.uid && markets.find(mm => mm.id === b.market_id && mm.status === 'open')).length : 0;
 
+  // Premium Hero
+  const heroHtml = `
+    <div class="dz-hero">
+      <div class="dz-hero-art">${heroArtSvg()}</div>
+      <div class="dz-hero-content">
+        <div class="dz-hero-kicker">Zoelloe Prediction Bureau · Seizoen 2026</div>
+        <h1 class="dz-hero-title">Voorspel.<br><span class="gold">Win.</span> Verzoek.</h1>
+        <div class="dz-hero-subtitle">Het huis van de Diesel Dollar.</div>
+        <div class="dz-hero-tagline">De privé-gokkast van de Zoelloe-vriendengroep. Zet in op wat er in de wereld, in Utrecht of in je eigen kring gaat gebeuren. Winnaars krijgen eer, glorie en ${CURRENCY}.</div>
+        <div class="dz-hero-stats">
+          <div class="dz-hero-stat">
+            <div class="dz-hero-stat-label">Open markten</div>
+            <div class="dz-hero-stat-value">${openCount}</div>
+          </div>
+          <div class="dz-hero-stat">
+            <div class="dz-hero-stat-label">Afgerond</div>
+            <div class="dz-hero-stat-value">${resolvedCount}</div>
+          </div>
+          <div class="dz-hero-stat">
+            <div class="dz-hero-stat-label">Totale pot</div>
+            <div class="dz-hero-stat-value">${fmt(totalPot)}<span class="small">${CURRENCY}</span></div>
+          </div>
+          <div class="dz-hero-stat">
+            <div class="dz-hero-stat-label">Jouw posities</div>
+            <div class="dz-hero-stat-value">${myActiveBets}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  // Premium chips met SVG-icoontjes
   const chipsHtml = '<div class="chips">' +
-    '<button class="chip '+(catFilter===''?'on':'')+'" onclick="setCatFilter(\'\')">Alles</button>' +
-    CATEGORIES.map(c=>'<button class="chip '+(catFilter===c?'on':'')+'" onclick="setCatFilter(\''+c+'\')">'+c+'</button>').join('') +
+    '<button class="chip '+(catFilter===''?'on':'')+'" onclick="setCatFilter(\'\')"><span class="chip-dot"></span>Alles</button>' +
+    CATEGORIES.map(c=>{
+      const icon = categoryIconSvg(c);
+      return '<button class="chip '+(catFilter===c?'on':'')+'" onclick="setCatFilter(\''+c+'\')"><span style="display:inline-flex;width:14px;height:14px">'+icon+'</span>'+c+'</button>';
+    }).join('') +
     '</div>';
 
+  const sectionHeader = `<div class="section-header">
+    <span class="section-title">De Markten</span>
+    <span class="section-meta"><span class="live-dot"></span>${openCount} open · ${resolvedCount} afgerond</span>
+  </div>`;
+
   if (filtered.length === 0) {
-    return `<div class="section-header"><span class="section-title">Markten</span><span class="section-meta"><span class="live-dot"></span>${openCount} open</span></div>`+chipsHtml+
+    return heroHtml + sectionHeader + chipsHtml +
       '<div class="empty-state"><div class="empty-icon">⛽</div><div class="empty-title">Nog geen weddenschappen</div><div class="empty-text">De tank is leeg! Maak de eerste weddenschap aan<br>en laat de Zoelloe-voorspellingen beginnen.</div></div>';
   }
 
@@ -1798,16 +2490,18 @@ function renderMarkets() {
     const statusLabel = m.status==='resolved' ? (m.outcome==='yes'?'JA ✓':'NEE ✗') : m.status==='closed' ? 'Gesloten' : 'Sluit '+fmtDate(m.closing_date);
     const badgeCls = m.status==='resolved' ? 'b-resolved' : (CAT_CLASS[m.category]||'b-overig');
     const badgeText = m.status==='resolved' ? (m.outcome==='yes'?'✓ JA':'✗ NEE') : m.category;
-    return `<div class="market-card" onclick="openMarket('${m.id}')">
-      <div class="mcard-top"><span class="badge ${badgeCls}">${badgeText}</span><span class="mcard-closing">${statusLabel}</span></div>
+    const cardCls = m.status==='resolved' ? 'market-card resolved' : 'market-card';
+    const aiTag = m.ai_generated ? '<span class="mcard-ai" title="AI-gegenereerd voorstel">✦ AI</span>' : '';
+    return `<div class="${cardCls}" onclick="openMarket('${m.id}')">
+      <div class="mcard-top"><span class="badge ${badgeCls}">${badgeText}</span>${aiTag}<span class="mcard-closing">${statusLabel}</span></div>
       <div class="mcard-title">${esc(m.title)}</div>
       <div class="prob-row"><span class="prob-label yes">JA</span><div class="prob-track"><div class="prob-fill yes" style="width:${m.yes_pct}%"></div></div><span class="prob-pct">${m.yes_pct}%</span></div>
       <div class="prob-row"><span class="prob-label no">NEE</span><div class="prob-track"><div class="prob-fill no" style="width:${m.no_pct}%"></div></div><span class="prob-pct">${m.no_pct}%</span></div>
-      <div class="mcard-footer"><span class="pot">Pot: <span class="pot-val">${fmt(m.total_pot)} ${CURRENCY}</span></span><span class="bet-count">${m.bet_count} inzet${m.bet_count!==1?'ten':''}</span></div>
+      <div class="mcard-footer"><span class="pot">Pot · <span class="pot-val">${fmt(m.total_pot)} ${CURRENCY}</span></span><span class="bet-count">◆ ${m.bet_count} inzet${m.bet_count!==1?'ten':''}</span></div>
     </div>`;
   }).join('');
 
-  return `<div class="section-header"><span class="section-title">Markten</span><span class="section-meta"><span class="live-dot"></span>${openCount} open</span></div>`+chipsHtml+'<div class="market-grid">'+cardsHtml+'</div>';
+  return heroHtml + sectionHeader + chipsHtml + '<div class="market-grid">'+cardsHtml+'</div>';
 }
 
 /* ===== DETAIL ===== */
@@ -1849,6 +2543,59 @@ function renderDetail() {
   const msgHtml = betMsg ? '<div class="bet-message '+betMsg.type+'">'+esc(betMsg.text)+'</div>' : '';
   const adminHtml = showResolve ? `<div class="admin-section"><div class="admin-title">Weddenschap resolveren</div><div class="admin-row"><button class="resolve-btn yes" onclick="confirmResolve('yes')">Resolveert JA</button><button class="resolve-btn no" onclick="confirmResolve('no')">Resolveert NEE</button></div></div>` : '';
 
+  // Market Comments
+  const mcItems = marketComments.filter(c => c.market_id === selectedMarketId)
+    .sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+  const mcListHtml = mcItems.length > 0 ? mcItems.map(c => {
+    const col = avtColor(c.user_name);
+    const userBet = allBets.find(b => b.user_uid === c.user_uid && b.market_id === selectedMarketId);
+    const sideTag = userBet ? `<span class="mc-item-side ${userBet.side}">${userBet.side==='yes'?'JA':'NEE'}</span>` : '';
+    const liked = (c.liked_by || []).includes(currentUser.uid);
+    const likeCount = (c.liked_by || []).length;
+    const canDelete = c.user_uid === currentUser.uid || isAdmin();
+    const delBtn = canDelete ? `<button class="mc-item-action del" onclick="doDeleteComment('${c.id}')">verwijderen</button>` : '';
+    return `<div class="mc-item">
+      <div class="mc-item-avatar" style="background:${col.bg};color:${col.fg}">${ini(c.user_name)}</div>
+      <div class="mc-item-body">
+        <div class="mc-item-meta">
+          <span class="mc-item-name">${esc(c.user_name)}</span>
+          ${sideTag}
+          <span class="mc-item-time">${fmtRelTime(c.created_at)}</span>
+        </div>
+        <div class="mc-item-text">${esc(c.text)}</div>
+        <div class="mc-item-actions">
+          <button class="mc-item-action ${liked?'liked':''}" onclick="doLikeComment('${c.id}')">${liked?'♥':'♡'} ${likeCount||''}</button>
+          ${delBtn}
+        </div>
+      </div>
+    </div>`;
+  }).join('') : '<div style="font-size:12px;color:#a89a7a;padding:18px 0;text-align:center;font-style:italic">Nog geen reacties. Begin de discussie.</div>';
+
+  const myCol = avtColor(currentUser.name);
+  const commentMsgHtml = commentMsg ? `<div class="bet-message ${commentMsg.type}" style="margin-bottom:10px">${esc(commentMsg.text)}</div>` : '';
+  const commentChatIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+  const mcHtml = `<div class="mc-wrap">
+    <div class="mc-head">
+      <div class="mc-head-left">
+        <div class="mc-icon">${commentChatIcon}</div>
+        <div class="mc-title" style="font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink-900)">Discussie</div>
+        <div class="mc-count" style="font-size:11px;color:#a89a7a;font-variant-numeric:tabular-nums">${mcItems.length} ${mcItems.length===1?'reactie':'reacties'}</div>
+      </div>
+    </div>
+    ${commentMsgHtml}
+    <div class="mc-post">
+      <div class="mc-post-avatar" style="background:${myCol.bg};color:${myCol.fg}">${ini(currentUser.name)}</div>
+      <div class="mc-post-body">
+        <textarea class="mc-post-textarea" id="commentInput-${selectedMarketId}" placeholder="Schrijf een reactie over deze markt..." maxlength="600" oninput="document.getElementById('mcCounter-${selectedMarketId}').textContent=this.value.length+'/600'" onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey))doPostComment('${selectedMarketId}')"></textarea>
+        <div class="mc-post-bot">
+          <div class="mc-post-counter" id="mcCounter-${selectedMarketId}">0/600</div>
+          <button class="mc-post-btn" onclick="doPostComment('${selectedMarketId}')">Plaats</button>
+        </div>
+      </div>
+    </div>
+    <div class="mc-list">${mcListHtml}</div>
+  </div>`;
+
   return `<button class="back-btn" onclick="goView('markten')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Terug naar markten</button>
     <div class="detail-grid"><div>
       <div class="detail-card">
@@ -1866,6 +2613,7 @@ function renderDetail() {
         </div>
       </div>
       <div class="bets-list"><div class="bets-list-header">Alle inzetten (${m.bet_count})</div>${betsHtml}</div>
+      ${mcHtml}
     </div><div>
       <div class="bet-card">${betFormHtml}${msgHtml}${adminHtml}</div>
     </div></div>`;
@@ -1913,6 +2661,7 @@ function renderLeaderboard() {
 /* ===== CREATE MARKET ===== */
 function renderCreate() {
   return `<div class="section-header"><span class="section-title">Nieuwe weddenschap</span></div>
+    ${isAdmin() ? renderAiPanel() : ''}
     <div class="create-form">
       <div class="form-group"><label>Vraag / titel</label><input id="nfTitle" placeholder="Bijv. Gaat Ole dit jaar zijn rijbewijs halen?"></div>
       <div class="form-group"><label>Beschrijving &amp; resolutieregels</label><textarea id="nfDesc" placeholder="Wanneer resolveert dit op JA? Welke bron geldt als bewijs?"></textarea></div>
@@ -1924,6 +2673,102 @@ function renderCreate() {
         <button class="btn-submit" onclick="doCreateMarket()">Aanmaken</button>
       </div>
     </div>`;
+}
+
+function renderAiPanel() {
+  const sparkle = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10.5l-6.1 1.7L12 18l-1.9-5.8L4 10.5l6.1-1.7L12 3z"/><path d="M19 3v4M21 5h-4M5 17v4M7 19H3"/></svg>';
+  const chevron = aiExpanded
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
+
+  const header = `<div class="ai-panel-head" onclick="toggleAiPanel()">
+    <div class="ai-panel-head-left">
+      <div class="ai-icon">${sparkle}</div>
+      <div class="ai-panel-title-wrap">
+        <div class="ai-panel-title">AI-marktgenerator</div>
+        <div class="ai-panel-sub">Claude stelt nieuwe weddenschappen voor op basis van actualiteit</div>
+      </div>
+    </div>
+    <div class="ai-chevron">${chevron}</div>
+  </div>`;
+
+  if (!aiExpanded) {
+    return `<div class="ai-panel">${header}</div>`;
+  }
+
+  const keyBlock = !aiApiKey
+    ? `<div class="ai-key-block">
+        <div class="ai-key-label">Anthropic API Key (eenmalig, opgeslagen in je browser)</div>
+        <div class="ai-key-row">
+          <input type="password" id="aiApiKeyInput" class="ai-key-input" placeholder="sk-ant-..." autocomplete="off">
+          <button class="ai-btn primary" onclick="saveAiApiKey()">Opslaan</button>
+        </div>
+        <div class="ai-key-hint">Vraag een key aan via console.anthropic.com. Key blijft lokaal — nooit naar Firestore.</div>
+      </div>`
+    : `<div class="ai-key-block ok">
+        <div class="ai-key-ok">
+          <span class="ai-key-ok-dot"></span>
+          API key actief <span class="ai-key-masked">${aiApiKey.slice(0,7)}…${aiApiKey.slice(-4)}</span>
+        </div>
+        <button class="ai-btn ghost small" onclick="clearAiApiKey()">Verwijder key</button>
+      </div>`;
+
+  const genBlock = aiApiKey ? `<div class="ai-gen-block">
+    <div class="ai-gen-label">Optioneel: thema of nieuws-seed</div>
+    <input id="aiThemeInput" class="ai-theme-input" placeholder="Bijv. 'verkiezingen', 'FC Utrecht', 'voorjaar 2026'..." value="${esc(aiTheme)}">
+    <button class="ai-btn primary full" onclick="generateAiMarkets()" ${aiLoading?'disabled':''}>
+      ${aiLoading ? '<span class="ai-spinner"></span> Claude denkt na...' : sparkle+' Genereer 6 voorstellen'}
+    </button>
+  </div>` : '';
+
+  const errorBlock = aiError ? `<div class="ai-error">${esc(aiError)}</div>` : '';
+
+  const suggestionsBlock = aiSuggestions.length > 0 ? `
+    <div class="ai-sugg-head">
+      <span class="ai-sugg-count">${aiSuggestions.length} voorstellen</span>
+      <button class="ai-btn ghost small" onclick="clearAiSuggestions()">Alles wissen</button>
+    </div>
+    <div class="ai-sugg-list">
+      ${aiSuggestions.map(s => renderAiSuggestion(s)).join('')}
+    </div>` : '';
+
+  return `<div class="ai-panel expanded">
+    ${header}
+    <div class="ai-panel-body">
+      ${keyBlock}
+      ${genBlock}
+      ${errorBlock}
+      ${suggestionsBlock}
+    </div>
+  </div>`;
+}
+
+function renderAiSuggestion(s) {
+  const confClass = s.confidence === 'hoog' ? 'hi' : (s.confidence === 'laag' ? 'lo' : 'mid');
+  const catOptions = CATEGORIES.map(c => `<option ${c===s.category?'selected':''}>${c}</option>`).join('');
+  return `<div class="ai-sugg">
+    <div class="ai-sugg-top">
+      <span class="ai-sugg-cat ${CAT_CLASS[s.category]||'b-overig'}">${s.category}</span>
+      <span class="ai-sugg-conf ${confClass}">zekerheid: ${s.confidence}</span>
+    </div>
+    <input class="ai-sugg-title" id="aiTitle-${s.id}" value="${esc(s.title)}" maxlength="120">
+    <textarea class="ai-sugg-desc" id="aiDesc-${s.id}" rows="2">${esc(s.description)}</textarea>
+    <div class="ai-sugg-row">
+      <div class="ai-sugg-field">
+        <label>Categorie</label>
+        <select id="aiCat-${s.id}">${catOptions}</select>
+      </div>
+      <div class="ai-sugg-field">
+        <label>Sluit op</label>
+        <input type="date" id="aiDate-${s.id}" value="${s.closing_date}" min="${todayStr()}">
+      </div>
+    </div>
+    ${s.rationale ? `<div class="ai-sugg-rationale"><b>Waarom nu?</b> ${esc(s.rationale)}</div>` : ''}
+    <div class="ai-sugg-actions">
+      <button class="ai-btn ghost" onclick="rejectAiSuggestion('${s.id}')">Afwijzen</button>
+      <button class="ai-btn primary" onclick="acceptAiSuggestion('${s.id}')">Publiceren</button>
+    </div>
+  </div>`;
 }
 
 /* ═══════════════════════════════════════════════════
