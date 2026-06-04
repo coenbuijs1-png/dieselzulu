@@ -1140,28 +1140,52 @@ function scMyCountryPred() {
 /* ═══════════════════════════════════════════════════
    AUTH
    ═══════════════════════════════════════════════════ */
+// Race een promise tegen een timeout, zodat een hangende Firestore-call
+// het inlogscherm nooit voor altijd op "Bezig..." laat staan.
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(
+      () => reject(new Error((label || 'Bewerking') + ' duurde te lang (timeout).')), ms))
+  ]);
+}
+
 auth.onAuthStateChanged(async (firebaseUser) => {
   if (firebaseUser) {
     try {
-      const doc = await db.collection('users').doc(firebaseUser.uid).get();
+      const doc = await withTimeout(
+        db.collection('users').doc(firebaseUser.uid).get(), 12000, 'Profiel laden');
       if (doc.exists) {
         currentUser = { uid: firebaseUser.uid, ...doc.data() };
         startListeners();
         // Seed scorito data éénmalig voor bestaande gebruikers (non-blocking)
         seedScoritoIfNeeded().catch(e => console.log('seedScorito:', e?.message||e));
       } else {
+        // Auth-account bestaat wél, maar er is nog geen profiel in de database.
         await auth.signOut();
         currentUser = null;
+        authError = 'Je bent ingelogd, maar er is nog geen profiel voor dit account. '
+          + 'Activeer je account via het tabblad "Activeren" (zelfde naam + e-mailadres).';
       }
     } catch(e) {
       console.error('Profile load error:', e);
       currentUser = null;
+      const code = e?.code || e?.message || String(e);
+      if (code.includes('permission-denied')) {
+        authError = 'Geen toegang tot de database (permission-denied). '
+          + 'De Firestore-beveiligingsregels staan dit account geen leestoegang toe.';
+      } else if (code.includes('timeout') || code.includes('unavailable')) {
+        authError = 'Kon geen verbinding maken met de database. Check je internet en probeer opnieuw.';
+      } else {
+        authError = 'Kon je profiel niet laden: ' + code;
+      }
     }
   } else {
     currentUser = null;
     stopListeners();
   }
   authLoaded = true;
+  authBusy = false;   // nooit meer vast op "Bezig..."
   render();
 });
 
@@ -1207,8 +1231,10 @@ async function doLogin() {
   authBusy = true; authError = ''; authNotice = ''; render();
   try {
     await auth.signInWithEmailAndPassword(email, pw);
-    // Succes: onAuthStateChanged handelt render af zodra profiel geladen is
+    // Succes: onAuthStateChanged laadt het profiel en rendert. Extra render als
+    // vangnet zodat de knop nooit op "Bezig..." blijft hangen bij een race.
     authBusy = false;
+    render();
   } catch(e) {
     authBusy = false;
     authError = firebaseErrorNL(e);
