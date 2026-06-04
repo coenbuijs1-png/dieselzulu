@@ -444,6 +444,10 @@ button{cursor:pointer}
 .auth-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(186,117,23,.35),inset 0 1px 0 rgba(255,255,255,.25)}
 .auth-btn:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
 .auth-error{font-size:11px;color:var(--rooibos);background:rgba(163,45,45,.08);border:1px solid rgba(163,45,45,.2);padding:10px;border-radius:8px;margin-bottom:10px}
+.auth-notice{font-size:11px;color:var(--savanna);background:rgba(59,109,17,.08);border:1px solid rgba(59,109,17,.25);padding:10px;border-radius:8px;margin-bottom:10px;line-height:1.5}
+.auth-forgot{display:block;width:100%;text-align:center;background:none;border:none;color:#a89a7a;font-size:11px;letter-spacing:.02em;margin-top:10px;padding:4px;cursor:pointer;transition:color .15s}
+.auth-forgot:hover:not(:disabled){color:#BA7517;text-decoration:underline}
+.auth-forgot:disabled{color:#ccc;cursor:not-allowed}
 .auth-footer{font-size:10px;color:#a89a7a;margin-top:1.5rem;line-height:1.7;letter-spacing:.03em}
 
 /* ===== MODAL ===== */
@@ -909,6 +913,7 @@ let betSide = 'yes';
 let betMsg = null;
 let formError = '';
 let authError = '';
+let authNotice = '';
 let authBusy = false;
 let unsubs = [];
 
@@ -1199,7 +1204,7 @@ async function doLogin() {
   const pw = document.getElementById('loginPw')?.value;
   if (!email || !pw) { authError = 'Vul e-mail en wachtwoord in.'; render(); return; }
 
-  authBusy = true; authError = ''; render();
+  authBusy = true; authError = ''; authNotice = ''; render();
   try {
     await auth.signInWithEmailAndPassword(email, pw);
     // Succes: onAuthStateChanged handelt render af zodra profiel geladen is
@@ -1209,6 +1214,21 @@ async function doLogin() {
     authError = firebaseErrorNL(e);
     render();
   }
+}
+
+async function doForgotPassword() {
+  if (authBusy) return;
+  const email = document.getElementById('loginEmail')?.value?.trim();
+  if (!email) { authError = 'Vul eerst je e-mailadres in, dan sturen we een resetlink.'; authNotice = ''; render(); return; }
+
+  authBusy = true; authError = ''; authNotice = ''; render();
+  try {
+    await auth.sendPasswordResetEmail(email);
+    authNotice = 'Resetmail verstuurd naar ' + email + '. Check je inbox (en spam) voor de link om een nieuw wachtwoord in te stellen.';
+  } catch(e) {
+    authError = firebaseErrorNL(e);
+  }
+  authBusy = false; render();
 }
 
 async function doLogout() {
@@ -2170,10 +2190,11 @@ function renderAuth() {
         <div class="auth-brand"><span class="g">DIESEL</span></div>
         <div class="auth-sub">Zoelloe Markets</div>
         <div class="auth-tabs">
-          <button type="button" class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';render()">Inloggen</button>
-          <button type="button" class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';render();refreshNames()">Activeren</button>
+          <button type="button" class="auth-tab ${authTab==='login'?'on':''}" onclick="authTab='login';authError='';authNotice='';render()">Inloggen</button>
+          <button type="button" class="auth-tab ${authTab==='register'?'on':''}" onclick="authTab='register';authError='';authNotice='';render();refreshNames()">Activeren</button>
         </div>
         ${authError ? '<div class="auth-error">'+esc(authError)+'</div>' : ''}
+        ${authNotice ? '<div class="auth-notice">'+esc(authNotice)+'</div>' : ''}
         ${authTab==='login' ? `
           <form onsubmit="doLogin();return false;" novalidate>
             <input class="auth-input" id="loginEmail" type="email" placeholder="E-mailadres"
@@ -2185,6 +2206,7 @@ function renderAuth() {
               ${authBusy ? '⏳ Bezig...' : 'Inloggen'}
             </button>
           </form>
+          <button type="button" class="auth-forgot" onclick="doForgotPassword()" ${authBusy?'disabled':''}>Wachtwoord vergeten?</button>
         ` : `
           <form onsubmit="doRegister();return false;" novalidate>
             <select class="auth-select" id="regName">${namesOptions}</select>
